@@ -25,7 +25,7 @@ export default {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['babel'],
+        loaders: ['react-hot', 'babel'],
         // include: [__dirname + '/src', __dirname + '/config'],
         exclude: /node_modules/
       }/*,

@@ -100,15 +100,15 @@
             "@ace": 2,
             "@acestatus": 2,
             "@divider": 4,
-            "@document": 11,
+            "@document": 15,
             "@form": 6,
             "@menu": 5,
             "@menuitem": 13,
             "@pane": 3,
             "@preferences": 1,
-            "@session": 10,
-            "@tab": 15,
-            "@undoManager": 11,
+            "@session": 15,
+            "@tab": 7,
+            "@undoManager": 15,
             "@welcome": 1
         }
     },
@@ -119,7 +119,7 @@
         "@wholeword": "false"
     },
     "menus": {
-        "@minimized": true
+        "@minimized": false
     },
     "nak": {
         "@installed": true
@@ -129,8 +129,8 @@
     },
     "panecycle": {
         "json()": [
-            "tab10",
-            "tab3"
+            "tab3",
+            "tab5"
         ]
     },
     "panels": {
@@ -171,7 +171,12 @@
                 "/scripts",
                 "/docker/config",
                 "/server/dev",
-                "/client"
+                "/client",
+                "/New Folder",
+                "/shared",
+                "/shared/New Folder",
+                "/shared/tags",
+                "/shared/components"
             ]
         }
     },
@@ -180,7 +185,7 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/client/client.js",
+            "focus": "/scripts/deploy.sh",
             "nodes": [
                 {
                     "type": "pane",
@@ -191,12 +196,13 @@
                             "name": "tab5",
                             "path": "/scripts/deploy.sh",
                             "className": [
-                                "tab5"
+                                "tab5",
+                                "focus"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447863374873
+                                    "timestamp": 1447872576848
                                 },
                                 "filter": true,
                                 "title": "deploy.sh",
@@ -204,7 +210,7 @@
                                 "ace": {}
                             },
                             "editorType": "ace",
-                            "active": false
+                            "active": true
                         },
                         {
                             "type": "tab",
@@ -260,7 +266,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447864878479
+                                    "timestamp": 1447872218833
                                 },
                                 "filter": true,
                                 "title": "index.html",
@@ -300,7 +306,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447864804261
+                                    "timestamp": 1447872315744
                                 },
                                 "filter": true,
                                 "title": "webpack.config.js",
@@ -318,36 +324,14 @@
                                 "tab13"
                             ],
                             "document": {
-                                "filter": true,
-                                "title": "config.json",
-                                "tooltip": "/config.json",
-                                "ace": {
-                                    "folds": [],
-                                    "scrolltop": 0,
-                                    "scrollleft": 0,
-                                    "selection": {
-                                        "start": {
-                                            "row": 3,
-                                            "column": 48
-                                        },
-                                        "end": {
-                                            "row": 3,
-                                            "column": 48
-                                        },
-                                        "isBackwards": false
-                                    },
-                                    "options": {
-                                        "guessTabSize": true,
-                                        "useWrapMode": false,
-                                        "wrapToView": true
-                                    },
-                                    "firstLineState": 0
-                                },
-                                "hash": "49afc283506d6d3e3d7339a9583c17c3ca12f540",
+                                "changed": false,
                                 "meta": {
                                     "timestamp": 1447863374873
                                 },
-                                "changed": false
+                                "filter": true,
+                                "title": "config.json",
+                                "tooltip": "/config.json",
+                                "ace": {}
                             },
                             "editorType": "ace",
                             "active": false
@@ -357,13 +341,12 @@
                             "name": "tab14",
                             "path": "/client/client.js",
                             "className": [
-                                "tab14",
-                                "focus"
+                                "tab14"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447863374873
+                                    "timestamp": 1447872226212
                                 },
                                 "filter": true,
                                 "title": "client.js",
@@ -371,20 +354,61 @@
                                 "ace": {}
                             },
                             "editorType": "ace",
-                            "active": true
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab0",
+                            "path": "/shared/components/app.js",
+                            "className": [
+                                "tab0"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447872639617
+                                },
+                                "filter": true,
+                                "title": "app.js",
+                                "tooltip": "/shared/components/app.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab6",
+                            "path": "/package.json",
+                            "className": [
+                                "tab6"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447872699680
+                                },
+                                "filter": true,
+                                "title": "package.json",
+                                "tooltip": "/package.json",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
                         }
                     ],
                     "skin": "editor_tab",
                     "skinset": "default",
                     "meta": {
                         "accessList": [
-                            "tab10",
-                            "tab12",
-                            "tab11",
                             "tab5",
-                            "tab2",
+                            "tab12",
                             "tab13",
-                            "tab14"
+                            "tab0",
+                            "tab14",
+                            "tab10",
+                            "tab11",
+                            "tab2"
                         ]
                     }
                 },
@@ -411,73 +435,11 @@
                                     "id": "devel_985",
                                     "cwd": "",
                                     "width": 759,
-                                    "height": 1013
+                                    "height": 994
                                 }
                             },
                             "editorType": "terminal",
                             "active": true
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab4",
-                            "path": "/package.json",
-                            "className": [
-                                "tab4"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1447864861186
-                                },
-                                "filter": true,
-                                "title": "package.json",
-                                "tooltip": "/package.json",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab7",
-                            "path": "/docker/config/import_code.conf",
-                            "className": [
-                                "tab7"
-                            ],
-                            "document": {
-                                "filter": true,
-                                "title": "import_code.conf",
-                                "tooltip": "/docker/config/import_code.conf",
-                                "ace": {
-                                    "folds": [],
-                                    "scrolltop": 0,
-                                    "scrollleft": 0,
-                                    "selection": {
-                                        "start": {
-                                            "row": 3,
-                                            "column": 11
-                                        },
-                                        "end": {
-                                            "row": 3,
-                                            "column": 11
-                                        },
-                                        "isBackwards": false
-                                    },
-                                    "options": {
-                                        "guessTabSize": true,
-                                        "useWrapMode": false,
-                                        "wrapToView": true
-                                    },
-                                    "firstLineState": 0
-                                },
-                                "hash": "6d12345b84f71aa313c68cc8c46b4eb7b3e4636f",
-                                "meta": {
-                                    "timestamp": 1447863374873
-                                },
-                                "changed": false
-                            },
-                            "editorType": "ace",
-                            "active": false
                         }
                     ],
                     "width": "44.12881540697675%",
@@ -485,9 +447,7 @@
                     "skinset": "default",
                     "meta": {
                         "accessList": [
-                            "tab3",
-                            "tab4",
-                            "tab7"
+                            "tab3"
                         ]
                     }
                 }
@@ -497,7 +457,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/server/dev/webpack.config.js"
+            "/scripts/deploy.sh"
         ]
     }
 }
