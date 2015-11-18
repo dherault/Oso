@@ -1,0 +1,5 @@
+{
+  "appPublicDomain": "http://dev.osoapp.com",
+  "apiPublicDomain": "http://api.dev.osoapp.com",
+  "wdsPublicDomain": "http://wds.dev.osoapp.com"
+}

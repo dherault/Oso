@@ -100,15 +100,15 @@
             "@ace": 2,
             "@acestatus": 2,
             "@divider": 4,
-            "@document": 9,
+            "@document": 11,
             "@form": 6,
             "@menu": 5,
             "@menuitem": 13,
             "@pane": 3,
             "@preferences": 1,
-            "@session": 8,
-            "@tab": 7,
-            "@undoManager": 9,
+            "@session": 10,
+            "@tab": 15,
+            "@undoManager": 11,
             "@welcome": 1
         }
     },
@@ -129,8 +129,8 @@
     },
     "panecycle": {
         "json()": [
-            "tab3",
-            "tab5"
+            "tab10",
+            "tab3"
         ]
     },
     "panels": {
@@ -169,7 +169,9 @@
                 "/server",
                 "/docker",
                 "/scripts",
-                "/docker/config"
+                "/docker/config",
+                "/server/dev",
+                "/client"
             ]
         }
     },
@@ -178,7 +180,7 @@
     },
     "tabs": {
         "json()": {
-            "focus": "tab3",
+            "focus": "/client/client.js",
             "nodes": [
                 {
                     "type": "pane",
@@ -189,13 +191,12 @@
                             "name": "tab5",
                             "path": "/scripts/deploy.sh",
                             "className": [
-                                "tab5",
-                                "changed"
+                                "tab5"
                             ],
                             "document": {
-                                "changed": true,
+                                "changed": false,
                                 "meta": {
-                                    "timestamp": 1447859482221
+                                    "timestamp": 1447863374873
                                 },
                                 "filter": true,
                                 "title": "deploy.sh",
@@ -203,7 +204,7 @@
                                 "ace": {}
                             },
                             "editorType": "ace",
-                            "active": true
+                            "active": false
                         },
                         {
                             "type": "tab",
@@ -222,12 +223,116 @@
                                     "scrollleft": 0,
                                     "selection": {
                                         "start": {
-                                            "row": 2,
-                                            "column": 16
+                                            "row": 5,
+                                            "column": 0
                                         },
                                         "end": {
-                                            "row": 2,
-                                            "column": 16
+                                            "row": 5,
+                                            "column": 0
+                                        },
+                                        "isBackwards": false
+                                    },
+                                    "options": {
+                                        "tabSize": 2,
+                                        "useSoftTabs": true,
+                                        "guessTabSize": false,
+                                        "useWrapMode": false,
+                                        "wrapToView": true
+                                    },
+                                    "firstLineState": 0
+                                },
+                                "hash": "f3eda17ada3781a103dc3dccf6ebf4835df3cc1b",
+                                "meta": {
+                                    "timestamp": 1447863374873
+                                },
+                                "changed": false
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab10",
+                            "path": "/server/index.html",
+                            "className": [
+                                "tab10"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447864878479
+                                },
+                                "filter": true,
+                                "title": "index.html",
+                                "tooltip": "/server/index.html",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab11",
+                            "path": "/server/dev/dev_server.js",
+                            "className": [
+                                "tab11"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447863374873
+                                },
+                                "filter": true,
+                                "title": "dev_server.js",
+                                "tooltip": "/server/dev/dev_server.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab12",
+                            "path": "/server/dev/webpack.config.js",
+                            "className": [
+                                "tab12"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447864804261
+                                },
+                                "filter": true,
+                                "title": "webpack.config.js",
+                                "tooltip": "/server/dev/webpack.config.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab13",
+                            "path": "/config.json",
+                            "className": [
+                                "tab13"
+                            ],
+                            "document": {
+                                "filter": true,
+                                "title": "config.json",
+                                "tooltip": "/config.json",
+                                "ace": {
+                                    "folds": [],
+                                    "scrolltop": 0,
+                                    "scrollleft": 0,
+                                    "selection": {
+                                        "start": {
+                                            "row": 3,
+                                            "column": 48
+                                        },
+                                        "end": {
+                                            "row": 3,
+                                            "column": 48
                                         },
                                         "isBackwards": false
                                     },
@@ -238,9 +343,9 @@
                                     },
                                     "firstLineState": 0
                                 },
-                                "hash": "db6cb4fb49cb5e1fa9fa51fbcf7fae711d74bcd1",
+                                "hash": "49afc283506d6d3e3d7339a9583c17c3ca12f540",
                                 "meta": {
-                                    "timestamp": 1447859482221
+                                    "timestamp": 1447863374873
                                 },
                                 "changed": false
                             },
@@ -249,32 +354,37 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab11",
-                            "path": "/docker/Dockerfile",
+                            "name": "tab14",
+                            "path": "/client/client.js",
                             "className": [
-                                "tab11"
+                                "tab14",
+                                "focus"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447859482221
+                                    "timestamp": 1447863374873
                                 },
                                 "filter": true,
-                                "title": "Dockerfile",
-                                "tooltip": "/docker/Dockerfile",
+                                "title": "client.js",
+                                "tooltip": "/client/client.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
-                            "active": false
+                            "active": true
                         }
                     ],
                     "skin": "editor_tab",
                     "skinset": "default",
                     "meta": {
                         "accessList": [
-                            "tab5",
+                            "tab10",
+                            "tab12",
                             "tab11",
-                            "tab2"
+                            "tab5",
+                            "tab2",
+                            "tab13",
+                            "tab14"
                         ]
                     }
                 },
@@ -287,8 +397,7 @@
                             "name": "tab3",
                             "path": "",
                             "className": [
-                                "tab3",
-                                "focus"
+                                "tab3"
                             ],
                             "document": {
                                 "changed": false,
@@ -296,12 +405,12 @@
                                     "timestamp": 1447847816941
                                 },
                                 "filter": true,
-                                "title": "bash - \"bd615326e291\"",
-                                "tooltip": "bash - \"bd615326e291\"",
+                                "title": "npm - \"4aafd0b9e91d\"",
+                                "tooltip": "npm - \"4aafd0b9e91d\"",
                                 "terminal": {
                                     "id": "devel_985",
                                     "cwd": "",
-                                    "width": 832,
+                                    "width": 759,
                                     "height": 1013
                                 }
                             },
@@ -318,7 +427,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447859825773
+                                    "timestamp": 1447864861186
                                 },
                                 "filter": true,
                                 "title": "package.json",
@@ -363,42 +472,21 @@
                                 },
                                 "hash": "6d12345b84f71aa313c68cc8c46b4eb7b3e4636f",
                                 "meta": {
-                                    "timestamp": 1447859482221
+                                    "timestamp": 1447863374873
                                 },
                                 "changed": false
                             },
                             "editorType": "ace",
                             "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab0",
-                            "path": "",
-                            "className": [
-                                "tab0"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "welcome": true,
-                                    "timestamp": 1447859530475
-                                },
-                                "filter": true,
-                                "title": "Welcome",
-                                "welcome": {}
-                            },
-                            "editorType": "welcome",
-                            "active": false
                         }
                     ],
-                    "width": "48.37300145348837%",
+                    "width": "44.12881540697675%",
                     "skin": "editor_tab",
                     "skinset": "default",
                     "meta": {
                         "accessList": [
                             "tab3",
                             "tab4",
-                            "tab0",
                             "tab7"
                         ]
                     }
@@ -409,7 +497,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/package.json"
+            "/server/dev/webpack.config.js"
         ]
     }
 }
