@@ -1,0 +1,415 @@
+{
+    "console": {
+        "@expanded": false,
+        "@height": "153",
+        "@maximized": "false",
+        "json()": {
+            "meta": {
+                "accessList": [
+                    "tab1",
+                    "tab8",
+                    "tab9"
+                ]
+            },
+            "name": "pane1",
+            "nodes": [
+                {
+                    "type": "tab",
+                    "name": "tab1",
+                    "path": "",
+                    "className": [
+                        "tab1"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1447847793934
+                        },
+                        "filter": true,
+                        "title": "bash - \"786e739e4743\"",
+                        "tooltip": "bash - \"786e739e4743\"",
+                        "terminal": {
+                            "id": "devel_596",
+                            "cwd": "",
+                            "width": 0,
+                            "height": 0
+                        }
+                    },
+                    "editorType": "terminal",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab8",
+                    "path": "",
+                    "className": [],
+                    "document": {
+                        "title": "Immediate",
+                        "meta": {},
+                        "filter": true,
+                        "changed": false
+                    },
+                    "editorType": "immediate",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab9",
+                    "path": "",
+                    "className": [
+                        "tab9"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1447858206186
+                        },
+                        "filter": true,
+                        "title": "[New] - Idle",
+                        "tooltip": "[New] - Idle",
+                        "output": {
+                            "id": "build",
+                            "width": 0,
+                            "height": 0,
+                            "config": {
+                                "debug": true
+                            }
+                        }
+                    },
+                    "editorType": "output",
+                    "active": true
+                }
+            ],
+            "skin": "editor_tab",
+            "skinset": "default",
+            "type": "pane"
+        }
+    },
+    "experiments": {
+        "@@enabled": true,
+        "@flat-dark": 0,
+        "@git": 1,
+        "@mount": 0,
+        "@plugin-manager": 0,
+        "@plugins": 0,
+        "@sdk": 0,
+        "@test": 0
+    },
+    "ext": {
+        "counters": {
+            "@ace": 2,
+            "@acestatus": 2,
+            "@divider": 4,
+            "@document": 9,
+            "@form": 6,
+            "@menu": 5,
+            "@menuitem": 13,
+            "@pane": 3,
+            "@preferences": 1,
+            "@session": 8,
+            "@tab": 7,
+            "@undoManager": 9,
+            "@welcome": 1
+        }
+    },
+    "findinfiles": {
+        "@console": "true",
+        "@matchcase": "false",
+        "@regex": "false",
+        "@wholeword": "false"
+    },
+    "menus": {
+        "@minimized": true
+    },
+    "nak": {
+        "@installed": true
+    },
+    "openfiles": {
+        "@hidetree": false
+    },
+    "panecycle": {
+        "json()": [
+            "tab3",
+            "tab5"
+        ]
+    },
+    "panels": {
+        "@active-left": "tree",
+        "commands.panel": {
+            "@enabled": "false",
+            "@name": "commands.panel"
+        },
+        "debugger": {
+            "@enabled": "false",
+            "@name": "debugger"
+        },
+        "navigate": {
+            "@enabled": "false",
+            "@name": "navigate"
+        },
+        "outline": {
+            "@enabled": "false",
+            "@name": "outline"
+        },
+        "scm": {
+            "@enabled": "false",
+            "@name": "scm"
+        },
+        "tree": {
+            "@enabled": "false",
+            "@name": "tree"
+        }
+    },
+    "projecttree": {
+        "@scrollpos": -10,
+        "@showfs": true,
+        "expanded": {
+            "json()": [
+                "/",
+                "/server",
+                "/docker",
+                "/scripts",
+                "/docker/config"
+            ]
+        }
+    },
+    "recentfiles": {
+        "json()": []
+    },
+    "tabs": {
+        "json()": {
+            "focus": "tab3",
+            "nodes": [
+                {
+                    "type": "pane",
+                    "name": "pane0",
+                    "nodes": [
+                        {
+                            "type": "tab",
+                            "name": "tab5",
+                            "path": "/scripts/deploy.sh",
+                            "className": [
+                                "tab5",
+                                "changed"
+                            ],
+                            "document": {
+                                "changed": true,
+                                "meta": {
+                                    "timestamp": 1447859482221
+                                },
+                                "filter": true,
+                                "title": "deploy.sh",
+                                "tooltip": "/scripts/deploy.sh",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": true
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab2",
+                            "path": "/server/server.js",
+                            "className": [
+                                "tab2"
+                            ],
+                            "document": {
+                                "filter": true,
+                                "title": "server.js",
+                                "tooltip": "/server/server.js",
+                                "ace": {
+                                    "folds": [],
+                                    "scrolltop": 0,
+                                    "scrollleft": 0,
+                                    "selection": {
+                                        "start": {
+                                            "row": 2,
+                                            "column": 16
+                                        },
+                                        "end": {
+                                            "row": 2,
+                                            "column": 16
+                                        },
+                                        "isBackwards": false
+                                    },
+                                    "options": {
+                                        "guessTabSize": true,
+                                        "useWrapMode": false,
+                                        "wrapToView": true
+                                    },
+                                    "firstLineState": 0
+                                },
+                                "hash": "db6cb4fb49cb5e1fa9fa51fbcf7fae711d74bcd1",
+                                "meta": {
+                                    "timestamp": 1447859482221
+                                },
+                                "changed": false
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab11",
+                            "path": "/docker/Dockerfile",
+                            "className": [
+                                "tab11"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447859482221
+                                },
+                                "filter": true,
+                                "title": "Dockerfile",
+                                "tooltip": "/docker/Dockerfile",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        }
+                    ],
+                    "skin": "editor_tab",
+                    "skinset": "default",
+                    "meta": {
+                        "accessList": [
+                            "tab5",
+                            "tab11",
+                            "tab2"
+                        ]
+                    }
+                },
+                {
+                    "type": "pane",
+                    "name": "pane2",
+                    "nodes": [
+                        {
+                            "type": "tab",
+                            "name": "tab3",
+                            "path": "",
+                            "className": [
+                                "tab3",
+                                "focus"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447847816941
+                                },
+                                "filter": true,
+                                "title": "bash - \"bd615326e291\"",
+                                "tooltip": "bash - \"bd615326e291\"",
+                                "terminal": {
+                                    "id": "devel_985",
+                                    "cwd": "",
+                                    "width": 832,
+                                    "height": 1013
+                                }
+                            },
+                            "editorType": "terminal",
+                            "active": true
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab4",
+                            "path": "/package.json",
+                            "className": [
+                                "tab4"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447859825773
+                                },
+                                "filter": true,
+                                "title": "package.json",
+                                "tooltip": "/package.json",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab7",
+                            "path": "/docker/config/import_code.conf",
+                            "className": [
+                                "tab7"
+                            ],
+                            "document": {
+                                "filter": true,
+                                "title": "import_code.conf",
+                                "tooltip": "/docker/config/import_code.conf",
+                                "ace": {
+                                    "folds": [],
+                                    "scrolltop": 0,
+                                    "scrollleft": 0,
+                                    "selection": {
+                                        "start": {
+                                            "row": 3,
+                                            "column": 11
+                                        },
+                                        "end": {
+                                            "row": 3,
+                                            "column": 11
+                                        },
+                                        "isBackwards": false
+                                    },
+                                    "options": {
+                                        "guessTabSize": true,
+                                        "useWrapMode": false,
+                                        "wrapToView": true
+                                    },
+                                    "firstLineState": 0
+                                },
+                                "hash": "6d12345b84f71aa313c68cc8c46b4eb7b3e4636f",
+                                "meta": {
+                                    "timestamp": 1447859482221
+                                },
+                                "changed": false
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab0",
+                            "path": "",
+                            "className": [
+                                "tab0"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "welcome": true,
+                                    "timestamp": 1447859530475
+                                },
+                                "filter": true,
+                                "title": "Welcome",
+                                "welcome": {}
+                            },
+                            "editorType": "welcome",
+                            "active": false
+                        }
+                    ],
+                    "width": "48.37300145348837%",
+                    "skin": "editor_tab",
+                    "skinset": "default",
+                    "meta": {
+                        "accessList": [
+                            "tab3",
+                            "tab4",
+                            "tab0",
+                            "tab7"
+                        ]
+                    }
+                }
+            ],
+            "type": "hsplitbox"
+        }
+    },
+    "tree_selection": {
+        "json()": [
+            "/package.json"
+        ]
+    }
+}

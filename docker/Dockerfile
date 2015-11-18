@@ -24,6 +24,8 @@ RUN git clone https://github.com/c9/core.git ./cloud9 \
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN echo "alias n='npm start'" >> ~/.bashrc
+
 ADD ./config/* /etc/supervisor/conf.d/
 
 EXPOSE 80 81 3000 8080 9090 29015 28015

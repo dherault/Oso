@@ -1,0 +1,25 @@
+{
+  "name": "oso",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "deploy": "./scripts/deploy.sh",
+    "start": "clear && nodemon -q -x \"babel-node\" --watch ./server -e js,html ./server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dherault/Oso.git"
+  },
+  "author": "David Hérault",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dherault/Oso/issues"
+  },
+  "homepage": "https://github.com/dherault/Oso#readme",
+  "dependencies": {
+    "koa": "^1.1.2",
+    "redux": "^3.0.4"
+  }
+}
