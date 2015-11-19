@@ -1,19 +1,24 @@
 import fs from 'fs';
 import koa from 'koa';
-import devServer from './dev/dev_server';
+import webpackDevServer from './dev/webpackDevServer';
+import config from '../config';
 
-devServer();
+webpackDevServer();
 
 const app = koa();
-const HTML = fs.readFileSync('server/index.html', 'utf8');
+const WDSURI = `http://${config.publicIp}:${config.WDSPort}/`;
+const html = fs.readFileSync('server/index.html', 'utf8').replace('</body>',
+  `<script src="${WDSURI}webpack-dev-server.js"></script>` +
+  `<script src="${WDSURI}static/bundle.js"></script>`
+);
 
 let n = 0;
 app.use(function *(){
   n++;
   console.log(n);
-  this.body = HTML;
+  this.body = html;
 });
 
-app.listen(8080);
+app.listen(config.webServerPort);
 
-console.log('Yolo!');
+console.log(`Web server listening on port ${config.webServerPort}.`);

@@ -1,12 +1,13 @@
 import chalk from 'chalk';
 import webpack from 'webpack';
-import config from './webpack.config';
-import webpackDevServer from 'webpack-dev-server';
+import WDSConfig from './webpack.config';
+import WDS from 'webpack-dev-server';
+import config from '../../config';
 
-export default function devServer() {
+export default function webpackDevServer() {
   
   let startTime;
-  const bundle = webpack(config);
+  const bundle = webpack(WDSConfig);
   
   bundle.plugin('compile', () => {
     startTime  = Date.now();
@@ -15,8 +16,8 @@ export default function devServer() {
   
   bundle.plugin('done', () => console.log(chalk.green(`Bundled in ${Date.now() - startTime}ms!`)));
   
-  new webpackDevServer(bundle, {
-    publicPath: config.output.publicPath,
+  new WDS(bundle, {
+    publicPath: WDSConfig.output.publicPath,
     hot: true,
     noInfo : true,
     historyApiFallback: true,
@@ -32,8 +33,8 @@ export default function devServer() {
       path:    new RegExp(proxyPathRegex),
       target:  `http://localhost:${api.port}/`
     }]*/
-  }).listen(3000, '0.0.0.0', err => {
+  }).listen(config.WDSPort, '0.0.0.0', err => {
     if (err) return console.error('devServer.listen', err);
-    console.log(`WDS listening at port 3000`);
+    console.log(`WDS listening on port ${config.WDSPort}.`);
   });
 }

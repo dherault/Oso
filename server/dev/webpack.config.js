@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import config from '../../config';
 
 export default {
   devtool: 'eval',
@@ -9,7 +10,7 @@ export default {
   output: {
     path: __dirname + '/dist',
     filename: 'bundle.js',
-    publicPath: 'http://52.33.215.226:3000/static/',
+    publicPath: 'http://' + config.publicIp + ':' + config.WDSPort + '/static/',
     // https://github.com/webpack/webpack-dev-server/issues/135
   },
   plugins: [
@@ -25,7 +26,7 @@ export default {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['react-hot', 'babel'],
+        loaders: ['react-hot','babel'],
         // include: [__dirname + '/src', __dirname + '/config'],
         exclude: /node_modules/
       }/*,
