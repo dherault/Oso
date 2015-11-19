@@ -35,6 +35,6 @@ export default function webpackDevServer() {
     }]*/
   }).listen(config.WDSPort, '0.0.0.0', err => {
     if (err) return console.error('devServer.listen', err);
-    console.log(`WDS listening on port ${config.WDSPort}.`);
+    console.log(`WDS listening on port ${config.WDSPort}`);
   });
 }

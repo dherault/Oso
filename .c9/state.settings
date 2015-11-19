@@ -1,4 +1,15 @@
 {
+    "ace": {
+        "search": {
+            "@backwards": "false",
+            "@highlightmatches": "true",
+            "@matchcase": "false",
+            "@preservecase": "false",
+            "@regex": "false",
+            "@wholeword": "false",
+            "@wraparound": "true"
+        }
+    },
     "console": {
         "@expanded": false,
         "@height": "153",
@@ -100,15 +111,15 @@
             "@ace": 2,
             "@acestatus": 2,
             "@divider": 4,
-            "@document": 24,
+            "@document": 45,
             "@form": 6,
             "@menu": 5,
             "@menuitem": 13,
             "@pane": 3,
             "@preferences": 1,
-            "@session": 24,
-            "@tab": 24,
-            "@undoManager": 24,
+            "@session": 45,
+            "@tab": 45,
+            "@undoManager": 45,
             "@welcome": 1
         }
     },
@@ -129,7 +140,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab2",
+            "tab44",
             "tab3"
         ]
     },
@@ -162,7 +173,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": -10,
+        "@scrollpos": 688,
         "@showfs": true,
         "expanded": {
             "json()": [
@@ -179,16 +190,34 @@
                 "/src/server/database/utils",
                 "/scripts",
                 "/src/shared/New Folder",
-                "/src/shared/utils"
+                "/src/shared/utils",
+                "/New Folder",
+                "/gitignore",
+                "/gitignore/Aquest",
+                "/gitignore/Aquest/src",
+                "/gitignore/Aquest/src/shared",
+                "/src/shared/components/New Folder",
+                "/src/shared/components/common",
+                "/gitignore/Aquest/src/shared/components",
+                "/gitignore/Aquest/src/client",
+                "/src/shared/models",
+                "/src/shared/components/data"
             ]
         }
     },
     "recentfiles": {
         "json()": []
     },
+    "search-history": {
+        "search": {
+            "json()": [
+                "true"
+            ]
+        }
+    },
     "tabs": {
         "json()": {
-            "focus": "/src/server/server.js",
+            "focus": "/src/shared/components/data/DataCreator.js",
             "nodes": [
                 {
                     "type": "pane",
@@ -196,36 +225,15 @@
                     "nodes": [
                         {
                             "type": "tab",
-                            "name": "tab16",
-                            "path": "/config.js",
-                            "className": [
-                                "tab16"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1447957627842
-                                },
-                                "filter": true,
-                                "title": "config.js",
-                                "tooltip": "/config.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
                             "name": "tab2",
                             "path": "/src/server/server.js",
                             "className": [
-                                "tab2",
-                                "focus"
+                                "tab2"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447957751525
+                                    "timestamp": 1447964921427
                                 },
                                 "filter": true,
                                 "title": "server.js",
@@ -233,23 +241,23 @@
                                 "ace": {}
                             },
                             "editorType": "ace",
-                            "active": true
+                            "active": false
                         },
                         {
                             "type": "tab",
                             "name": "tab6",
-                            "path": "/src/shared/components/app.js",
+                            "path": "/src/shared/components/App.js",
                             "className": [
                                 "tab6"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447957423278
+                                    "timestamp": 1447967843959
                                 },
                                 "filter": true,
-                                "title": "app.js",
-                                "tooltip": "/src/shared/components/app.js",
+                                "title": "App.js",
+                                "tooltip": "/src/shared/components/App.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -257,19 +265,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab8",
-                            "path": "/docker/Dockerfile",
+                            "name": "tab31",
+                            "path": "/src/shared/routes.js",
                             "className": [
-                                "tab8"
+                                "tab31"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447957423278
+                                    "timestamp": 1447967874314
                                 },
                                 "filter": true,
-                                "title": "Dockerfile",
-                                "tooltip": "/docker/Dockerfile",
+                                "title": "routes.js",
+                                "tooltip": "/src/shared/routes.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -277,19 +285,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab13",
-                            "path": "/src/server/webpack/webpack.config.js",
+                            "name": "tab33",
+                            "path": "/src/client/client.js",
                             "className": [
-                                "tab13"
+                                "tab33"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447958642606
+                                    "timestamp": 1447967161625
                                 },
                                 "filter": true,
-                                "title": "webpack.config.js",
-                                "tooltip": "/src/server/webpack/webpack.config.js",
+                                "title": "client.js",
+                                "tooltip": "/src/client/client.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -297,19 +305,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab14",
-                            "path": "/src/server/webpack/webpackDevServer.js",
+                            "name": "tab35",
+                            "path": "/src/shared/components/data/DataExplorer.js",
                             "className": [
-                                "tab14"
+                                "tab35"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447958579258
+                                    "timestamp": 1447967942610
                                 },
                                 "filter": true,
-                                "title": "webpackDevServer.js",
-                                "tooltip": "/src/server/webpack/webpackDevServer.js",
+                                "title": "DataExplorer.js",
+                                "tooltip": "/src/shared/components/data/DataExplorer.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -317,19 +325,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab17",
-                            "path": "/src/server/database/databaseMiddleware.js",
+                            "name": "tab38",
+                            "path": "/src/shared/components/common/NotFound.js",
                             "className": [
-                                "tab17"
+                                "tab38"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447958572821
+                                    "timestamp": 1447965797259
                                 },
                                 "filter": true,
-                                "title": "databaseMiddleware.js",
-                                "tooltip": "/src/server/database/databaseMiddleware.js",
+                                "title": "NotFound.js",
+                                "tooltip": "/src/shared/components/common/NotFound.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -337,19 +345,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab20",
-                            "path": "/src/server/database/queryBuilders.js",
+                            "name": "tab40",
+                            "path": "/src/shared/components/data/DataList.js",
                             "className": [
-                                "tab20"
+                                "tab40"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447958560392
+                                    "timestamp": 1447967765778
                                 },
                                 "filter": true,
-                                "title": "queryBuilders.js",
-                                "tooltip": "/src/server/database/queryBuilders.js",
+                                "title": "DataList.js",
+                                "tooltip": "/src/shared/components/data/DataList.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -357,19 +365,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab21",
-                            "path": "/src/server/database/utils/deleteDatabase.js",
+                            "name": "tab43",
+                            "path": "/src/shared/components/data/models.js",
                             "className": [
-                                "tab21"
+                                "tab43"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447958549005
+                                    "timestamp": 1447968693998
                                 },
                                 "filter": true,
-                                "title": "deleteDatabase.js",
-                                "tooltip": "/src/server/database/utils/deleteDatabase.js",
+                                "title": "models.js",
+                                "tooltip": "/src/shared/components/data/models.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -377,103 +385,42 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab22",
-                            "path": "/src/server/database/utils/initializeDatabase.js",
+                            "name": "tab44",
+                            "path": "/src/shared/components/data/DataCreator.js",
                             "className": [
-                                "tab22"
+                                "tab44",
+                                "focus"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447958538543
+                                    "timestamp": 1447968634767
                                 },
                                 "filter": true,
-                                "title": "initializeDatabase.js",
-                                "tooltip": "/src/server/database/utils/initializeDatabase.js",
+                                "title": "DataCreator.js",
+                                "tooltip": "/src/shared/components/data/DataCreator.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab11",
-                            "path": "/src/server/database/utils/populateDatabase.js",
-                            "className": [
-                                "tab11"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1447958662965
-                                },
-                                "filter": true,
-                                "title": "populateDatabase.js",
-                                "tooltip": "/src/server/database/utils/populateDatabase.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab12",
-                            "path": "/src/shared/utils/chainPromises.js",
-                            "className": [
-                                "tab12"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1447958152678
-                                },
-                                "filter": true,
-                                "title": "chainPromises.js",
-                                "tooltip": "/src/shared/utils/chainPromises.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab15",
-                            "path": "/src/shared/utils/log.js",
-                            "className": [
-                                "tab15"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1447958501563
-                                },
-                                "filter": true,
-                                "title": "log.js",
-                                "tooltip": "/src/shared/utils/log.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
+                            "active": true
                         }
                     ],
                     "skin": "editor_tab",
                     "skinset": "default",
                     "meta": {
                         "accessList": [
-                            "tab2",
-                            "tab22",
-                            "tab11",
-                            "tab8",
-                            "tab13",
-                            "tab14",
-                            "tab17",
-                            "tab20",
-                            "tab21",
-                            "tab12",
-                            "tab15",
-                            "tab19",
-                            "tab16",
+                            "tab44",
                             "tab6",
+                            "tab31",
+                            "tab43",
+                            "tab40",
+                            "tab35",
+                            "tab33",
+                            "tab42",
+                            "tab38",
+                            "tab30",
+                            "tab2",
+                            "tab19",
                             "tab7"
                         ]
                     }
@@ -506,26 +453,6 @@
                             },
                             "editorType": "terminal",
                             "active": true
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab9",
-                            "path": "/package.json",
-                            "className": [
-                                "tab9"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1447957723772
-                                },
-                                "filter": true,
-                                "title": "package.json",
-                                "tooltip": "/package.json",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
                         }
                     ],
                     "width": "44.12881540697675%",
@@ -533,8 +460,7 @@
                     "skinset": "default",
                     "meta": {
                         "accessList": [
-                            "tab3",
-                            "tab9"
+                            "tab3"
                         ]
                     }
                 }
@@ -544,7 +470,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/src/shared/utils/isClient.js"
+            "/src/shared/components/data/DataCreator.js"
         ]
     }
 }

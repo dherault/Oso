@@ -14,6 +14,7 @@ const html = fs.readFileSync('src/server/index.html', 'utf8').replace('</body>',
 
 let n = 0;
 
+// Response time header
 app.use(function *(next){
   var start = new Date;
   yield next;
@@ -21,8 +22,7 @@ app.use(function *(next){
   this.set('X-Response-Time', ms + 'ms');
 });
 
-// logger
-
+// Logger
 app.use(function *(next){
   var start = new Date;
   yield next;
@@ -38,4 +38,4 @@ app.use(function *(){
 
 app.listen(config.webServerPort);
 
-console.log(`Web server listening on port ${config.webServerPort}.`);
+console.log(`Web server listening on port ${config.webServerPort}`);
