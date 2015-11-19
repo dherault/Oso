@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import webpack from 'webpack';
 import WDSConfig from './webpack.config';
 import WDS from 'webpack-dev-server';
-import config from '../../config';
+import config from '../../../config';
 
 export default function webpackDevServer() {
   

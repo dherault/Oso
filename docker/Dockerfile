@@ -1,11 +1,10 @@
 FROM ubuntu:14.04
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 WORKDIR /tmp
 
 RUN apt-get update && apt-get install -y \
-    build-essential python curl wget git supervisor \
-    protobuf-compiler libprotobuf-dev libcurl4-openssl-dev \ 
-    libboost-all-dev libncurses5-dev libjemalloc-dev m4
+    build-essential python curl wget git supervisor
 
 RUN rm -rf /var/lib/apt/lists/* \
 &&  sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf \
@@ -15,9 +14,9 @@ RUN wget https://nodejs.org/dist/v5.1.0/node-v5.1.0.tar.gz \
 &&  tar -xvf node* \
 &&  cd node*/ && ./configure && make && make install
 
-RUN wget https://download.rethinkdb.com/dist/rethinkdb-2.2.1.tgz \
-&&  tar xf rethinkdb-2.2.1.tgz \
-&&  cd rethinkdb-2.2.1 && ./configure --allow-fetch && make && make install
+RUN source /etc/lsb-release && echo "deb http://download.rethinkdb.com/apt $DISTRIB_CODENAME main" | tee /etc/apt/sources.list.d/rethinkdb.list \
+&&  wget -qO- https://download.rethinkdb.com/apt/pubkey.gpg | apt-key add - \
+&&  apt-get update && apt-get install -y rethinkdb
 
 WORKDIR /root
 
@@ -29,7 +28,7 @@ RUN git clone https://github.com/c9/core.git ./cloud9 \
 
 RUN apt-get clean  \
 &&  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-&&  echo "alias n='npm start'" >> ~/.bashrc
+&&  echo "alias n='npm start'" >> ~/.bashrc \
 &&  echo "alias deploy='npm run deploy'" >> ~/.bashrc
 
 ADD ./config/* /etc/supervisor/conf.d/

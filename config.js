@@ -5,6 +5,12 @@ export default {
   WDSPort: 3000,
   websocketsPort: 8282,
   googleMapsKey: 'AIzaSyDKxSKwUSRKyqfGn1kjNRLmOwjF7_5BWgQ', // :o !
+  rethinkdb: {
+    host: 'localhost',
+    port: 28015,
+    db: 'Oso_dev',
+    timeout: 5,
+  }
   // "appPublicDomain": "http://dev.osoapp.com",
   // "apiPublicDomain": "http://api.dev.osoapp.com",
   // "wdsPublicDomain": "http://wds.dev.osoapp.com"

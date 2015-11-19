@@ -1,7 +1,7 @@
 import fs from 'fs';
 import koa from 'koa';
-import webpackDevServer from './dev/webpackDevServer';
-import config from '../config';
+import webpackDevServer from './webpack/webpackDevServer';
+import config from '../../config';
 
 webpackDevServer();
 
