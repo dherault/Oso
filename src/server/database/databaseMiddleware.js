@@ -1,6 +1,6 @@
 import r from 'rethinkdb';
 import createBuilders from './queryBuilders';
-// import log from '../../shared/utils/logTailor';
+import log from '../../shared/utils/logTailor';
 import config from '../../../config';
 
 
@@ -33,7 +33,7 @@ export default function queryDatabase(intention, params) {
   
   if (runQuery) {
     const query = runQuery(params);
-    query.then(() => console.log(`+++ <-- ${intention} after ${new Date() - d}ms`));
+    query.then(() => log(`+++ <-- ${intention} after ${new Date() - d}ms`));
     
     // log ('+++ ', intention, params)
     

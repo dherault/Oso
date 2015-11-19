@@ -1,5 +1,5 @@
 import r from 'rethinkdb';
-// import log from '../../shared/utils/logTailor';
+import log from '../../shared/utils/logTailor';
 // import { topicsLoadLimit, messagesLoadLimit, universesLoadLimit } from '../../../config/dev_app';
 
 const table = r.table;

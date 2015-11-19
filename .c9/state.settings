@@ -100,15 +100,15 @@
             "@ace": 2,
             "@acestatus": 2,
             "@divider": 4,
-            "@document": 25,
+            "@document": 24,
             "@form": 6,
             "@menu": 5,
             "@menuitem": 13,
             "@pane": 3,
             "@preferences": 1,
-            "@session": 25,
-            "@tab": 23,
-            "@undoManager": 25,
+            "@session": 24,
+            "@tab": 24,
+            "@undoManager": 24,
             "@welcome": 1
         }
     },
@@ -129,12 +129,13 @@
     },
     "panecycle": {
         "json()": [
-            "tab3",
-            "tab22"
+            "tab2",
+            "tab3"
         ]
     },
     "panels": {
         "@active-left": "tree",
+        "@width-left": 233,
         "commands.panel": {
             "@enabled": "false",
             "@name": "commands.panel"
@@ -166,28 +167,19 @@
         "expanded": {
             "json()": [
                 "/",
-                "/server",
                 "/docker/config",
-                "/server/dev",
-                "/client",
-                "/shared",
-                "/shared/components",
                 "/docker",
-                "/New Folder",
-                "/gitignore",
                 "/src",
                 "/src/shared",
                 "/src/shared/components",
                 "/src/server",
-                "/src/server/dev",
                 "/src/client",
                 "/src/server/webpack",
-                "/gitignore/Aquest/src",
-                "/gitignore/Aquest/src/server",
                 "/src/server/database",
-                "/gitignore/Aquest/config",
                 "/src/server/database/utils",
-                "/gitignore/Aquest"
+                "/scripts",
+                "/src/shared/New Folder",
+                "/src/shared/utils"
             ]
         }
     },
@@ -196,7 +188,7 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/docker/Dockerfile",
+            "focus": "/src/server/server.js",
             "nodes": [
                 {
                     "type": "pane",
@@ -212,7 +204,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447955462976
+                                    "timestamp": 1447957627842
                                 },
                                 "filter": true,
                                 "title": "config.js",
@@ -227,12 +219,13 @@
                             "name": "tab2",
                             "path": "/src/server/server.js",
                             "className": [
-                                "tab2"
+                                "tab2",
+                                "focus"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447955304716
+                                    "timestamp": 1447957751525
                                 },
                                 "filter": true,
                                 "title": "server.js",
@@ -240,7 +233,7 @@
                                 "ace": {}
                             },
                             "editorType": "ace",
-                            "active": false
+                            "active": true
                         },
                         {
                             "type": "tab",
@@ -252,7 +245,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447954250769
+                                    "timestamp": 1447957423278
                                 },
                                 "filter": true,
                                 "title": "app.js",
@@ -267,13 +260,12 @@
                             "name": "tab8",
                             "path": "/docker/Dockerfile",
                             "className": [
-                                "tab8",
-                                "focus"
+                                "tab8"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447956247714
+                                    "timestamp": 1447957423278
                                 },
                                 "filter": true,
                                 "title": "Dockerfile",
@@ -281,7 +273,7 @@
                                 "ace": {}
                             },
                             "editorType": "ace",
-                            "active": true
+                            "active": false
                         },
                         {
                             "type": "tab",
@@ -293,7 +285,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447955278769
+                                    "timestamp": 1447958642606
                                 },
                                 "filter": true,
                                 "title": "webpack.config.js",
@@ -313,7 +305,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447955284210
+                                    "timestamp": 1447958579258
                                 },
                                 "filter": true,
                                 "title": "webpackDevServer.js",
@@ -333,7 +325,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447955641616
+                                    "timestamp": 1447958572821
                                 },
                                 "filter": true,
                                 "title": "databaseMiddleware.js",
@@ -353,7 +345,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447955644524
+                                    "timestamp": 1447958560392
                                 },
                                 "filter": true,
                                 "title": "queryBuilders.js",
@@ -373,7 +365,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447956466757
+                                    "timestamp": 1447958549005
                                 },
                                 "filter": true,
                                 "title": "deleteDatabase.js",
@@ -393,11 +385,71 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447957088664
+                                    "timestamp": 1447958538543
                                 },
                                 "filter": true,
                                 "title": "initializeDatabase.js",
                                 "tooltip": "/src/server/database/utils/initializeDatabase.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab11",
+                            "path": "/src/server/database/utils/populateDatabase.js",
+                            "className": [
+                                "tab11"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447958662965
+                                },
+                                "filter": true,
+                                "title": "populateDatabase.js",
+                                "tooltip": "/src/server/database/utils/populateDatabase.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab12",
+                            "path": "/src/shared/utils/chainPromises.js",
+                            "className": [
+                                "tab12"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447958152678
+                                },
+                                "filter": true,
+                                "title": "chainPromises.js",
+                                "tooltip": "/src/shared/utils/chainPromises.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab15",
+                            "path": "/src/shared/utils/log.js",
+                            "className": [
+                                "tab15"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447958501563
+                                },
+                                "filter": true,
+                                "title": "log.js",
+                                "tooltip": "/src/shared/utils/log.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -408,17 +460,21 @@
                     "skinset": "default",
                     "meta": {
                         "accessList": [
+                            "tab2",
                             "tab22",
-                            "tab21",
-                            "tab20",
+                            "tab11",
+                            "tab8",
+                            "tab13",
+                            "tab14",
                             "tab17",
+                            "tab20",
+                            "tab21",
+                            "tab12",
+                            "tab15",
+                            "tab19",
                             "tab16",
                             "tab6",
-                            "tab2",
-                            "tab14",
-                            "tab13",
-                            "tab8",
-                            "tab1"
+                            "tab7"
                         ]
                     }
                 },
@@ -439,12 +495,12 @@
                                     "timestamp": 1447847816941
                                 },
                                 "filter": true,
-                                "title": "bash - \"cf810df2f4db\"",
-                                "tooltip": "bash - \"cf810df2f4db\"",
+                                "title": "npm - \"abb18a87a882\"",
+                                "tooltip": "npm - \"abb18a87a882\"",
                                 "terminal": {
                                     "id": "devel_985",
                                     "cwd": "",
-                                    "width": 759,
+                                    "width": 744,
                                     "height": 1013
                                 }
                             },
@@ -453,19 +509,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab5",
-                            "path": "/docker/config/rethinkdb.conf",
+                            "name": "tab9",
+                            "path": "/package.json",
                             "className": [
-                                "tab5"
+                                "tab9"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447954250769
+                                    "timestamp": 1447957723772
                                 },
                                 "filter": true,
-                                "title": "rethinkdb.conf",
-                                "tooltip": "/docker/config/rethinkdb.conf",
+                                "title": "package.json",
+                                "tooltip": "/package.json",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -478,7 +534,7 @@
                     "meta": {
                         "accessList": [
                             "tab3",
-                            "tab5"
+                            "tab9"
                         ]
                     }
                 }
@@ -488,7 +544,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/src/server/database/utils/initializeDatabase.js"
+            "/src/shared/utils/isClient.js"
         ]
     }
 }

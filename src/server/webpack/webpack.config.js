@@ -5,7 +5,7 @@ export default {
   devtool: 'eval',
   entry: [
     'webpack/hot/dev-server',
-    './client/client.js'
+    './src/client/client.js'
   ],
   output: {
     path: __dirname + '/dist',
@@ -29,17 +29,10 @@ export default {
         loaders: ['react-hot','babel'],
         // include: [__dirname + '/src', __dirname + '/config'],
         exclude: /node_modules/
-      }/*,
-      {
-        test:   /\.css$/,
-        loader: "style!css!cssnext"
-      }*/
+      }
     ]
   },
-  node: {
-    fs: 'empty'
-  }/*,
-  cssnext: {
-    browsers: "last 2 versions",
-  },*/
+  // node: {
+  //   fs: 'empty'
+  // }
 };
