@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
-import route from 'koa-route';
-import queryDatabase from '../database/databaseMiddleware';
-import log, {logError} from '../../utils/logTailor';
-import actionCreators from '../../redux/actionCreators';
+import route from 'koa-router';
+import queryDatabase from './database/databaseMiddleware';
+import log, {logError} from '../utils/log';
+import actionCreators from '../redux/actionCreators';
   
-export default function registerAPI(app) {
+export default function registerAPI(router) {
   
   const createReason = (code, msg, err) => ({code, msg, err});
   // Allows validation and params mutation before querying db
@@ -59,27 +59,28 @@ export default function registerAPI(app) {
       const before = beforeQuery[intention] || nothing;
       const after  = afterQuery[intention]  || nothing;
       
-      !!!{
+      router[method](pathx, function *(next) {
         
-        const params = method === 'post' ? request.payload : Object.keys(request.params).length === 1 && request.params.p ? request.params.p : request.params;
+        console.log(this.request.body);
+        // const params = method === 'post' ? request.payload : Object.keys(request.params).length === 1 && request.params.p ? request.params.p : request.params;
         
-        before(request, params).then(
-          () => queryDatabase(intention, params).then(
-            result => after(request, params, result).then(
-              token => {
+        // before(request, params).then(
+        //   () => queryDatabase(intention, params).then(
+        //     result => after(request, params, result).then(
+        //       token => {
                 
-                response.source = result;
+        //         response.source = result;
                 
-                response.send();
-              },
+        //         response.send();
+        //       },
               
-              handleError.bind(null, response, 'afterQuery')
-            ),
-            err => handleError(response, 'queryDatabase', createReason(500, '', err))
-          ),
-          handleError.bind(null, response, 'beforeQuery')
-        );
-      }));
+        //       handleError.bind(null, response, 'afterQuery')
+        //     ),
+        //     err => handleError(response, 'queryDatabase', createReason(500, '', err))
+        //   ),
+        //   handleError.bind(null, response, 'beforeQuery')
+        // );
+      });
     }
   }
 
@@ -96,5 +97,4 @@ export default function registerAPI(app) {
     response.source = JSON.stringify(code < 500 ? msg : 'Internal server error');
     response.code(code).send();
   }
-  
 }

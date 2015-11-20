@@ -111,15 +111,15 @@
             "@ace": 2,
             "@acestatus": 2,
             "@divider": 7,
-            "@document": 85,
+            "@document": 102,
             "@form": 6,
             "@menu": 7,
             "@menuitem": 27,
             "@pane": 3,
             "@preferences": 1,
-            "@session": 85,
-            "@tab": 85,
-            "@undoManager": 85,
+            "@session": 102,
+            "@tab": 102,
+            "@undoManager": 102,
             "@welcome": 1
         }
     },
@@ -140,8 +140,8 @@
     },
     "panecycle": {
         "json()": [
-            "tab3",
-            "tab70"
+            "tab89",
+            "tab95"
         ]
     },
     "panels": {
@@ -173,7 +173,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": 255,
+        "@scrollpos": 5161,
         "@showfs": true,
         "expanded": {
             "json()": [
@@ -208,7 +208,10 @@
                 "/src/server/database",
                 "/src/server/database/utils",
                 "/src/utils",
-                "/gitignore/Aquest/src/shared/utils"
+                "/gitignore/Aquest/src/shared/utils",
+                "/node_modules/koa",
+                "/node_modules/koa/lib",
+                "/node_modules"
             ]
         }
     },
@@ -224,7 +227,7 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/src/server/API.js",
+            "focus": "tab3",
             "nodes": [
                 {
                     "type": "pane",
@@ -235,17 +238,57 @@
                             "name": "tab70",
                             "path": "/src/server/API.js",
                             "className": [
-                                "tab70",
-                                "focus"
+                                "tab70"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447979427851
+                                    "timestamp": 1447985348302
                                 },
                                 "filter": true,
                                 "title": "API.js",
                                 "tooltip": "/src/server/API.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab86",
+                            "path": "/src/server/server.js",
+                            "className": [
+                                "tab86",
+                                "changed"
+                            ],
+                            "document": {
+                                "changed": true,
+                                "meta": {
+                                    "timestamp": 1447985566076
+                                },
+                                "filter": true,
+                                "title": "server.js",
+                                "tooltip": "/src/server/server.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab87",
+                            "path": "/src/redux/actionCreators.js",
+                            "className": [
+                                "tab87"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447977115964
+                                },
+                                "filter": true,
+                                "title": "actionCreators.js",
+                                "tooltip": "/src/redux/actionCreators.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -256,6 +299,8 @@
                     "skinset": "default",
                     "meta": {
                         "accessList": [
+                            "tab87",
+                            "tab86",
                             "tab70",
                             "tab59",
                             "tab52",
@@ -275,7 +320,8 @@
                             "name": "tab3",
                             "path": "",
                             "className": [
-                                "tab3"
+                                "tab3",
+                                "focus"
                             ],
                             "document": {
                                 "changed": false,
@@ -294,6 +340,46 @@
                             },
                             "editorType": "terminal",
                             "active": true
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab89",
+                            "path": "/package.json",
+                            "className": [
+                                "tab89"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447986179291
+                                },
+                                "filter": true,
+                                "title": "package.json",
+                                "tooltip": "/package.json",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab90",
+                            "path": "/.babelrc",
+                            "className": [
+                                "tab90"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447986182994
+                                },
+                                "filter": true,
+                                "title": ".babelrc",
+                                "tooltip": "/.babelrc",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
                         }
                     ],
                     "width": "36.1320020746888%",
@@ -301,7 +387,11 @@
                     "skinset": "default",
                     "meta": {
                         "accessList": [
+                            "tab89",
                             "tab3",
+                            "tab90",
+                            "tab96",
+                            "tab88",
                             "tab66"
                         ]
                     }
@@ -312,7 +402,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/gitignore/Aquest/src/server/plugins/API.js"
+            "/node_modules/koa/lib/context.js"
         ]
     }
 }
