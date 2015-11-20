@@ -1,7 +1,7 @@
 import React from 'react';
-import definitions from './models';
+import definitions from '../../models/';
 import { connect } from 'react-redux';
-import actionCreators from '../../redux/actionCreators';
+// import actionCreators from '../../redux/actionCreators';
 
 class DataCreator extends React.Component {
   
@@ -11,71 +11,92 @@ class DataCreator extends React.Component {
     const modelList = [];
     
     for (let modelName in definitions) {
-      const fields = definitions[modelName];
       modelList.push(modelName);
       inputs[modelName] = {};
     }
-    const selectedModel = modelList[0];
+    
+    const currentModel = definitions[modelList[0]];
     
     this.state = { 
-      modelList, selectedModel, inputs
+      modelList, currentModel, inputs,
+      goodToGo: false,
     };
   }
   
   handleModelChange(e) {
-    this.setState({ selectedModel: e.currentTarget.value });
+    this.setState({ currentModel: definitions[e.currentTarget.value] }, this.validate);
   }
   
-  handleFieldChange(field, e) {
-    console.log(field);
-    console.log(e.currentTarget.value);
-    const inputs = Object.assign({}, this.state.inputs);
-    inputs[this.state.selectedModel][field] = e.currentTarget.value;
+  handleInputChange(col, e) {
+    const { inputs, currentModel } = this.state;
+    const currentInputs = Object.assign({}, inputs);
+    currentInputs[currentModel.name][col] = e.currentTarget.value;
     
-    this.setState({ inputs });
+    this.setState({ inputs }, this.validate);
   }
   
   handleSubmit() {
     const { dispatch } = this.props;
-    const { selectedModel, inputs } = this.state;
-    dispatch(
-      actionCreators['create' + selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1)](
-        inputs[selectedModel]
-      )
-    );
+    const { currentModel, inputs, goodToGo } = this.state;
+    
+    if (goodToGo) dispatch(currentModel.create(inputs[currentModel.name]));
+  }
+  
+  validate() {
+    const { inputs, currentModel: { name, collumns } } = this.state;
+    
+    const params = inputs[name];
+    
+    for (let col in collumns) {
+      const { type, required, computed, min, max } = collumns[col];
+      const value = params[col];
+      if ((!computed && required && !value) || (value && type === 'string' && ((min && min > value.length) || (max && max < value.length)))) return this.setState({ goodToGo: false });
+    }
+    
+    this.setState({ goodToGo: true });
   }
   
   renderForm() {
     
-    const { selectedModel, inputs } = this.state;
-    const currentInputs = inputs[selectedModel];
-    const currentFields = definitions[selectedModel];
+    const { currentModel, inputs } = this.state;
+    const currentInputs = inputs[currentModel.name];
+    const currentCollumns = currentModel.collumns;
     
-    return Object.keys(currentFields).map(field => {
-      const { type, required, value } = currentFields[field];
+    return Object.keys(currentCollumns).map(col => {
+      const { type, required, computed, min, max } = currentCollumns[col];
+      
+      if (computed) return;
       
       let control;
       switch (type) {
         
+        case 'email':
         case 'string':
-          control = <input type='text' value={currentInputs[field]} onChange={this.handleFieldChange.bind(this, field)} />;
+          control = <input type='text' value={currentInputs[col]} onChange={this.handleInputChange.bind(this, col)} />;
           break;
         
         default:
           return;
       }
       
-      return <div key={field}>
+      let info1 = required ? <span style={{color: 'red'}}> * </span> : undefined;
+      let info2 = !min && !max ? undefined :
+        min && max ? <span>{` (min: ${min}, max: ${max})`}</span> :
+        min ? <span>{` (min: ${min})`}</span> : <span>{` (max: ${max})`}</span>;
+        
+      return <div key={col}>
         <br/>
-        <span>{field + ': '}</span>
+        <span>{col + ': '}</span>
         { control }
+        { info1 }
+        { info2 }
       </div>;
     });
   }
   
   render() {
     
-    const { modelList, selectedModel, inputs } = this.state;
+    const { modelList, selectedModel, inputs, goodToGo } = this.state;
     
     return <div>
       <h2>Data creator</h2>
@@ -93,7 +114,7 @@ class DataCreator extends React.Component {
       
       { this.renderForm() }
       
-      <input type='button' onClick={this.handleSubmit.bind(this)} value='Create' />
+      <input type='button' onClick={this.handleSubmit.bind(this)} value='Create' disabled={!goodToGo}/>
     </div>;
   }
 }

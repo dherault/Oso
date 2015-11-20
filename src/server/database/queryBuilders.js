@@ -50,6 +50,7 @@ const normalize = cursor => {
 
 export default run => ({
   
+  readAll: ({ t }) => run(table(t)).then(normalize),
   
   // // READ USER
   // readUser: ({ emailOrPseudo }) => run(

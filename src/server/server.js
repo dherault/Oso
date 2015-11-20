@@ -45,16 +45,16 @@ app.use(router.get('*', (ctx, next) => {
     var ms = new Date - start;
     console.log('%s %s - %s', ctx.method, ctx.url, ms);
   });
-})
+});
 
 
 r.connect(config.rethinkdb, (err, connection) => {
   if (err) throw err;
   
   chainPromises([
-    // deleteDatabase,
-    // initializeDatabase,
-    // populateDatabase
+    deleteDatabase,
+    initializeDatabase,
+    populateDatabase
   ], connection).then(
     () => {
       app.listen(config.webServerPort);

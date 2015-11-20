@@ -1,12 +1,13 @@
 import React from 'react';
-import config from '../../../config';
+import definitions from '../../models/';
 import { Link } from 'react-router';
 
 export default class DataExplorer extends React.Component {
   
   render() {
     
-    const { database : { tables } } = config;
+    const tables = Object.keys(definitions);
+    
     return <div>
       <h2>Data Explorer</h2>
       

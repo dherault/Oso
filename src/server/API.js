@@ -18,9 +18,9 @@ export default function registerAPI(app, router) {
         bcrypt.hash(params.password, salt, (err, hash) => {
           if (err) return reject(createReason(500, 'createUser bcrypt.hash', err));
           
-          params.picture = '';
+          params.pictureId = 'no id yet';
           params.passwordHash = hash;
-          params.ip = request.ip;
+          params.creationIp = request.ip;
           delete params.password;
           resolve();
         });
@@ -53,19 +53,17 @@ export default function registerAPI(app, router) {
   for (let acKey in actionCreators) {
     
     const getShape = actionCreators[acKey].getShape || undefined;
-    const { intention, method, pathx, auth } = getShape ? getShape() : {};
+    const { intention, method, path, auth } = getShape ? getShape() : {};
     
-    if (method && pathx) {
+    if (method && path) {
       const nothing = () => Promise.resolve();
       const before = beforeQuery[intention] || nothing;
       const after  = afterQuery[intention]  || nothing;
       
-      app.use(router[method](pathx, ctx => new Promise(resolve => {
+      app.use(router[method](path, ctx => new Promise(resolve => {
         
         console.log('API');
-        // console.log(Object.keys(ctx.req));
         console.log(ctx.request.body);
-        // console.log(parse.text(ctx.req));
         const request = ctx.request;
         const params = method === 'post' ? ctx.request.body : 'zut';
         

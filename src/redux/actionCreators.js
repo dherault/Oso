@@ -1,38 +1,42 @@
 import log from '../utils/log';
 import isClient from '../utils/isClient';
+import { capitalize } from '../utils/text';
 const isServer = !isClient();
+
 
 // Si une transition peut avoir lieu dans les sides effects alors preferer cette methode
 // Cet AC est provisoire et devra être remplacé par <Link/> partout (SEO friendly)
-export const transitionTo = (pathname, query, state) => ({ type: 'TRANSITION_TO', payload: {pathname, query, state} });
+const transitionTo = (pathname, query, state) => ({ type: 'TRANSITION_TO', payload: {pathname, query, state} });
 
-export const logout = () => ({ type: 'LOGOUT' });
+const logout = () => ({ type: 'LOGOUT' });
 
-export const readUniverse = createActionCreator({
-  intention:  'readUniverse',
-  method:     'get',
-  pathx:      '/api/universe/:id',
-  auth:       false,
-});
-
-export const createUser = createActionCreator({
-  intention:  'createUser',
-  method:     'post',
-  pathx:      '/api/user/',
-  auth:       false,
-});
-
-export const login = createActionCreator({
+const login = createActionCreator({
   intention:  'login',
   method:     'post',
-  pathx:      '/login',
+  path:      '/login',
   auth:       false,
 });
+
+const readAll = createActionCreator({
+  intention: 'readAll',
+  method: 'get',
+  path: '/readAll',
+  auth: false,
+});
+
+const { createJob, readJob, updateJob, deleteJob } = createCRUDActions('job', '1111', '1011');
+const { createUser, readUser, updateUser, deleteUser } = createCRUDActions('user', '0011', '0001');
+const { createCity, readCity, updateCity, deleteCity } = createCRUDActions('city', '1011', '0011');
+const { createAgent, readAgent, updateAgent, deleteAgent } = createCRUDActions('agent', '1111', '0001');
+const { createSkill, readSkill, updateSkill, deleteSkill } = createCRUDActions('skill', '1111', '1011');
 
 const actionCreators = {
   transitionTo, login, logout,
-  createUser,  
-  readUniverse,
+  createJob, readJob, updateJob, deleteJob, 
+  createUser, readUser, updateUser, deleteUser, 
+  createCity, readCity, updateCity, deleteCity, 
+  createAgent, readAgent, updateAgent, deleteAgent, 
+  createSkill, readSkill, updateSkill, deleteSkill, 
 };
 
 export default actionCreators;
@@ -43,7 +47,7 @@ export default actionCreators;
 // (string or false)   auth        Authentication strategy
 function createActionCreator(shape) {
   
-  const { intention, method, pathx } = shape;
+  const { intention, method, path } = shape;
   const types = ['REQUEST', 'SUCCESS', 'FAILURE'].map(t => `${t}_${intention.replace(/[A-Z]/g, '_$&')}`.toUpperCase());
   
   const actionCreator = params => {
@@ -57,8 +61,7 @@ function createActionCreator(shape) {
       else {
         const xhr = new XMLHttpRequest();
         const isPost = method === 'post' || method === 'put';
-        const path = isPost || !params ? pathx : 
-          pathx.replace(/{([A-Za-z]*)}/g, (match, p1) => params[p1] || params);
+        const pathWithQuery = isPost || !params ? path : appendQuery(path, params);
           
         log(`+++ --> ${method} ${path}`, params);
         
@@ -68,7 +71,7 @@ function createActionCreator(shape) {
           response: 'An error occured, check your internet connection: ' + err.message, 
         });
         
-        xhr.open(method, path);
+        xhr.open(method, pathWithQuery);
         
         xhr.onload = () => {
           const {status, response} = xhr;
@@ -83,13 +86,6 @@ function createActionCreator(shape) {
         };
         
         if (isPost) { // Stringifies objects before a POST request
-          // let form = new FormData();
-          // for (let key in params) {
-          //   if (params.hasOwnProperty(key)) {
-          //     const value = params[key];
-          //     form.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
-          //   }
-          // }
           xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
           xhr.send(JSON.stringify(params));
         }
@@ -98,9 +94,7 @@ function createActionCreator(shape) {
     });
     
     promise.then(
-      result => {
-        if (!isServer) log(`+++ <-- ${intention}`, result);
-      }, 
+      result => !isServer ? log(`+++ <-- ${intention}`, result) : 0,
       ({ status, response, intention }) => {
         log('!!! API Action error', intention);
         log('!!! params', params);
@@ -116,3 +110,52 @@ function createActionCreator(shape) {
   
   return actionCreator;
 }
+
+function appendQuery(path, params) {
+  let p = path + '?';
+  for (let key in params) {
+    const val = params[key];
+    if (val) p += `${encodeURIComponent(key)}=${encodeURIComponent(val)};`;
+  }
+}
+
+function createCRUDActions(name, authCode, adminCode) {
+  
+  const Name = capitalize(name);
+  const path = '/api/' + name;
+  const _create = 'create' + Name;
+  const _read   = 'read'   + Name;
+  const _update = 'update' + Name;
+  const _delete = 'delete' + Name;
+  
+  return {
+    [_create]: createActionCreator({
+      path,
+      method: 'post',
+      intention: _create,
+      auth: authCode.charAt[0] === '1',
+      admin: adminCode.charAt[0] === '1',
+    }),
+    [_read]: createActionCreator({
+      path,
+      method: 'get',
+      intention: _read,
+      auth: authCode.charAt[1] === '1',
+      admin: adminCode.charAt[1] === '1',
+    }),
+    [_update]: createActionCreator({
+      path,
+      method: 'put',
+      intention: _update,
+      auth: authCode.charAt[2] === '1',
+      admin: adminCode.charAt[2] === '1',
+    }),
+    [_delete]: createActionCreator({
+      path,
+      method: 'delete',
+      intention: _delete,
+      auth: authCode.charAt[3] === '1',
+      admin: adminCode.charAt[3] === '1',
+    }),
+  };
+} 
