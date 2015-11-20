@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt';
-import route from 'koa-router';
+import route from 'koa-route';
 import queryDatabase from './database/databaseMiddleware';
 import log, {logError} from '../utils/log';
 import actionCreators from '../redux/actionCreators';
+// import parse from 'co-body';
   
-export default function registerAPI(router) {
+export default function registerAPI(app, router) {
   
   const createReason = (code, msg, err) => ({code, msg, err});
   // Allows validation and params mutation before querying db
@@ -19,7 +20,7 @@ export default function registerAPI(router) {
           
           params.picture = '';
           params.passwordHash = hash;
-          params.ip = request.info.remoteAddress;
+          params.ip = request.ip;
           delete params.password;
           resolve();
         });
@@ -59,42 +60,47 @@ export default function registerAPI(router) {
       const before = beforeQuery[intention] || nothing;
       const after  = afterQuery[intention]  || nothing;
       
-      router[method](pathx, function *(next) {
+      app.use(router[method](pathx, ctx => new Promise(resolve => {
         
-        console.log(this.request.body);
-        // const params = method === 'post' ? request.payload : Object.keys(request.params).length === 1 && request.params.p ? request.params.p : request.params;
+        console.log('API');
+        // console.log(Object.keys(ctx.req));
+        console.log(ctx.request.body);
+        // console.log(parse.text(ctx.req));
+        const request = ctx.request;
+        const params = method === 'post' ? ctx.request.body : 'zut';
         
-        // before(request, params).then(
-        //   () => queryDatabase(intention, params).then(
-        //     result => after(request, params, result).then(
-        //       token => {
+        before(request, params).then(
+          () => queryDatabase(intention, params).then(
+            result => after(request, params, result).then(
+              token => {
                 
-        //         response.source = result;
-                
-        //         response.send();
-        //       },
+                ctx.body = result;
+                resolve();
+              },
               
-        //       handleError.bind(null, response, 'afterQuery')
-        //     ),
-        //     err => handleError(response, 'queryDatabase', createReason(500, '', err))
-        //   ),
-        //   handleError.bind(null, response, 'beforeQuery')
-        // );
-      });
+              handleError.bind(null, 'afterQuery')
+            ),
+            err => handleError('queryDatabase', createReason(500, '', err))
+          ),
+          handleError.bind(null, 'beforeQuery')
+        );
+        
+        function handleError(origin, reason) {
+          
+          const code = reason.code || 500;
+          const msg = reason.msg || '';
+          const err = reason.err;
+          
+          log('!!! Error while API', origin);
+          logError(msg, err);
+          log('Replying', code);
+          
+          ctx.response.status = code;
+          resolve();
+          // response.source = JSON.stringify(code < 500 ? msg : 'Internal server error');
+          // response.code(code).send();
+        }
+      })));
     }
-  }
-
-  function handleError(response, origin, reason) {
-    
-    const code = reason.code || 500;
-    const msg = reason.msg || '';
-    const err = reason.err;
-    
-    log('!!! Error while API', origin);
-    logError(msg, err);
-    log('Replying', code);
-    
-    response.source = JSON.stringify(code < 500 ? msg : 'Internal server error');
-    response.code(code).send();
   }
 }

@@ -11,7 +11,7 @@ export const logout = () => ({ type: 'LOGOUT' });
 export const readUniverse = createActionCreator({
   intention:  'readUniverse',
   method:     'get',
-  pathx:      '/api/universe/{p}',
+  pathx:      '/api/universe/:id',
   auth:       false,
 });
 
@@ -83,14 +83,15 @@ function createActionCreator(shape) {
         };
         
         if (isPost) { // Stringifies objects before a POST request
-          let form = new FormData();
-          for (let key in params) {
-            if (params.hasOwnProperty(key)) {
-              const value = params[key];
-              form.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
-            }
-          }
-          xhr.send(form);
+          // let form = new FormData();
+          // for (let key in params) {
+          //   if (params.hasOwnProperty(key)) {
+          //     const value = params[key];
+          //     form.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
+          //   }
+          // }
+          xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+          xhr.send(JSON.stringify(params));
         }
         else xhr.send();
       }

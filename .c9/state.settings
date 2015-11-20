@@ -110,16 +110,16 @@
         "counters": {
             "@ace": 2,
             "@acestatus": 2,
-            "@divider": 7,
-            "@document": 102,
+            "@divider": 4,
+            "@document": 14,
             "@form": 6,
-            "@menu": 7,
-            "@menuitem": 27,
+            "@menu": 6,
+            "@menuitem": 16,
             "@pane": 3,
             "@preferences": 1,
-            "@session": 102,
-            "@tab": 102,
-            "@undoManager": 102,
+            "@session": 14,
+            "@tab": 9,
+            "@undoManager": 14,
             "@welcome": 1
         }
     },
@@ -140,8 +140,8 @@
     },
     "panecycle": {
         "json()": [
-            "tab89",
-            "tab95"
+            "tab3",
+            "tab70"
         ]
     },
     "panels": {
@@ -173,7 +173,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": 5161,
+        "@scrollpos": -10,
         "@showfs": true,
         "expanded": {
             "json()": [
@@ -181,37 +181,16 @@
                 "/docker/config",
                 "/docker",
                 "/src",
-                "/src/shared",
                 "/src/server",
                 "/src/client",
                 "/scripts",
-                "/src/shared/New Folder",
-                "/New Folder",
-                "/gitignore",
-                "/gitignore/Aquest",
-                "/gitignore/Aquest/src",
-                "/gitignore/Aquest/src/shared",
-                "/src/shared/components/New Folder",
-                "/src/shared/components/common",
-                "/gitignore/Aquest/src/shared/components",
-                "/gitignore/Aquest/src/client",
-                "/src/shared/models",
-                "/src/shared/components/data",
-                "/src/shared/middleware",
-                "/gitignore/Aquest/src/server",
-                "/node_modules/rethinkdb",
-                "/gitignore/Aquest/src/server/plugins",
                 "/src/components/common",
                 "/src/components/data",
                 "/src/components",
                 "/src/redux",
                 "/src/server/database",
                 "/src/server/database/utils",
-                "/src/utils",
-                "/gitignore/Aquest/src/shared/utils",
-                "/node_modules/koa",
-                "/node_modules/koa/lib",
-                "/node_modules"
+                "/src/utils"
             ]
         }
     },
@@ -227,7 +206,7 @@
     },
     "tabs": {
         "json()": {
-            "focus": "tab3",
+            "focus": "/src/server/API.js",
             "nodes": [
                 {
                     "type": "pane",
@@ -238,12 +217,13 @@
                             "name": "tab70",
                             "path": "/src/server/API.js",
                             "className": [
-                                "tab70"
+                                "tab70",
+                                "focus"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447985348302
+                                    "timestamp": 1448028340477
                                 },
                                 "filter": true,
                                 "title": "API.js",
@@ -258,13 +238,12 @@
                             "name": "tab86",
                             "path": "/src/server/server.js",
                             "className": [
-                                "tab86",
-                                "changed"
+                                "tab86"
                             ],
                             "document": {
-                                "changed": true,
+                                "changed": false,
                                 "meta": {
-                                    "timestamp": 1447985566076
+                                    "timestamp": 1448026780517
                                 },
                                 "filter": true,
                                 "title": "server.js",
@@ -284,7 +263,7 @@
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447977115964
+                                    "timestamp": 1448026998155
                                 },
                                 "filter": true,
                                 "title": "actionCreators.js",
@@ -292,22 +271,37 @@
                                 "ace": {}
                             },
                             "editorType": "ace",
-                            "active": true
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab1",
+                            "path": "/config.js",
+                            "className": [
+                                "tab1"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1447987664653
+                                },
+                                "filter": true,
+                                "title": "config.js",
+                                "tooltip": "/config.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
                         }
                     ],
                     "skin": "editor_tab",
                     "skinset": "default",
                     "meta": {
                         "accessList": [
-                            "tab87",
-                            "tab86",
                             "tab70",
-                            "tab59",
-                            "tab52",
-                            "tab42",
-                            "tab30",
-                            "tab19",
-                            "tab7"
+                            "tab86",
+                            "tab87",
+                            "tab1"
                         ]
                     }
                 },
@@ -320,8 +314,7 @@
                             "name": "tab3",
                             "path": "",
                             "className": [
-                                "tab3",
-                                "focus"
+                                "tab3"
                             ],
                             "document": {
                                 "changed": false,
@@ -329,8 +322,8 @@
                                     "timestamp": 1447847816941
                                 },
                                 "filter": true,
-                                "title": "bash - \"abb18a87a882\"",
-                                "tooltip": "bash - \"abb18a87a882\"",
+                                "title": "npm - \"acc38edf3870\"",
+                                "tooltip": "npm - \"acc38edf3870\"",
                                 "terminal": {
                                     "id": "devel_985",
                                     "cwd": "",
@@ -340,46 +333,6 @@
                             },
                             "editorType": "terminal",
                             "active": true
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab89",
-                            "path": "/package.json",
-                            "className": [
-                                "tab89"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1447986179291
-                                },
-                                "filter": true,
-                                "title": "package.json",
-                                "tooltip": "/package.json",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab90",
-                            "path": "/.babelrc",
-                            "className": [
-                                "tab90"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1447986182994
-                                },
-                                "filter": true,
-                                "title": ".babelrc",
-                                "tooltip": "/.babelrc",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
                         }
                     ],
                     "width": "36.1320020746888%",
@@ -387,12 +340,7 @@
                     "skinset": "default",
                     "meta": {
                         "accessList": [
-                            "tab89",
-                            "tab3",
-                            "tab90",
-                            "tab96",
-                            "tab88",
-                            "tab66"
+                            "tab3"
                         ]
                     }
                 }
@@ -402,7 +350,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/node_modules/koa/lib/context.js"
+            "/src/server/database/queryBuilders.js"
         ]
     }
 }

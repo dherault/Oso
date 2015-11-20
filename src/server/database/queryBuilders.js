@@ -203,16 +203,16 @@ export default run => ({
   // }),
   
   
-  // // CREATE USER
-  // createUser: ({ pictureId, pseudo, email, passwordHash, creationIp }) => run(
+  // CREATE USER
+  createUser: ({ pictureId, pseudo, email, passwordHash, creationIp }) => run(
     
-  //   table('users').insert(prepareInsertion({
-  //     pseudo, email, passwordHash, creationIp, pictureId, 
-  //   }))
-  // ).then(result => ({
-  //   pseudo, email, pictureId, 
-  //   id: result.generated_keys[0],
-  // })),
+    table('users').insert(prepareInsertion({
+      pseudo, email, passwordHash, creationIp, pictureId, 
+    }))
+  ).then(result => ({
+    pseudo, email, pictureId, 
+    id: result.generated_keys[0],
+  })),
   
   
   // // CREATE MESSAGE

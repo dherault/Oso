@@ -1,7 +1,7 @@
 import fs from 'fs';
 import koa from 'koa';
-import createRouter from 'koa-router';
-import injectParsedBody from 'koa-bodyparser';
+import router from 'koa-route';
+import bodyParser from 'koa-bodyparser';
 import r from 'rethinkdb';
 import webpackDevServer from './webpack/webpackDevServer';
 import log from '../utils/log';
@@ -12,8 +12,8 @@ import deleteDatabase from './database/utils/deleteDatabase';
 import populateDatabase from './database/utils/populateDatabase';
 import initializeDatabase from './database/utils/initializeDatabase';
 
-const app = koa();
-const router = createRouter();
+const app = new koa();
+app.use(bodyParser());
 
 const WDSURI = `http://${config.publicIp}:${config.WDSPort}/`;
 const html = fs.readFileSync('src/server/index.html', 'utf8').replace('</body>',
@@ -21,36 +21,32 @@ const html = fs.readFileSync('src/server/index.html', 'utf8').replace('</body>',
   `<script src="${WDSURI}static/bundle.js"></script>`
 );
 
-registerAPI(router);
-
 let n = 0;
-router.get('*', function *(){
+registerAPI(app, router);
+app.use(router.get('*', (ctx, next) => {
   n++;
   console.log(n);
-  this.body = html;
-});
-
-app
-.use(injectParsedBody())
+  ctx.body = html;
+}))
 
 // Response time header
-.use(function *(next){
+.use((ctx, next) => {
   var start = new Date;
-  yield next;
-  var ms = new Date - start;
-  this.set('X-Response-Time', ms + 'ms');
+  return next().then(() => {
+    var ms = new Date - start;
+    ctx.set('X-Response-Time', ms + 'ms');
+  });
 })
 
 // Logger
-.use(function *(next){
+.use((ctx ,next) => {
   var start = new Date;
-  yield next;
-  var ms = new Date - start;
-  console.log('%s %s - %s', this.method, this.url, ms);
+  return next().then(() => {
+    var ms = new Date - start;
+    console.log('%s %s - %s', ctx.method, ctx.url, ms);
+  });
 })
 
-.use(router.routes())
-.use(router.allowedMethods());
 
 r.connect(config.rethinkdb, (err, connection) => {
   if (err) throw err;

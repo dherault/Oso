@@ -1,8 +1,8 @@
 export default {
   publicIp: '52.25.236.126',
-  webServerPort: 9090,
+  webServerPort: 80,
   APIport: 8181,
-  WDSPort: 3000,
+  WDSPort: 9090,
   websocketsPort: 8282,
   googleMapsKey: 'AIzaSyDKxSKwUSRKyqfGn1kjNRLmOwjF7_5BWgQ', // :o !
   rethinkdb: {
@@ -12,7 +12,7 @@ export default {
     timeout: 5,
   },
   database: {
-    tables: ['users', 'cities'],
+    tables: ['users', 'cities', 'jobs', 'heroes', 'branches', 'skills', 'cards', 'checkins'],
   }
   // "appPublicDomain": "http://dev.osoapp.com",
   // "apiPublicDomain": "http://api.dev.osoapp.com",
