@@ -1,6 +1,6 @@
 // Named badly, takes an array of function returning promises,
 // And chain them passing what was resolved as the function arg
-export default function chainPromisesP(array) {
+export default function chainPromisesP(array, ...firstArgs) {
   
   return new Promise((resolve, reject) => {
     
@@ -22,6 +22,6 @@ export default function chainPromisesP(array) {
       else throw new Error(`chainPromises - object at index ${i} is not a function`);
     }
     
-    recurse(0);
+    recurse(0, ...firstArgs);
   });
 }

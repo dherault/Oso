@@ -1,5 +1,5 @@
 import r from 'rethinkdb';
-import log from '../../../shared/utils/logTailor';
+import log from '../../../utils/log';
 import config from '../../../../config';
 
 export default function deleteDatabase(connection) {
@@ -10,8 +10,7 @@ export default function deleteDatabase(connection) {
     r.dbList().run(connection, (err, list) => {
       if (err) return reject(err);
       
-      const { db } = config;
-      
+      const { db } = config.rethinkdb;
       if (list.indexOf(db) !== -1) r.dbDrop(db).run(connection).then(
         () => {
           log(`... Database ${db} deleted`); 

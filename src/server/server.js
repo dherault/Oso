@@ -1,7 +1,29 @@
 import fs from 'fs';
 import koa from 'koa';
+import r from 'rethinkdb';
 import webpackDevServer from './webpack/webpackDevServer';
+import log from '../utils/log';
 import config from '../../config';
+import chainPromises from '../utils/chainPromises';
+import deleteDatabase from './database/utils/deleteDatabase';
+import populateDatabase from './database/utils/populateDatabase';
+import initializeDatabase from './database/utils/initializeDatabase';
+
+r.connect(config.rethinkdb, (err, connection) => {
+  if (err) throw err;
+  
+  chainPromises([
+    deleteDatabase,
+    initializeDatabase,
+    populateDatabase
+  ], connection).then(
+    () => {
+      app.listen(config.webServerPort);
+      console.log(`Web server listening on port ${config.webServerPort}`);
+    },
+    err => console.error(err)
+  );
+});
 
 webpackDevServer();
 
@@ -35,7 +57,3 @@ app.use(function *(){
   console.log(n);
   this.body = html;
 });
-
-app.listen(config.webServerPort);
-
-console.log(`Web server listening on port ${config.webServerPort}`);

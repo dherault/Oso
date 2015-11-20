@@ -1,7 +1,7 @@
 import fs from 'fs';
 import queryDatabase from '../databaseMiddleware';
-import log from '../../../shared/utils/log';
-import { randomInteger } from '../../../shared/utils/randomGenerators';
+import log from '../../../utils/log';
+import { randomInteger } from '../../../utils/randomGenerators';
 
 export default function populateDatabase(conn) {
   

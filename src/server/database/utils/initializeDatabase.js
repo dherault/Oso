@@ -1,7 +1,7 @@
 import r from 'rethinkdb';
-import log from '../../../shared/utils/logTailor';
+import log from '../../../utils/log';
 import config from '../../../../config';
-import chainPromises from '../../../shared/utils/chainPromises';
+import chainPromises from '../../../utils/chainPromises';
 
 export default function initializeDatabase(connection) {
   
@@ -11,7 +11,6 @@ export default function initializeDatabase(connection) {
     
     r.dbList().run(connection, (err, result) => {
       if (err) return reject(err);
-      
       const { rethinkdb: { db }, database : { tables } } = config;
       
       if (result.indexOf(db) === -1) chainPromises([
@@ -22,7 +21,7 @@ export default function initializeDatabase(connection) {
         })),
       ]).then(
         () => {
-          log('... Database initialized');
+          log(`... Database ${db} initialized`);
           resolve(connection);
         }, 
         reject

@@ -12,7 +12,7 @@ export default {
     timeout: 5,
   },
   database: {
-    tables: ['users'],
+    tables: ['users', 'cities'],
   }
   // "appPublicDomain": "http://dev.osoapp.com",
   // "apiPublicDomain": "http://api.dev.osoapp.com",

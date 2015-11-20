@@ -1,6 +1,6 @@
 import r from 'rethinkdb';
 import createBuilders from './queryBuilders';
-import log from '../../shared/utils/logTailor';
+import log from '../../utils/log';
 import config from '../../../config';
 
 
