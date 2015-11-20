@@ -7,3 +7,12 @@ export default {
   city,
   agent,
 };
+
+// user <- image
+// user <-* agents
+// user <-* quests
+
+// agent <- job
+// agents *<->* skills
+
+// 

@@ -62,10 +62,10 @@ export default function registerAPI(app, router) {
       
       app.use(router[method](path, ctx => new Promise(resolve => {
         
-        console.log('API');
-        console.log(ctx.request.body);
         const request = ctx.request;
-        const params = method === 'post' ? ctx.request.body : 'zut';
+        const params = method === 'post' ? ctx.request.body : ctx.request.query;
+        
+        console.log('API', request.url, params);
         
         before(request, params).then(
           () => queryDatabase(intention, params).then(

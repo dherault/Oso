@@ -1,6 +1,8 @@
 import log from '../utils/log';
 import isClient from '../utils/isClient';
 import { capitalize } from '../utils/text';
+import definitions from '../models/';
+
 const isServer = !isClient();
 
 
@@ -20,26 +22,13 @@ const login = createActionCreator({
 const readAll = createActionCreator({
   intention: 'readAll',
   method: 'get',
-  path: '/readAll',
+  path: '/api/readAll',
   auth: false,
 });
 
-const { createJob, readJob, updateJob, deleteJob } = createCRUDActions('job', '1111', '1011');
-const { createUser, readUser, updateUser, deleteUser } = createCRUDActions('user', '0011', '0001');
-const { createCity, readCity, updateCity, deleteCity } = createCRUDActions('city', '1011', '0011');
-const { createAgent, readAgent, updateAgent, deleteAgent } = createCRUDActions('agent', '1111', '0001');
-const { createSkill, readSkill, updateSkill, deleteSkill } = createCRUDActions('skill', '1111', '1011');
-
-const actionCreators = {
-  transitionTo, login, logout,
-  createJob, readJob, updateJob, deleteJob, 
-  createUser, readUser, updateUser, deleteUser, 
-  createCity, readCity, updateCity, deleteCity, 
-  createAgent, readAgent, updateAgent, deleteAgent, 
-  createSkill, readSkill, updateSkill, deleteSkill, 
-};
-
-export default actionCreators;
+export default Object.assign({}, createCRUDActions(), {
+  transitionTo, login, logout, readAll,
+});
 
 // (string)            intention   The queryDb hook, also used to create actionTypes
 // (string)            method      HTTP method
@@ -62,7 +51,7 @@ function createActionCreator(shape) {
         const xhr = new XMLHttpRequest();
         const isPost = method === 'post' || method === 'put';
         const pathWithQuery = isPost || !params ? path : appendQuery(path, params);
-          
+        
         log(`+++ --> ${method} ${path}`, params);
         
         xhr.onerror = err => reject({ 
@@ -113,49 +102,62 @@ function createActionCreator(shape) {
 
 function appendQuery(path, params) {
   let p = path + '?';
+  let addand = false;
+  
   for (let key in params) {
     const val = params[key];
-    if (val) p += `${encodeURIComponent(key)}=${encodeURIComponent(val)};`;
+    if (addand) p += '&';
+    else addand = true;
+    if (val) p += `${encodeURIComponent(key)}=${encodeURIComponent(val)}`;
   }
+  
+  return p;
 }
 
-function createCRUDActions(name, authCode, adminCode) {
+function createCRUDActions() {
+  const ac = {};
   
-  const Name = capitalize(name);
-  const path = '/api/' + name;
-  const _create = 'create' + Name;
-  const _read   = 'read'   + Name;
-  const _update = 'update' + Name;
-  const _delete = 'delete' + Name;
-  
-  return {
-    [_create]: createActionCreator({
+  for (let model in definitions) {
+    console.log(model)
+    const { name, authCode, adminCode } = definitions[model];
+    
+    const Name = capitalize(name);
+    const path = '/api/' + name;
+    const _create = 'create' + Name;
+    const _read   = 'read'   + Name;
+    const _update = 'update' + Name;
+    const _delete = 'delete' + Name;
+    
+    ac[_create] = createActionCreator({
       path,
       method: 'post',
       intention: _create,
       auth: authCode.charAt[0] === '1',
       admin: adminCode.charAt[0] === '1',
-    }),
-    [_read]: createActionCreator({
+    });
+    ac[_read] = createActionCreator({
       path,
       method: 'get',
       intention: _read,
       auth: authCode.charAt[1] === '1',
       admin: adminCode.charAt[1] === '1',
-    }),
-    [_update]: createActionCreator({
+    });
+    ac[_update] = createActionCreator({
       path,
       method: 'put',
       intention: _update,
       auth: authCode.charAt[2] === '1',
       admin: adminCode.charAt[2] === '1',
-    }),
-    [_delete]: createActionCreator({
+    });
+    ac[_delete] = createActionCreator({
       path,
       method: 'delete',
       intention: _delete,
       auth: authCode.charAt[3] === '1',
       admin: adminCode.charAt[3] === '1',
-    }),
-  };
+    });
+    
+  }
+  
+  return ac;
 } 

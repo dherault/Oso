@@ -1,12 +1,8 @@
-import ac from '../redux/actionCreators';
-
-// HABTM skills
-
 export default {
   name: 'agent',
   pluralName: 'agents',
-  read: ac.readAgent,
-  create: ac.createAgent,
+  authCode: '0000',
+  adminCode: '0000',
   collumns: {
     name: {
       type: 'string',

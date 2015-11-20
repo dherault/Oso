@@ -29,10 +29,11 @@ export function run(query) {
 // Resolves data based on intention and params
 export default function queryDatabase(intention, params) {
   const d = new Date();
-  const runQuery = builders[intention];
-  
-  if (runQuery) {
-    const query = runQuery(params);
+  const buildQuery = builders[intention];
+  if (buildQuery) {
+  console.log(111)
+    const query = buildQuery(params);
+  console.log(111)
     query.then(() => log(`+++ <-- ${intention} after ${new Date() - d}ms`));
     
     // log ('+++ ', intention, params)

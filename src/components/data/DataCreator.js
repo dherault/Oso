@@ -1,6 +1,8 @@
 import React from 'react';
 import definitions from '../../models/';
 import { connect } from 'react-redux';
+import ac from '../../redux/actionCreators';
+import { capitalize } from '../../utils/text';
 // import actionCreators from '../../redux/actionCreators';
 
 class DataCreator extends React.Component {
@@ -37,9 +39,10 @@ class DataCreator extends React.Component {
   
   handleSubmit() {
     const { dispatch } = this.props;
-    const { currentModel, inputs, goodToGo } = this.state;
+    const { currentModel: { name }, inputs, goodToGo } = this.state;
+    const creatorName = 'create' + capitalize(name);
     
-    if (goodToGo) dispatch(currentModel.create(inputs[currentModel.name]));
+    if (goodToGo) dispatch(ac[creatorName].create(inputs[name]));
   }
   
   validate() {

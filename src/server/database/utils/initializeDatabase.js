@@ -1,6 +1,7 @@
 import r from 'rethinkdb';
 import log from '../../../utils/log';
 import config from '../../../../config';
+import definitions from '../../../models/';
 import chainPromises from '../../../utils/chainPromises';
 
 export default function initializeDatabase(connection) {
@@ -11,12 +12,19 @@ export default function initializeDatabase(connection) {
     
     r.dbList().run(connection, (err, result) => {
       if (err) return reject(err);
-      const { rethinkdb: { db }, database : { tables } } = config;
+      
+      const { rethinkdb: { db } } = config;
+      const tables = [];
+      
+      for (let model in definitions) {
+        tables.push(definitions[model].pluralName);
+      }
       
       if (result.indexOf(db) === -1) chainPromises([
         () => r.dbCreate(db).run(connection),
         () => Promise.all(tables.map(table => {
           log(`... Creating table ${table}`);
+          
           return r.tableCreate(table).run(connection);
         })),
       ]).then(

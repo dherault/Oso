@@ -1,10 +1,9 @@
-import ac from '../redux/actionCreators';
 
 export default {
   name: 'user',
   pluralName: 'users',
-  read: ac.readUser,
-  create: ac.createUser,
+  authCode: '0000',
+  adminCode: '0000',
   collumns: {
     pseudo: {
       type: 'string',

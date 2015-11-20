@@ -36,9 +36,9 @@ const prepareInsertion = obj => {
 
 const aggregate = cursor => cursor.toArray();
 
-const normalize = cursor => {  
+const normalize = array => {  
   const obj = {};
-  cursor.toArray().forEach(o => {
+  array.forEach(o => {
     obj[o.id] = o;
   });
   
@@ -50,7 +50,7 @@ const normalize = cursor => {
 
 export default run => ({
   
-  readAll: ({ t }) => run(table(t)).then(normalize),
+  readAll: ({ table }) => run(r.table(table)).then(aggregate).then(normalize),
   
   // // READ USER
   // readUser: ({ emailOrPseudo }) => run(

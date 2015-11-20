@@ -111,15 +111,15 @@
             "@ace": 2,
             "@acestatus": 2,
             "@divider": 7,
-            "@document": 31,
+            "@document": 61,
             "@form": 6,
             "@menu": 8,
             "@menuitem": 30,
             "@pane": 3,
             "@preferences": 1,
-            "@session": 31,
-            "@tab": 26,
-            "@undoManager": 31,
+            "@session": 61,
+            "@tab": 56,
+            "@undoManager": 61,
             "@welcome": 1
         }
     },
@@ -140,8 +140,8 @@
     },
     "panecycle": {
         "json()": [
-            "tab24",
-            "tab3"
+            "tab3",
+            "tab55"
         ]
     },
     "panels": {
@@ -173,7 +173,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": -10,
+        "@scrollpos": 71,
         "@showfs": true,
         "expanded": {
             "json()": [
@@ -208,7 +208,7 @@
     },
     "tabs": {
         "json()": {
-            "focus": "tab3",
+            "focus": "/src/models/index.js",
             "nodes": [
                 {
                     "type": "pane",
@@ -216,19 +216,19 @@
                     "nodes": [
                         {
                             "type": "tab",
-                            "name": "tab70",
-                            "path": "/src/server/API.js",
+                            "name": "tab24",
+                            "path": "/src/components/data/DataExplorer.js",
                             "className": [
-                                "tab70"
+                                "tab24"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448042386764
+                                    "timestamp": 1448051526655
                                 },
                                 "filter": true,
-                                "title": "API.js",
-                                "tooltip": "/src/server/API.js",
+                                "title": "DataExplorer.js",
+                                "tooltip": "/src/components/data/DataExplorer.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -236,19 +236,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab86",
-                            "path": "/src/server/server.js",
+                            "name": "tab26",
+                            "path": "/src/components/data/DataList.js",
                             "className": [
-                                "tab86"
+                                "tab26"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448028609370
+                                    "timestamp": 1448055091689
                                 },
                                 "filter": true,
-                                "title": "server.js",
-                                "tooltip": "/src/server/server.js",
+                                "title": "DataList.js",
+                                "tooltip": "/src/components/data/DataList.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -256,15 +256,15 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab87",
+                            "name": "tab33",
                             "path": "/src/redux/actionCreators.js",
                             "className": [
-                                "tab87"
+                                "tab33"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448042264179
+                                    "timestamp": 1448054889449
                                 },
                                 "filter": true,
                                 "title": "actionCreators.js",
@@ -276,19 +276,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab1",
-                            "path": "/config.js",
+                            "name": "tab37",
+                            "path": "/src/server/API.js",
                             "className": [
-                                "tab1"
+                                "tab37"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1447987664653
+                                    "timestamp": 1448052925677
                                 },
                                 "filter": true,
-                                "title": "config.js",
-                                "tooltip": "/config.js",
+                                "title": "API.js",
+                                "tooltip": "/src/server/API.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -296,15 +296,35 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab8",
-                            "path": "/src/server/database/queryBuilders.js",
+                            "name": "tab41",
+                            "path": "/src/server/database/databaseMiddleware.js",
                             "className": [
-                                "tab8"
+                                "tab41"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448042381385
+                                    "timestamp": 1448053333592
+                                },
+                                "filter": true,
+                                "title": "databaseMiddleware.js",
+                                "tooltip": "/src/server/database/databaseMiddleware.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab44",
+                            "path": "/src/server/database/queryBuilders.js",
+                            "className": [
+                                "tab44"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448054076737
                                 },
                                 "filter": true,
                                 "title": "queryBuilders.js",
@@ -316,19 +336,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab16",
-                            "path": "/src/models/index.js",
+                            "name": "tab46",
+                            "path": "/src/server/database/utils/initializeDatabase.js",
                             "className": [
-                                "tab16"
+                                "tab46"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448041300036
+                                    "timestamp": 1448054254577
                                 },
                                 "filter": true,
-                                "title": "index.js",
-                                "tooltip": "/src/models/index.js",
+                                "title": "initializeDatabase.js",
+                                "tooltip": "/src/server/database/utils/initializeDatabase.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -336,15 +356,35 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab17",
-                            "path": "/src/models/user.js",
+                            "name": "tab47",
+                            "path": "/src/server/server.js",
                             "className": [
-                                "tab17"
+                                "tab47"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448041370661
+                                    "timestamp": 1448054266155
+                                },
+                                "filter": true,
+                                "title": "server.js",
+                                "tooltip": "/src/server/server.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab49",
+                            "path": "/src/models/user.js",
+                            "className": [
+                                "tab49"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448054994594
                                 },
                                 "filter": true,
                                 "title": "user.js",
@@ -356,15 +396,15 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab18",
+                            "name": "tab51",
                             "path": "/src/models/city.js",
                             "className": [
-                                "tab18"
+                                "tab51"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448041420630
+                                    "timestamp": 1448055001040
                                 },
                                 "filter": true,
                                 "title": "city.js",
@@ -376,15 +416,15 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab19",
+                            "name": "tab52",
                             "path": "/src/models/agent.js",
                             "className": [
-                                "tab19"
+                                "tab52"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448041433823
+                                    "timestamp": 1448055344884
                                 },
                                 "filter": true,
                                 "title": "agent.js",
@@ -396,15 +436,15 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab21",
+                            "name": "tab54",
                             "path": "/src/components/data/DataCreator.js",
                             "className": [
-                                "tab21"
+                                "tab54"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448038732232
+                                    "timestamp": 1448055237914
                                 },
                                 "filter": true,
                                 "title": "DataCreator.js",
@@ -416,19 +456,21 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab24",
-                            "path": "/src/components/data/DataExplorer.js",
+                            "name": "tab55",
+                            "path": "/src/models/index.js",
                             "className": [
-                                "tab24"
+                                "tab55",
+                                "changed",
+                                "focus"
                             ],
                             "document": {
-                                "changed": false,
+                                "changed": true,
                                 "meta": {
-                                    "timestamp": 1448042509322
+                                    "timestamp": 1448041299605
                                 },
                                 "filter": true,
-                                "title": "DataExplorer.js",
-                                "tooltip": "/src/components/data/DataExplorer.js",
+                                "title": "index.js",
+                                "tooltip": "/src/models/index.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -439,17 +481,22 @@
                     "skinset": "default",
                     "meta": {
                         "accessList": [
+                            "tab55",
+                            "tab49",
+                            "tab54",
+                            "tab26",
+                            "tab52",
+                            "tab51",
+                            "tab33",
+                            "tab47",
+                            "tab46",
+                            "tab44",
+                            "tab41",
+                            "tab42",
+                            "tab37",
+                            "tab32",
                             "tab24",
-                            "tab8",
-                            "tab19",
-                            "tab17",
-                            "tab16",
-                            "tab87",
-                            "tab70",
-                            "tab21",
-                            "tab18",
-                            "tab86",
-                            "tab1"
+                            "tab30"
                         ]
                     }
                 },
@@ -462,8 +509,7 @@
                             "name": "tab3",
                             "path": "",
                             "className": [
-                                "tab3",
-                                "focus"
+                                "tab3"
                             ],
                             "document": {
                                 "changed": false,
@@ -500,7 +546,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/src/components/data/DataList.js"
+            "/src/models/user.js"
         ]
     }
 }

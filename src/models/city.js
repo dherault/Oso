@@ -1,10 +1,8 @@
-import ac from '../redux/actionCreators';
-
 export default {
   name: 'city',
   pluralName: 'cities',
-  read: ac.readCity,
-  create: ac.createCity,
+  authCode: '0000',
+  adminCode: '0000',
   collumns: {
     name: {
       type: 'string',
