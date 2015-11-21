@@ -5,6 +5,8 @@ import routes from '../routes';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import configureStore from '../redux/configureStore';
 import { Provider } from 'react-redux';
+import registerShortcuts from './registerShortcuts';
+
 
 const store = configureStore(window.STATE_FROM_SERVER || {});
 
@@ -15,3 +17,5 @@ const app = render(
   document.getElementById('mountNode'),
   () => console.log('App rendered.')
 );
+
+registerShortcuts(store.getState);

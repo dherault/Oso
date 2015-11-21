@@ -3,7 +3,6 @@ import definitions from '../../models/';
 import { connect } from 'react-redux';
 import ac from '../../redux/actionCreators';
 import { capitalize } from '../../utils/text';
-// import actionCreators from '../../redux/actionCreators';
 
 class DataCreator extends React.Component {
   
@@ -40,9 +39,8 @@ class DataCreator extends React.Component {
   handleSubmit() {
     const { dispatch } = this.props;
     const { currentModel: { name }, inputs, goodToGo } = this.state;
-    const creatorName = 'create' + capitalize(name);
     
-    if (goodToGo) dispatch(ac[creatorName].create(inputs[name]));
+    if (goodToGo) dispatch(ac['create' + capitalize(name)](inputs[name]));
   }
   
   validate() {
@@ -66,7 +64,7 @@ class DataCreator extends React.Component {
     const currentCollumns = currentModel.collumns;
     
     return Object.keys(currentCollumns).map(col => {
-      const { type, required, computed, min, max } = currentCollumns[col];
+      const { type, required, computed, min, max, ref } = currentCollumns[col];
       
       if (computed) return;
       
@@ -78,6 +76,18 @@ class DataCreator extends React.Component {
           control = <input type='text' value={currentInputs[col]} onChange={this.handleInputChange.bind(this, col)} />;
           break;
         
+        case 'id':
+          const state = this.state[definitions[ref].pluralName];
+          control = <select value={currentInputs[col]} onChange={this.handleInputChange.bind(this,col)}>
+          {
+            Object.keys(state).map(key => {
+              const { pseudo, name } = state[key];
+              return <option key={key} value={key}>{pseudo ? pseudo : name ? name : key}</option>;
+            })
+          }
+          </select>;
+          break;
+          
         default:
           return;
       }
@@ -104,8 +114,6 @@ class DataCreator extends React.Component {
     return <div>
       <h2>Data creator</h2>
       
-      { JSON.stringify(inputs) }
-      
       <div>
         <span>What do you want to create? </span>
         <select value={selectedModel} onChange={this.handleModelChange.bind(this)}>
@@ -117,6 +125,7 @@ class DataCreator extends React.Component {
       
       { this.renderForm() }
       
+      <br />
       <input type='button' onClick={this.handleSubmit.bind(this)} value='Create' disabled={!goodToGo}/>
     </div>;
   }

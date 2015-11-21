@@ -2,50 +2,79 @@ import log from '../utils/log';
 
 export default {
   
-  users: (state={}, {type, payload}) => {
+  users: (state={}, {type, payload, params}) => {
     
     log('.R. ' + type); // keep this line in the first reducer
     
     switch (type) {
       
-    case 'SUCCESS_CREATE_USER':
-      return Object.assign({}, state, {[payload.id]: payload});
-      
-    case 'SUCCESS_LOGIN':
-      return Object.assign({}, state, {[payload.id]: payload});
+    // case 'SUCCESS_READ_USER':
+    //   return Object.assign({}, state, {[payload.id]: payload});
       
     default:
-      return state;
+      return enhanceREST(state, {type, payload, params}, 'USER');
     }
   },
   
-  universes: (state={}, {type, payload, params}) => {
-    let newState;
+  cities: (state={}, {type, payload, params}) => {
+    
     switch (type) {
       
-    case 'SUCCESS_READ_UNIVERSE':
-      return Object.assign({}, state, {[payload.id]: payload});
-  
-    case 'SUCCESS_READ_UNIVERSES':
-      newState = Object.assign({}, state);
-      payload.forEach(universe => {
-        if (!newState[universe.id]) newState[universe.id] = universe;
-      });
-      return newState;
-      
-    case 'SUCCESS_READ_INVENTORY':
-      newState = Object.assign({}, state);
-      newState[params].lastInventoryUpdate = new Date().getTime();
-      return newState;
-    
-    case 'SUCCESS_CREATE_UNIVERSE':
-      return Object.assign({}, state, {[payload.id]: payload});
-    
     default:
-      return state;
+      return enhanceREST(state, {type, payload, params}, 'CITY');
     }
   },
   
-  // Doit être exporté en dernier pour activer les side effects après la reduction des précédants
+  agents: (state={}, {type, payload, params}) => {
+    
+    switch (type) {
+      
+    default:
+      return enhanceREST(state, {type, payload, params}, 'AGENT');
+    }
+  },
+  
+  jobs: (state={}, {type, payload, params}) => {
+    
+    switch (type) {
+      
+    default:
+      return enhanceREST(state, {type, payload, params}, 'JOB');
+    }
+  },
+  
+  skills: (state={}, {type, payload, params}) => {
+    
+    switch (type) {
+    
+    default:
+      return enhanceREST(state, {type, payload, params}, 'SKILL');
+    }
+  },
+  
   records: (state=[], action) => [...state, Object.assign({date: new Date().getTime()}, action)]
 };
+
+
+function enhanceREST (state, { type, payload, params }, reducerName) {
+  
+  const bingo = ['READ', 'CREATE', 'UPDATE', 'DELETE'].map(x => `SUCCESS_${x}_${reducerName}`);
+  
+  if (type === 'SUCCESS_READ_ALL' && params.table.startsWith(reducerName.toLowerCase())) return Object.assign({}, payload);
+  
+  const i = bingo.indexOf(type);
+  
+  switch (i) {
+    
+    case -1:
+      return state;
+      
+    case 0:
+    case 1:
+      return Object.assign({}, state, {[payload.id]: payload});
+      
+    default:
+      return state;
+  }
+  
+}

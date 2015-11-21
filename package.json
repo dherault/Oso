@@ -23,7 +23,7 @@
     "babel-loader": "^6.2.0",
     "babel-preset-es2015-node5": "^1.1.0",
     "babel-preset-react": "^6.1.18",
-    "babel-preset-stage-3": "^6.1.18",
+    "babel-preset-stage-2": "^6.1.18",
     "bcrypt": "^0.8.5",
     "chalk": "^1.1.1",
     "co-body": "^4.0.0",

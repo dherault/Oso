@@ -1,5 +1,7 @@
 import r from 'rethinkdb';
 import log from '../../utils/log';
+import definitions from '../../models/';
+import { capitalize } from '../../utils/text';
 // import { topicsLoadLimit, messagesLoadLimit, universesLoadLimit } from '../../../config/dev_app';
 
 const table = r.table;
@@ -46,9 +48,25 @@ const normalize = array => {
 };
   
 
+function enhanceREST(run, builders) {
+  
+  const RESTbuilders = {};
+  
+  for (let model in definitions) {
+    const { name, pluralName } = definitions[model];
+    const suffix = capitalize(name);
+    
+    RESTbuilders['read' + suffix] = ({ id }) => run(r.table(pluralName).get(id));
+    RESTbuilders['create' + suffix] = (params) => run(r.table(pluralName).insert(params));
+    RESTbuilders['update' + suffix] = ({id, ...params }) => run(r.table(pluralName).get(id).update(params));
+    RESTbuilders['delete' + suffix] = ({ id }) => run(r.table(pluralName).get(id).delete());
+  }
+  
+  return Object.assign(RESTbuilders, builders);
+}
 /* Builders return a Promise that resolves the data */
 
-export default run => ({
+export default run => enhanceREST(run, {
   
   readAll: ({ table }) => run(r.table(table)).then(aggregate).then(normalize),
   

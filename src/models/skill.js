@@ -1,6 +1,6 @@
 export default {
-  name: 'job',
-  pluralName: 'jobs',
+  name: 'skill',
+  pluralName: 'skills',
   authCode: '0000',
   adminCode: '0000',
   collumns: {
@@ -16,6 +16,11 @@ export default {
       required: true,
       min: 1,
       max: 200,
+    },
+    creationIp: {
+      type: 'ip',
+      required: true,
+      computed: true,
     },
   }
 };

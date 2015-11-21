@@ -12,14 +12,15 @@
     },
     "console": {
         "@expanded": false,
-        "@height": "153",
+        "@height": 355,
         "@maximized": "false",
         "json()": {
             "meta": {
                 "accessList": [
+                    "searchResults",
+                    "tab9",
                     "tab1",
-                    "tab8",
-                    "tab9"
+                    "tab18"
                 ]
             },
             "name": "pane1",
@@ -32,10 +33,7 @@
                         "tab1"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1447847793934
-                        },
+                        "meta": {},
                         "filter": true,
                         "title": "bash - \"786e739e4743\"",
                         "tooltip": "bash - \"786e739e4743\"",
@@ -44,14 +42,15 @@
                             "cwd": "",
                             "width": 0,
                             "height": 0
-                        }
+                        },
+                        "changed": false
                     },
                     "editorType": "terminal",
                     "active": false
                 },
                 {
                     "type": "tab",
-                    "name": "tab8",
+                    "name": "tab18",
                     "path": "",
                     "className": [],
                     "document": {
@@ -88,6 +87,30 @@
                         }
                     },
                     "editorType": "output",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "searchResults",
+                    "path": "/.c9/searchresults",
+                    "className": [
+                        "searchResults",
+                        "changed"
+                    ],
+                    "document": {
+                        "changed": true,
+                        "meta": {
+                            "searchResults": true,
+                            "ignoreSave": true,
+                            "newfile": true,
+                            "timestamp": 1448064426477
+                        },
+                        "filter": true,
+                        "title": "Search Results",
+                        "tooltip": "/.c9/searchresults",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
                     "active": true
                 }
             ],
@@ -108,18 +131,18 @@
     },
     "ext": {
         "counters": {
-            "@ace": 2,
-            "@acestatus": 2,
-            "@divider": 7,
-            "@document": 61,
-            "@form": 6,
-            "@menu": 8,
-            "@menuitem": 30,
+            "@ace": 3,
+            "@acestatus": 3,
+            "@divider": 4,
+            "@document": 49,
+            "@form": 5,
+            "@menu": 5,
+            "@menuitem": 13,
             "@pane": 3,
             "@preferences": 1,
-            "@session": 61,
-            "@tab": 56,
-            "@undoManager": 61,
+            "@session": 47,
+            "@tab": 31,
+            "@undoManager": 49,
             "@welcome": 1
         }
     },
@@ -140,8 +163,9 @@
     },
     "panecycle": {
         "json()": [
+            "tab30",
             "tab3",
-            "tab55"
+            "tab9"
         ]
     },
     "panels": {
@@ -173,7 +197,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": 71,
+        "@scrollpos": 291,
         "@showfs": true,
         "expanded": {
             "json()": [
@@ -190,9 +214,10 @@
                 "/src/server/database/utils",
                 "/src/utils",
                 "/.c9/metadata",
-                "/src/New Folder",
                 "/src/models",
-                "/src/models/New Folder"
+                "/.c9",
+                "/src/client/New Folder",
+                "/src/client/vendor"
             ]
         }
     },
@@ -204,11 +229,16 @@
             "json()": [
                 "true"
             ]
+        },
+        "searchfiles": {
+            "json()": [
+                "capitalize"
+            ]
         }
     },
     "tabs": {
         "json()": {
-            "focus": "/src/models/index.js",
+            "focus": "/src/components/data/DataList.js",
             "nodes": [
                 {
                     "type": "pane",
@@ -216,19 +246,19 @@
                     "nodes": [
                         {
                             "type": "tab",
-                            "name": "tab24",
-                            "path": "/src/components/data/DataExplorer.js",
+                            "name": "tab5",
+                            "path": "/src/redux/reducers.js",
                             "className": [
-                                "tab24"
+                                "tab5"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448051526655
+                                    "timestamp": 1448062896380
                                 },
                                 "filter": true,
-                                "title": "DataExplorer.js",
-                                "tooltip": "/src/components/data/DataExplorer.js",
+                                "title": "reducers.js",
+                                "tooltip": "/src/redux/reducers.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -236,135 +266,15 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab26",
-                            "path": "/src/components/data/DataList.js",
-                            "className": [
-                                "tab26"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1448055091689
-                                },
-                                "filter": true,
-                                "title": "DataList.js",
-                                "tooltip": "/src/components/data/DataList.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab33",
-                            "path": "/src/redux/actionCreators.js",
-                            "className": [
-                                "tab33"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1448054889449
-                                },
-                                "filter": true,
-                                "title": "actionCreators.js",
-                                "tooltip": "/src/redux/actionCreators.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab37",
-                            "path": "/src/server/API.js",
-                            "className": [
-                                "tab37"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1448052925677
-                                },
-                                "filter": true,
-                                "title": "API.js",
-                                "tooltip": "/src/server/API.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab41",
-                            "path": "/src/server/database/databaseMiddleware.js",
-                            "className": [
-                                "tab41"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1448053333592
-                                },
-                                "filter": true,
-                                "title": "databaseMiddleware.js",
-                                "tooltip": "/src/server/database/databaseMiddleware.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab44",
-                            "path": "/src/server/database/queryBuilders.js",
-                            "className": [
-                                "tab44"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1448054076737
-                                },
-                                "filter": true,
-                                "title": "queryBuilders.js",
-                                "tooltip": "/src/server/database/queryBuilders.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab46",
-                            "path": "/src/server/database/utils/initializeDatabase.js",
-                            "className": [
-                                "tab46"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1448054254577
-                                },
-                                "filter": true,
-                                "title": "initializeDatabase.js",
-                                "tooltip": "/src/server/database/utils/initializeDatabase.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab47",
+                            "name": "tab6",
                             "path": "/src/server/server.js",
                             "className": [
-                                "tab47"
+                                "tab6"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448054266155
+                                    "timestamp": 1448054265985
                                 },
                                 "filter": true,
                                 "title": "server.js",
@@ -376,19 +286,19 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab49",
-                            "path": "/src/models/user.js",
+                            "name": "tab12",
+                            "path": "/src/client/client.js",
                             "className": [
-                                "tab49"
+                                "tab12"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448054994594
+                                    "timestamp": 1448063492274
                                 },
                                 "filter": true,
-                                "title": "user.js",
-                                "tooltip": "/src/models/user.js",
+                                "title": "client.js",
+                                "tooltip": "/src/client/client.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
@@ -396,55 +306,15 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab51",
-                            "path": "/src/models/city.js",
-                            "className": [
-                                "tab51"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1448055001040
-                                },
-                                "filter": true,
-                                "title": "city.js",
-                                "tooltip": "/src/models/city.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab52",
-                            "path": "/src/models/agent.js",
-                            "className": [
-                                "tab52"
-                            ],
-                            "document": {
-                                "changed": false,
-                                "meta": {
-                                    "timestamp": 1448055344884
-                                },
-                                "filter": true,
-                                "title": "agent.js",
-                                "tooltip": "/src/models/agent.js",
-                                "ace": {}
-                            },
-                            "editorType": "ace",
-                            "active": false
-                        },
-                        {
-                            "type": "tab",
-                            "name": "tab54",
+                            "name": "tab8",
                             "path": "/src/components/data/DataCreator.js",
                             "className": [
-                                "tab54"
+                                "tab8"
                             ],
                             "document": {
                                 "changed": false,
                                 "meta": {
-                                    "timestamp": 1448055237914
+                                    "timestamp": 1448063731084
                                 },
                                 "filter": true,
                                 "title": "DataCreator.js",
@@ -456,47 +326,181 @@
                         },
                         {
                             "type": "tab",
-                            "name": "tab55",
-                            "path": "/src/models/index.js",
+                            "name": "tab15",
+                            "path": "/src/components/LoadingBar.js",
                             "className": [
-                                "tab55",
-                                "changed",
+                                "tab15"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448063789454
+                                },
+                                "filter": true,
+                                "title": "LoadingBar.js",
+                                "tooltip": "/src/components/LoadingBar.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab16",
+                            "path": "/src/components/App.js",
+                            "className": [
+                                "tab16"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448063948657
+                                },
+                                "filter": true,
+                                "title": "App.js",
+                                "tooltip": "/src/components/App.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab17",
+                            "path": "/src/server/database/queryBuilders.js",
+                            "className": [
+                                "tab17"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448065062729
+                                },
+                                "filter": true,
+                                "title": "queryBuilders.js",
+                                "tooltip": "/src/server/database/queryBuilders.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab20",
+                            "path": "/src/models/agent.js",
+                            "className": [
+                                "tab20"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448064550435
+                                },
+                                "filter": true,
+                                "title": "agent.js",
+                                "tooltip": "/src/models/agent.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab21",
+                            "path": "/src/models/city.js",
+                            "className": [
+                                "tab21"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448064543811
+                                },
+                                "filter": true,
+                                "title": "city.js",
+                                "tooltip": "/src/models/city.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab28",
+                            "path": "/src/components/data/DataList.js",
+                            "className": [
+                                "tab28",
                                 "focus"
                             ],
                             "document": {
-                                "changed": true,
+                                "changed": false,
                                 "meta": {
-                                    "timestamp": 1448041299605
+                                    "timestamp": 1448067052462
                                 },
                                 "filter": true,
-                                "title": "index.js",
-                                "tooltip": "/src/models/index.js",
+                                "title": "DataList.js",
+                                "tooltip": "/src/components/data/DataList.js",
                                 "ace": {}
                             },
                             "editorType": "ace",
                             "active": true
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab29",
+                            "path": "/src/routes.js",
+                            "className": [
+                                "tab29"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448067134550
+                                },
+                                "filter": true,
+                                "title": "routes.js",
+                                "tooltip": "/src/routes.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab30",
+                            "path": "/src/components/data/DataItem.js",
+                            "className": [
+                                "tab30"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448067443562
+                                },
+                                "filter": true,
+                                "title": "DataItem.js",
+                                "tooltip": "/src/components/data/DataItem.js",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
                         }
                     ],
                     "skin": "editor_tab",
                     "skinset": "default",
                     "meta": {
                         "accessList": [
-                            "tab55",
-                            "tab49",
-                            "tab54",
-                            "tab26",
-                            "tab52",
-                            "tab51",
-                            "tab33",
-                            "tab47",
-                            "tab46",
-                            "tab44",
-                            "tab41",
-                            "tab42",
-                            "tab37",
-                            "tab32",
-                            "tab24",
-                            "tab30"
+                            "tab30",
+                            "tab28",
+                            "tab21",
+                            "tab17",
+                            "tab20",
+                            "tab16",
+                            "tab15",
+                            "tab5",
+                            "tab8",
+                            "tab6",
+                            "tab12"
                         ]
                     }
                 },
@@ -528,6 +532,46 @@
                             },
                             "editorType": "terminal",
                             "active": true
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab24",
+                            "path": "/package.json",
+                            "className": [
+                                "tab24"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448065181589
+                                },
+                                "filter": true,
+                                "title": "package.json",
+                                "tooltip": "/package.json",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
+                        },
+                        {
+                            "type": "tab",
+                            "name": "tab25",
+                            "path": "/.babelrc",
+                            "className": [
+                                "tab25"
+                            ],
+                            "document": {
+                                "changed": false,
+                                "meta": {
+                                    "timestamp": 1448065178253
+                                },
+                                "filter": true,
+                                "title": ".babelrc",
+                                "tooltip": "/.babelrc",
+                                "ace": {}
+                            },
+                            "editorType": "ace",
+                            "active": false
                         }
                     ],
                     "width": "36.1320020746888%",
@@ -535,8 +579,9 @@
                     "skinset": "default",
                     "meta": {
                         "accessList": [
+                            "tab25",
                             "tab3",
-                            "tab14"
+                            "tab24"
                         ]
                     }
                 }
@@ -546,7 +591,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/src/models/user.js"
+            "/src/components/data/DataList.1.js"
         ]
     }
 }

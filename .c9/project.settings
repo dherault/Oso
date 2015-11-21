@@ -18,7 +18,7 @@
     },
     "language": {
         "@eslintrc": "true",
-        "@ignoredMarkers": "is defined but",
+        "@ignoredMarkers": "is defined but|token ...",
         "@instanceHighlight": "true",
         "@semi": "true",
         "@undeclaredVars": "true",
