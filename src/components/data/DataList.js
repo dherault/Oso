@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import ac from '../../redux/actionCreators';
+import ac from '../../state/actionCreators';
 
 class DataList extends React.Component {
   

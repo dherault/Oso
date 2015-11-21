@@ -1,5 +1,8 @@
 gitignore
 .c9/metadata
+.c9/.nakignore
+.c9/state.settings
+
 # Logs
 logs
 *.log

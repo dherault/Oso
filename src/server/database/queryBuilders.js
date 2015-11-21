@@ -17,20 +17,6 @@ const table = r.table;
 //   votes: table('votes').filter({ votableId: votable('id')})
 // }));
 
-// Adds timestamps and replaces undefined with null
-const prepareInsertion = obj => {
-  const d = new Date().getTime();
-  const o = Object.assign({
-    createdAt: d,
-    updatedAt: d,
-  }, obj);
-  
-  Object.keys(o).forEach(key => {
-    if (o.hasOwnProperty(key) && o[key] === undefined) o[key] = null;
-  });
-  
-  return o;
-};
 
 // const createChat = (name, chattableId) => table('chats').insert(prepareInsertion({ name, chattableId }));
 
@@ -56,9 +42,16 @@ function enhanceREST(run, builders) {
     const { name, pluralName } = definitions[model];
     const suffix = capitalize(name);
     
-    RESTbuilders['read' + suffix] = ({ id }) => run(r.table(pluralName).get(id));
-    RESTbuilders['create' + suffix] = (params) => run(r.table(pluralName).insert(params));
-    RESTbuilders['update' + suffix] = ({id, ...params }) => run(r.table(pluralName).get(id).update(params));
+    RESTbuilders['read' + suffix] = ({ id }) => run(r.table(pluralName).get(id))
+      .then(res => ({ [pluralName]: { [id]: res } }));
+    RESTbuilders['create' + suffix] = params => run(r.table(pluralName).insert(params))
+      .then(result => {
+        const p = Object.assign({}, params);
+        const id = result.generated_keys[0];
+        ['creationIp', 'createdAt', 'updatedAt', 'passwordHash'].map(key => delete p[key])
+        return { [pluralName]: { [id]: { ...p, id } } };
+      });
+    RESTbuilders['update' + suffix] = ({id, ...params }) => run(r.table(pluralName).get(id).update(Object.assign(params, { updatedAt: new Date().getTime() })));
     RESTbuilders['delete' + suffix] = ({ id }) => run(r.table(pluralName).get(id).delete());
   }
   
@@ -68,205 +61,17 @@ function enhanceREST(run, builders) {
 
 export default run => enhanceREST(run, {
   
-  readAll: ({ table }) => run(r.table(table)).then(aggregate).then(normalize),
+  readAll: ({ table }) => run(r.table(table)).then(aggregate).then(normalize).then(res => ({ [table]: res })),
   
-  // // READ USER
-  // readUser: ({ emailOrPseudo }) => run(
+  // /// CREATE USER
+  // createUser: ({ pictureId, pseudo, email, passwordHash, creationIp }) => run(
     
-  //   table('users')
-  //   .filter(user => r.or(user('email').eq(emailOrPseudo), user('pseudo').eq(emailOrPseudo)))
-  //   .limit(1)
-  //   .merge(user => ({
-  //     imageUrl: table('images').get(r.args(user('imageId')))('url'),
-  //   }))
-  //   .without('creationIp', 'imageId')
-  // ),
-  
-  // // READ UNIVERSES
-  // readUniverses: () => run(prepareUniverse(
-    
-  //   table('universes')
-  //   .limit(universesLoadLimit)
-  // )).then(normalize),
-  
-  
-  // // READ UNIVERSE BY HANDLE
-  // readUniverseByHandle: ({ handle }) => run(prepareUniverse(
-    
-  //   table('universes')
-  //   .filter({ handle })
-  //   .limit(1)
-  // )),
-  
-  
-  // // READ CHATS
-  // readChats: ({ chattableId }) => run(
-    
-  //   table('chats')
-  //   .filter({ chattableId })
-  //   .merge(chat => ({
-  //     messages: addVotesTo(
-  //       table('messages')
-  //       .filter({ chatId: chat('id') })
-  //       .orderBy('createdAt')
-  //       .limit(messagesLoadLimit)
-  //     ),
-  //   }))
-  //   .without('updatedAt')
-  // ).then(normalize),
-    
-  
-  // // READ MESSAGES
-  // readMessages: ({ chatId, lastMessageId }) => {
-    
-  //   const x = table('messages').filter({ chatId }).orderBy('createdAt');
-  //   const i = x.offsetsOf(lastMessageId);
-    
-  //   return run(addVotesTo(
-  //     x.slice(i, i + messagesLoadLimit)
-  //   )).then(aggregate);
-      
-  //   // Which is better ?
-  //     // x
-  //     // // .skip(x.offsetsOf(r.row('id').eq(lastMessageId)))
-  //     // .skip(x.offsetsOf(lastMessageId))
-  //     // .limit(messagesLoadLimit)
-  //   // ),
-  // },
-  
-  
-  // // READ TOPICS
-  // readTopics: ({ universeId }) => run(addVotesTo(
-    
-  //   table('topics')
-  //   .filter({ universeId })
-  //   .orderBy('createdAt')
-  //   .limit(topicsLoadLimit)
-  //   .without('atoms', 'creationIp')
-  // )).then(aggregate),
-
-  
-  // // READ TOPIC
-  // readTopic: ({ topicId }) => run(addVotesTo(
-    
-  //   table('topics').get(topicId).without('creationIp')
-  // )),
-  
-  // // READ TOPIC ATOMS
-  // readTopicAtoms: ({ topicId }) => run(
-    
-  //   table('topics').get(topicId)('atoms')
-  // ),
-  
-  
-  // // CREATE UNIVERSE
-  // createUniverse: ({ userId, imageId, name, description, rules, relatedUniverses, creationIp }) => new Promise((resolve, reject) => {
-  //   const handle = createHandleFrom(name);
-  //   const newBallot = { 
-  //     userId,
-  //     value: 1,
-  //     content: name,
-  //     description: 'Accurate', // ?
-  //   };
-    
-  //   Promise.all([
-  //     run(table('ballots').orderBy('createdAt').limit(5).without('createdAt', 'updatedAt', 'userId')),
-  //     run(table('ballots').insert(prepareInsertion(newBallot))),
-  //   ])
-  //   .then(
-  //     ([r1, r2]) => run(table('universes').insert(prepareInsertion({ 
-  //       userId, imageId, name, description, rules, relatedUniverses, creationIp, handle,
-  //       relatedBallots: r1.map(b => b.id).concat([r2.generated_keys[0]])
-  //     })))
-  //     .then(
-  //       r3 => {
-  //         const id = r3.generated_keys[0];
-  //         run(createChat(name + ' Agora', id))
-  //         .then(
-  //           () => resolve({
-  //             // imageUrl is missing, delegated to client.
-  //             id, name, description, rules, relatedUniverses, handle,
-  //             ballots: [r2.generated_keys[0]].concat(r1),
-  //           }), 
-  //           reject
-  //         );
-  //       },
-  //       reject
-  //     ),
-  //     reject
-  //   );
-  // }),
-  
-  
-  // // CREATE TOPIC
-  // createTopic: ({ userId, universeId, title, atoms, creationIp }) => new Promise((resolve, reject) => {
-  //   const handle = createHandleFrom(title);
-    
-  //   run(
-  //     table('topics').insert(prepareInsertion({
-  //       userId, universeId, title, atoms, creationIp, handle,
-  //     }))
-  //   ).then(
-  //     result => {
-  //       const id = result.generated_keys[0];
-        
-  //       run(createChat(title + ' Discution', id)).then(
-  //         () => resolve({
-  //           id, userId, universeId, title, atoms, handle,
-  //         }), 
-  //         reject
-  //       );
-  //     },
-  //     reject
-  //   );
-  // }),
-  
-  
-  // CREATE USER
-  createUser: ({ pictureId, pseudo, email, passwordHash, creationIp }) => run(
-    
-    table('users').insert(prepareInsertion({
-      pseudo, email, passwordHash, creationIp, pictureId, 
-    }))
-  ).then(result => ({
-    pseudo, email, pictureId, 
-    id: result.generated_keys[0],
-  })),
-  
-  
-  // // CREATE MESSAGE
-  // createMessage: ({ userId, chatId, atom }) => run(
-    
-  //   table('messages').insert(prepareInsertion({
-  //     userId, chatId, atom,
+  //   table('users').insert(prepareInsertion({
+  //     pseudo, email, passwordHash, creationIp, pictureId, 
   //   }))
   // ).then(result => ({
-  //   userId, chatId, atom,
-  //   id: result.generated_keys[0]
-  // })),
-  
-  
-  // // CREATE IMAGE
-  // createImage: ({ userId, name, url, creationIp }) => run(
-    
-  //   table('images').insert(prepareInsertion({
-  //     userId, name, url, creationIp,
-  //   }))
-  // ).then(result => ({
-  //   name, url,
-  //   id: result.generated_keys[0]
-  // })),
-  
-  
-  // // CREATE BALLOT
-  // createBallot: ({ userId, content, value, description }) => run(
-  
-  //   table('ballots').insert(prepareInsertion({
-  //     userId, content, value, description
-  //   }))
-  // ).then(result => ({
-  //   userId, content, value, description,
-  //   id: result.generated_keys[0]
+  //   pseudo, email, pictureId, 
+  //   id: result.generated_keys[0],
   // })),
   
   

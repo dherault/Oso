@@ -29,6 +29,12 @@ export default {
         loaders: ['react-hot','babel'],
         // include: [__dirname + '/src', __dirname + '/config'],
         exclude: /node_modules/
+      },
+      {
+          test:   /\.style.js$/,
+          loaders: ['style', 'css', 'postcss?parser=postcss-js', 'babel'],
+          // loader: "style-loader!css-loader!postcss-loader?parser=postcss-js!babel-loader",
+          exclude: /node_modules/
       }
     ]
   },

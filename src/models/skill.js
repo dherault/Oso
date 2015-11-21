@@ -3,6 +3,7 @@ export default {
   pluralName: 'skills',
   authCode: '0000',
   adminCode: '0000',
+  // hasAndBelongToMany: ['agent'],
   collumns: {
     name: {
       type: 'string',
@@ -16,11 +17,6 @@ export default {
       required: true,
       min: 1,
       max: 200,
-    },
-    creationIp: {
-      type: 'ip',
-      required: true,
-      computed: true,
     },
   }
 };

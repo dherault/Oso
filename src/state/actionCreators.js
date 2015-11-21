@@ -63,7 +63,7 @@ function createActionCreator(shape) {
         xhr.open(method, pathWithQuery);
         
         xhr.onload = () => {
-          const {status, response} = xhr;
+          const { status, response } = xhr;
           let data;
           try {
             data = JSON.parse(response);
@@ -118,7 +118,6 @@ function createCRUDActions() {
   const ac = {};
   
   for (let model in definitions) {
-    console.log(model)
     const { name, authCode, adminCode } = definitions[model];
     
     const Name = capitalize(name);

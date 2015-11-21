@@ -2,8 +2,7 @@ import bcrypt from 'bcrypt';
 import route from 'koa-route';
 import queryDatabase from './database/databaseMiddleware';
 import log, {logError} from '../utils/log';
-import actionCreators from '../redux/actionCreators';
-// import parse from 'co-body';
+import actionCreators from '../state/actionCreators';
   
 export default function registerAPI(app, router) {
   
@@ -11,35 +10,27 @@ export default function registerAPI(app, router) {
   // Allows validation and params mutation before querying db
   const beforeQuery = {
     
-    createUser: (request, params) => new Promise((resolve, reject) =>
+    createUser: (params, request) => new Promise((resolve, reject) =>
       bcrypt.genSalt(10, (err, salt) => {
         if (err) return reject(createReason(500, 'createUser bcrypt.genSalt', err));
         
         bcrypt.hash(params.password, salt, (err, hash) => {
           if (err) return reject(createReason(500, 'createUser bcrypt.hash', err));
           
-          params.pictureId = 'no id yet';
-          params.passwordHash = hash;
-          params.creationIp = request.ip;
-          delete params.password;
-          resolve();
+          const modifiedParams = Object.assign({}, params, {
+            passwordHash: hash,
+          });
+          delete modifiedParams.password;
+          resolve(modifiedParams);
         });
       })
     ),
-    
-    // createUniverse: (request, params) => new Promise((resolve, reject) => {
-    //   params.name = params.name.trim(),
-    //   params.ip = request.info.remoteAddress;
-    //   params.userId = JWT.decode(request.state.jwt).userId; // The real user id
-    //   resolve();
-    // }),
-    
   };
   
   // ...
   const afterQuery = {
     
-    // createUser: (request, params, result) => new Promise((resolve, reject) => {
+    // createUser: (result, params, request) => new Promise((resolve, reject) => {
     //   if (!result || !result.id) return reject(createReason(500, 'createUser no userId'));
       
     //   resolve({
@@ -49,6 +40,8 @@ export default function registerAPI(app, router) {
     // }),
   };
   
+  const nothing = x => Promise.resolve(x);
+  
   // Dynamic construction of the API routes from actionCreator with API calls
   for (let acKey in actionCreators) {
     
@@ -56,8 +49,7 @@ export default function registerAPI(app, router) {
     const { intention, method, path, auth } = getShape ? getShape() : {};
     
     if (method && path) {
-      const nothing = () => Promise.resolve();
-      const before = beforeQuery[intention] || nothing;
+      const before = enhanceREST(intention) || nothing;
       const after  = afterQuery[intention]  || nothing;
       
       app.use(router[method](path, ctx => new Promise(resolve => {
@@ -67,12 +59,12 @@ export default function registerAPI(app, router) {
         
         console.log('API', request.url, params);
         
-        before(request, params).then(
-          () => queryDatabase(intention, params).then(
-            result => after(request, params, result).then(
-              token => {
+        before(params, request).then(
+          modifiedParams => queryDatabase(intention, modifiedParams).then(
+            result => after(result, modifiedParams, request).then(
+              modifiedResult => {
                 
-                ctx.body = result;
+                ctx.body = modifiedResult;
                 resolve();
               },
               
@@ -101,4 +93,25 @@ export default function registerAPI(app, router) {
       })));
     }
   }
+  
+  function enhanceREST(intention) {
+    
+    const before = beforeQuery[intention] || nothing;
+    
+    if (!/^(create|update)/.test(intention)) return before;
+    else return (params, request) => new Promise((resolve, reject) => {
+      before(params, request).then(
+        modifiedParams => {
+          const t = new Date().getTime();
+          resolve(Object.assign(modifiedParams, {
+            createdAt: t,
+            updatedAt: t,
+            creationIp: request.ip,
+          }));
+        },
+        reject
+      );
+    });
+  }
+  
 }

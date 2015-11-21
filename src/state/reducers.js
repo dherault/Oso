@@ -1,4 +1,5 @@
 import log from '../utils/log';
+import { routerStateReducer } from 'redux-router';
 
 export default {
   
@@ -12,7 +13,7 @@ export default {
     //   return Object.assign({}, state, {[payload.id]: payload});
       
     default:
-      return enhanceREST(state, {type, payload, params}, 'USER');
+      return enhanceREST(state, {type, payload, params}, 'user', 'users');
     }
   },
   
@@ -21,7 +22,7 @@ export default {
     switch (type) {
       
     default:
-      return enhanceREST(state, {type, payload, params}, 'CITY');
+      return enhanceREST(state, {type, payload, params}, 'city', 'cities');
     }
   },
   
@@ -30,7 +31,7 @@ export default {
     switch (type) {
       
     default:
-      return enhanceREST(state, {type, payload, params}, 'AGENT');
+      return enhanceREST(state, {type, payload, params}, 'agent', 'agents');
     }
   },
   
@@ -39,7 +40,7 @@ export default {
     switch (type) {
       
     default:
-      return enhanceREST(state, {type, payload, params}, 'JOB');
+      return enhanceREST(state, {type, payload, params}, 'job', 'jobs');
     }
   },
   
@@ -48,19 +49,20 @@ export default {
     switch (type) {
     
     default:
-      return enhanceREST(state, {type, payload, params}, 'SKILL');
+      return enhanceREST(state, {type, payload, params}, 'skill', 'skills');
     }
   },
   
+  router: routerStateReducer,
   records: (state=[], action) => [...state, Object.assign({date: new Date().getTime()}, action)]
 };
 
 
-function enhanceREST (state, { type, payload, params }, reducerName) {
+function enhanceREST (state, { type, payload, params }, ns, np) {
   
-  const bingo = ['READ', 'CREATE', 'UPDATE', 'DELETE'].map(x => `SUCCESS_${x}_${reducerName}`);
+  const bingo = ['READ', 'CREATE', 'UPDATE', 'DELETE'].map(x => `SUCCESS_${x}_${ns.toUpperCase()}`);
   
-  if (type === 'SUCCESS_READ_ALL' && params.table.startsWith(reducerName.toLowerCase())) return Object.assign({}, payload);
+  if (type === 'SUCCESS_READ_ALL' && params.table === np) return Object.assign({}, payload[np]);
   
   const i = bingo.indexOf(type);
   
@@ -71,10 +73,9 @@ function enhanceREST (state, { type, payload, params }, reducerName) {
       
     case 0:
     case 1:
-      return Object.assign({}, state, {[payload.id]: payload});
+      return Object.assign({}, state, payload[np]);
       
     default:
       return state;
   }
-  
 }

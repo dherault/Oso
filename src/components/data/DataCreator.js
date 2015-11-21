@@ -1,7 +1,7 @@
 import React from 'react';
 import definitions from '../../models/';
 import { connect } from 'react-redux';
-import ac from '../../redux/actionCreators';
+import ac from '../../state/actionCreators';
 import { capitalize } from '../../utils/text';
 
 class DataCreator extends React.Component {

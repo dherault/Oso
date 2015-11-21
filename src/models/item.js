@@ -1,6 +1,6 @@
 export default {
-  name: 'city',
-  pluralName: 'cities',
+  name: 'item',
+  pluralName: 'items',
   authCode: '0000',
   adminCode: '0000',
   collumns: {
@@ -8,16 +8,12 @@ export default {
       type: 'string',
       required: true,
       unique: true,
-      max: 50,
-    },
-    country: {
-      type: 'string',
-      required: true,
-      max: 50,
+      min: 3,
+      max: 15,
     },
     description: {
       type: 'string',
-      voteDuration: 1000 * 3600 / 60,
+      max: 500,
     },
     userId: {
       type: 'string/id',

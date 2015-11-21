@@ -20,7 +20,6 @@ export function run(query) {
     query.run(connection, (err, result) => {
       if (err) return reject(err);
       if (result.errors) return reject(result.first_error);
-      
       resolve(result);
     })
   );
@@ -30,11 +29,13 @@ export function run(query) {
 export default function queryDatabase(intention, params) {
   const d = new Date();
   const buildQuery = builders[intention];
+  
   if (buildQuery) {
-  console.log(111)
     const query = buildQuery(params);
-  console.log(111)
-    query.then(() => log(`+++ <-- ${intention} after ${new Date() - d}ms`));
+    query.then(result => {
+      log(`+++ <-- ${intention} after ${new Date() - d}ms`);
+      log('+++', result);
+    });
     
     // log ('+++ ', intention, params)
     

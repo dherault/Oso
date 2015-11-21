@@ -4,6 +4,7 @@ export default {
   pluralName: 'users',
   authCode: '0000',
   adminCode: '0000',
+  // hasMany: ['agent', 'item'],
   collumns: {
     pseudo: {
       type: 'string',
@@ -13,7 +14,7 @@ export default {
       max: 15,
     },
     email: {
-      type: 'email',
+      type: 'string/email',
       required: true,
       unique: true,
     },
@@ -37,15 +38,16 @@ export default {
       type: 'string',
       max: 500,
     },
-    creationIp: {
-      type: 'ip',
+    imageId: {
+      type: 'string/id',
       required: true,
       computed: true,
     },
-    pictureId: {
-      type: 'id',
-      required: true,
-      computed: true,
-    }
+    agentsIds: {
+      type: 'array/id',
+    },
+    itemsIds: {
+      type: 'array/id',
+    },
   }
 };

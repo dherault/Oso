@@ -17,7 +17,16 @@ export default function initializeDatabase(connection) {
       const tables = [];
       
       for (let model in definitions) {
-        tables.push(definitions[model].pluralName);
+        const { pluralName, hasAndBelongToMany } = definitions[model];
+        
+        tables.push(pluralName);
+        
+        // (hasAndBelongToMany || []).map(ref => {
+        //   const refTable = definitions[ref].pluralName;
+        //   const jointTable = refTable < pluralName ? `${refTable}_${pluralName}` : `${pluralName}_${refTable}`;
+          
+        //   if (tables.indexOf(jointTable) === -1) tables.push(jointTable);
+        // });
       }
       
       if (result.indexOf(db) === -1) chainPromises([

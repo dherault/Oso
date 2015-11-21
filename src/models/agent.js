@@ -3,6 +3,7 @@ export default {
   pluralName: 'agents',
   authCode: '0000',
   adminCode: '0000',
+  // hasAndBelongToMany: ['skill'],
   collumns: {
     name: {
       type: 'string',
@@ -17,19 +18,26 @@ export default {
       computed: true,
     },
     jobId: {
-      type: 'id',
+      type: 'string/id',
+      ref: 'job',
       required: true,
       computed: true,
     },
     userId: {
-      type: 'id',
+      type: 'string/id',
+      ref: 'user',
       required: true,
       computed: true,
     },
-    pictureId: {
-      type: 'id',
+    imageId: {
+      type: 'string/id',
+      ref: 'image',
       required: true,
       computed: true,
+    },
+    skillsIds: {
+      type: 'array/ids',
+      ref: 'skill',
     }
   }
 };

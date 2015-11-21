@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import ac from '../../redux/actionCreators';
+import ac from '../../state/actionCreators';
+import definitions from '../../models/';
 
 class DataItem extends React.Component {
   
@@ -9,21 +10,52 @@ class DataItem extends React.Component {
   }
   
   render() {
-    const { item, params: { table, id } } = this.props;
+    const { table, id } = this.props.params;
+    let [x, y, z] = [[], [], []];
+    
+    for (let def in definitions) {
+      
+      const { pluralName, collumns, hasMany, hasAndBelongToMany } = definitions[def];
+      
+      if (pluralName === table) {
+        const data = this.props[table][id];
+        
+        for (let col in collumns) {
+          if (collumns[col].type === 'id') x.push(<div key={col}><Link to="/">{ `${col}: ${data[col]}` }</Link></div>);
+          else x.push(<div key={col}>{ `${col}: ${data[col]}` }</div>);
+        }
+        
+        if (hasMany) y = hasMany.map(model => {
+          console.log(model)
+          const table = definitions[model].pluralName;
+          
+          return <div>{ table }</div>;
+        });
+        
+        if (hasAndBelongToMany) z = hasAndBelongToMany.map(model => {
+          const table = definitions[model].pluralName;
+          
+          return <div>{ table }</div>;
+        });
+      }
+    }
     
     return <div>
       <h3>{ table + ' - ' + id }</h3>
       <Link to={'/data/explore/' + table}>Back</Link>
       
-      { JSON.stringify(item) }
+      <br />
+      { 'Info' }
+      { x }
+      <br />
+      { 'Has many' }
+      { y }
+      <br />
+      { 'Has and belongs to many' }
+      { z }
+      
     </div>;
   }
 }
 
-const mapState = (state, ownProps) => {
-  const { table, id } = ownProps.params;
-  
-  return { item: state[table][id] };
-};
-
-export default connect(mapState)(DataItem);
+export default connect(s => s)(DataItem);
