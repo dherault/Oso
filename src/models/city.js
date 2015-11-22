@@ -22,14 +22,14 @@ export default {
     userId: {
       type: 'string/id',
       ref: 'user',
-      required: true,
-      computed: true,
+      // required: true,
+      // computed: true,
     },
-    imageId: {
-      type: 'string/id',
-      ref: 'image',
-      required: true,
-      computed: true,
-    }
+    // imageId: {
+    //   type: 'string/id',
+    //   ref: 'image',
+    //   required: true,
+    //   computed: true,
+    // }
   }
 };

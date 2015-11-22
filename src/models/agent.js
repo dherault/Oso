@@ -20,24 +20,24 @@ export default {
     jobId: {
       type: 'string/id',
       ref: 'job',
-      required: true,
-      computed: true,
+      // required: true,
+      // computed: true,
     },
     userId: {
       type: 'string/id',
       ref: 'user',
-      required: true,
-      computed: true,
-    },
-    imageId: {
-      type: 'string/id',
-      ref: 'image',
-      required: true,
-      computed: true,
+      // required: true,
+      // computed: true,
     },
     skillsIds: {
       type: 'array/ids',
       ref: 'skill',
-    }
+    },
+    // imageId: {
+    //   type: 'string/id',
+    //   ref: 'image',
+    //   required: true,
+    //   computed: true,
+    // },
   }
 };

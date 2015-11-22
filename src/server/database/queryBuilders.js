@@ -51,7 +51,8 @@ function enhanceREST(run, builders) {
         ['creationIp', 'createdAt', 'updatedAt', 'passwordHash'].map(key => delete p[key])
         return { [pluralName]: { [id]: { ...p, id } } };
       });
-    RESTbuilders['update' + suffix] = ({id, ...params }) => run(r.table(pluralName).get(id).update(Object.assign(params, { updatedAt: new Date().getTime() })));
+    RESTbuilders['update' + suffix] = ({id, ...params }) => run(r.table(pluralName).get(id).update(Object.assign(params, { updatedAt: new Date().getTime() })))
+      .then(result => ({}));
     RESTbuilders['delete' + suffix] = ({ id }) => run(r.table(pluralName).get(id).delete());
   }
   

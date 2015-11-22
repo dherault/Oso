@@ -55,7 +55,7 @@ export default function registerAPI(app, router) {
       app.use(router[method](path, ctx => new Promise(resolve => {
         
         const request = ctx.request;
-        const params = method === 'post' ? ctx.request.body : ctx.request.query;
+        const params = method === 'post' || method === 'put' ? ctx.request.body : ctx.request.query;
         
         console.log('API', request.url, params);
         

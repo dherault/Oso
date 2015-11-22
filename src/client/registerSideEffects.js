@@ -7,6 +7,7 @@ import { pushState } from 'redux-router';
 export default function registerSideEffects(store) {
   
   const logR = type => log('.E. redirecting after', type);
+  
   // const setRedirection = path => store.dispatch({
   //   type: 'SET_REDIRECTION',
   //   payload: path,
@@ -20,6 +21,10 @@ export default function registerSideEffects(store) {
   // }
   
   const { subscribe, getState, dispatch } = store; 
+  const navigate = path => {
+    log('.E. redirecting to', path);
+    dispatch(pushState(null, path));
+  };
   
   subscribe(() => {
     const { records, router, session } = getState();
@@ -34,11 +39,10 @@ export default function registerSideEffects(store) {
     //   transitionTo('/login');
     //   return;
     // }
-    
     // temp
-    if (/SUCCESS_CREATE_/.test(type)) {
+    if (/^SUCCESS_CREATE_/.test(type)) {
       const whatIsNew = definitions[type.slice(15).toLowerCase()].pluralName;
-      dispatch(pushState(null, '/data/explore/' + whatIsNew + '/' + payload.id));
+      navigate('/data/explore/' + whatIsNew + '/' + Object.keys(payload[whatIsNew])[0]);
     }
     
     // switch (type) {

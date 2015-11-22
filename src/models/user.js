@@ -38,16 +38,18 @@ export default {
       type: 'string',
       max: 500,
     },
-    imageId: {
-      type: 'string/id',
-      required: true,
-      computed: true,
-    },
+    // imageId: {
+    //   type: 'string/id',
+    //   required: true,
+    //   computed: true,
+    // },
     agentsIds: {
       type: 'array/id',
+      ref: 'agent',
     },
     itemsIds: {
       type: 'array/id',
+      ref: 'item',
     },
   }
 };

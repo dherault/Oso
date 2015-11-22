@@ -52,9 +52,9 @@ r.connect(config.rethinkdb, (err, connection) => {
   if (err) throw err;
   
   chainPromises([
-    deleteDatabase,
-    initializeDatabase,
-    populateDatabase
+    // deleteDatabase,
+    // initializeDatabase,
+    // populateDatabase
   ], connection).then(
     () => {
       app.listen(config.webServerPort);

@@ -53,6 +53,15 @@ export default {
     }
   },
   
+  items: (state={}, {type, payload, params}) => {
+    
+    switch (type) {
+    
+    default:
+      return enhanceREST(state, {type, payload, params}, 'item', 'items');
+    }
+  },
+  
   router: routerStateReducer,
   records: (state=[], action) => [...state, Object.assign({date: new Date().getTime()}, action)]
 };
@@ -74,6 +83,10 @@ function enhanceREST (state, { type, payload, params }, ns, np) {
     case 0:
     case 1:
       return Object.assign({}, state, payload[np]);
+      
+    case 2:
+      const { id } = params;
+      return Object.assign({}, state, { [id]: Object.assign({}, state[id], params) });
       
     default:
       return state;

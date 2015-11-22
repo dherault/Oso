@@ -71,8 +71,8 @@ class DataCreator extends React.Component {
       let control;
       switch (type) {
         
-        case 'email':
         case 'string':
+        case 'string/email':
           control = <input type='text' value={currentInputs[col]} onChange={this.handleInputChange.bind(this, col)} />;
           break;
         
