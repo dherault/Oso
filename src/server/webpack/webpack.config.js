@@ -31,10 +31,9 @@ export default {
         exclude: /node_modules/
       },
       {
-          test:   /\.style.js$/,
-          loaders: ['style', 'css', 'postcss?parser=postcss-js', 'babel'],
-          // loader: "style-loader!css-loader!postcss-loader?parser=postcss-js!babel-loader",
-          exclude: /node_modules/
+        test: /\.css$/,
+        loaders: ['style', 'css', 'postcss'],
+        exclude: /node_modules/
       }
     ]
   },

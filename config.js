@@ -4,7 +4,6 @@ export default {
   APIport: 8181,
   WDSPort: 9090,
   websocketsPort: 8282,
-  googleMapsKey: 'AIzaSyDKxSKwUSRKyqfGn1kjNRLmOwjF7_5BWgQ', // :o !
   rethinkdb: {
     host: 'localhost',
     port: 28015,

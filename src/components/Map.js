@@ -2,7 +2,7 @@ import React from 'react';
 import loadScript from '../client/loadScript';
 import config from '../../config';
 
-export default class Map   extends React.Component {
+export default class Map extends React.Component {
   
   
   componentDidMount() {

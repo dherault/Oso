@@ -56,3 +56,7 @@ export function randomText(n) {
   
   return text.slice(-2) === '. ' ? text.slice(0, -1) : text.slice(0, -1) + '.';
 }
+
+export function randomHexColor() {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
