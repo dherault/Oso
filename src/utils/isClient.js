@@ -1,3 +1,4 @@
+// a transformer en constante ?
 export default function isClient() {
   return typeof window !== 'undefined' && typeof window.location !== 'undefined';
 }

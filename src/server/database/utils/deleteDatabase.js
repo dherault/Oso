@@ -5,7 +5,7 @@ import config from '../../../../config';
 export default function deleteDatabase(connection) {
   
   return new Promise((resolve, reject) => {
-      
+    
     log(`... Deleting database`); 
     r.dbList().run(connection, (err, list) => {
       if (err) return reject(err);

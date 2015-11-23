@@ -6,7 +6,9 @@ import actionCreators from '../state/actionCreators';
   
 export default function registerAPI(app, router) {
   
+  const nothing = x => Promise.resolve(x);
   const createReason = (code, msg, err) => ({code, msg, err});
+  
   // Allows validation and params mutation before querying db
   const beforeQuery = {
     
@@ -14,12 +16,10 @@ export default function registerAPI(app, router) {
       bcrypt.genSalt(10, (err, salt) => {
         if (err) return reject(createReason(500, 'createUser bcrypt.genSalt', err));
         
-        bcrypt.hash(params.password, salt, (err, hash) => {
+        bcrypt.hash(params.password, salt, (err, passwordHash) => {
           if (err) return reject(createReason(500, 'createUser bcrypt.hash', err));
           
-          const modifiedParams = Object.assign({}, params, {
-            passwordHash: hash,
-          });
+          const modifiedParams = Object.assign({}, params, { passwordHash });
           delete modifiedParams.password;
           resolve(modifiedParams);
         });
@@ -40,16 +40,15 @@ export default function registerAPI(app, router) {
     // }),
   };
   
-  const nothing = x => Promise.resolve(x);
   
   // Dynamic construction of the API routes from actionCreator with API calls
   for (let acKey in actionCreators) {
     
     const getShape = actionCreators[acKey].getShape || undefined;
-    const { intention, method, path, auth } = getShape ? getShape() : {};
+    const { intention, method, path } = getShape ? getShape() : {};
     
     if (method && path) {
-      const before = enhanceREST(intention) || nothing;
+      const before = addCommonFlags(intention) || nothing;
       const after  = afterQuery[intention]  || nothing;
       
       app.use(router[method](path, ctx => new Promise(resolve => {
@@ -87,31 +86,23 @@ export default function registerAPI(app, router) {
           
           ctx.response.status = code;
           resolve();
-          // response.source = JSON.stringify(code < 500 ? msg : 'Internal server error');
-          // response.code(code).send();
         }
       })));
     }
   }
   
-  function enhanceREST(intention) {
+  function addCommonFlags(intention) {
     
     const before = beforeQuery[intention] || nothing;
     
-    if (!/^(create|update)/.test(intention)) return before;
-    else return (params, request) => new Promise((resolve, reject) => {
-      before(params, request).then(
-        modifiedParams => {
-          const t = new Date().getTime();
-          resolve(Object.assign(modifiedParams, {
-            createdAt: t,
-            updatedAt: t,
-            creationIp: request.ip,
-          }));
-        },
-        reject
-      );
-    });
+    return !/^create/.test(intention) ? before : 
+      (params, request) => before(params, request).then(modifiedParams => {
+        const t = new Date().getTime();
+        return Object.assign(modifiedParams, {
+          createdAt: t,
+          updatedAt: t,
+          creationIp: request.ip,
+        });
+      });
   }
-  
 }

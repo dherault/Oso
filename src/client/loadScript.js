@@ -16,6 +16,7 @@ export default function loadScript(source) {
       newElement.onerror = reject;
       newElement.onload = newElement.onreadystatechange = () => {
         // if (!this.readyState || this.readyState === 'complete') resolve();
+        // Bad code :
         if (!this || !this.readyState || this.readyState === 'complete') resolve();
       };
       scriptElement.parentNode.insertBefore(newElement, scriptElement);

@@ -14,20 +14,7 @@ export default function initializeDatabase(connection) {
       if (err) return reject(err);
       
       const { rethinkdb: { db } } = config;
-      const tables = [];
-      
-      for (let model in definitions) {
-        const { pluralName, hasAndBelongToMany } = definitions[model];
-        
-        tables.push(pluralName);
-        
-        // (hasAndBelongToMany || []).map(ref => {
-        //   const refTable = definitions[ref].pluralName;
-        //   const jointTable = refTable < pluralName ? `${refTable}_${pluralName}` : `${pluralName}_${refTable}`;
-          
-        //   if (tables.indexOf(jointTable) === -1) tables.push(jointTable);
-        // });
-      }
+      const tables = Object.keys(definitions).map(model => definitions[model].pluralName);
       
       if (result.indexOf(db) === -1) chainPromises([
         () => r.dbCreate(db).run(connection),

@@ -1,7 +1,4 @@
-// import log from '../utils/logTailor.js';
-
 export default function promiseMiddleware({ dispatch, getState }) {
-  // log('.M. promiseMiddleware');
   
   return next => action => {
     const { promise, types, params } = action;
@@ -17,4 +14,3 @@ export default function promiseMiddleware({ dispatch, getState }) {
     );
   };
 }
-

@@ -1,6 +1,7 @@
 import React from 'react';
-import definitions from '../../models/';
 import { connect } from 'react-redux';
+
+import definitions from '../../models/';
 import ac from '../../state/actionCreators';
 import { capitalize } from '../../utils/text';
 
@@ -11,9 +12,9 @@ class DataCreator extends React.Component {
     const inputs = {};
     const modelList = [];
     
-    for (let modelName in definitions) {
-      modelList.push(modelName);
-      inputs[modelName] = {};
+    for (let model in definitions) {
+      modelList.push(model);
+      inputs[model] = {};
     }
     
     const currentModel = definitions[modelList[0]];
@@ -30,10 +31,10 @@ class DataCreator extends React.Component {
   
   handleInputChange(col, e) {
     const { inputs, currentModel } = this.state;
-    const currentInputs = Object.assign({}, inputs);
-    currentInputs[currentModel.name][col] = e.currentTarget.value;
+    const newInputs = Object.assign({}, inputs);
+    newInputs[currentModel.name][col] = e.currentTarget.value;
     
-    this.setState({ inputs }, this.validate);
+    this.setState({ inputs: newInputs }, this.validate);
   }
   
   handleSubmit() {
@@ -45,12 +46,12 @@ class DataCreator extends React.Component {
   
   validate() {
     const { inputs, currentModel: { name, collumns } } = this.state;
-    
     const params = inputs[name];
     
     for (let col in collumns) {
-      const { type, required, computed, min, max } = collumns[col];
       const value = params[col];
+      const { type, required, computed, min, max } = collumns[col];
+      
       if ((!computed && required && !value) || (value && type === 'string' && ((min && min > value.length) || (max && max < value.length)))) return this.setState({ goodToGo: false });
     }
     
@@ -59,12 +60,11 @@ class DataCreator extends React.Component {
   
   renderForm() {
     
-    const { currentModel, inputs } = this.state;
-    const currentInputs = inputs[currentModel.name];
-    const currentCollumns = currentModel.collumns;
+    const { currentModel: { name, collumns }, inputs } = this.state;
+    const currentInputs = inputs[name];
     
-    return Object.keys(currentCollumns).map(col => {
-      const { type, required, computed, min, max, ref } = currentCollumns[col];
+    return Object.keys(collumns).map(col => {
+      const { type, required, computed, min, max, ref } = collumns[col];
       
       if (computed) return;
       
@@ -75,41 +75,31 @@ class DataCreator extends React.Component {
         case 'string/email':
           control = <input type='text' value={currentInputs[col]} onChange={this.handleInputChange.bind(this, col)} />;
           break;
-        
-        case 'id':
-          const state = this.state[definitions[ref].pluralName];
-          control = <select value={currentInputs[col]} onChange={this.handleInputChange.bind(this,col)}>
-          {
-            Object.keys(state).map(key => {
-              const { pseudo, name } = state[key];
-              return <option key={key} value={key}>{pseudo ? pseudo : name ? name : key}</option>;
-            })
-          }
-          </select>;
-          break;
           
+        case 'string/id':
+          // todo ?
+          break;
+        
         default:
           return;
       }
       
-      let info1 = required ? <span style={{color: 'red'}}> * </span> : undefined;
-      let info2 = !min && !max ? undefined :
+      const infoRequired = required ? <span style={{color: 'red'}}> * </span> : undefined;
+      const infoValidation = !min && !max ? undefined :
         min && max ? <span>{` (min: ${min}, max: ${max})`}</span> :
         min ? <span>{` (min: ${min})`}</span> : <span>{` (max: ${max})`}</span>;
         
       return <div key={col}>
         <br/>
         <span>{col + ': '}</span>
-        { control }
-        { info1 }
-        { info2 }
+        { control } { infoRequired } { infoValidation }
       </div>;
     });
   }
   
   render() {
     
-    const { modelList, selectedModel, inputs, goodToGo } = this.state;
+    const { modelList, selectedModel, goodToGo } = this.state;
     
     return <div>
       <h2>Data creator</h2>

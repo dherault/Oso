@@ -8,14 +8,10 @@ import { capitalize } from '../../utils/text';
 class DataItem extends React.Component {
   
   componentWillMount() {
-    const { dispatch, stores } = this.props;
+    const { stores, readItem } = this.props;
     const { table, id } = stores.router.params;
     
-    if (!stores[table][id]) {
-      for (let def in definitions) {
-        if (definitions[def].pluralName === table) dispatch(ac['read' + capitalize(def)]({ id }));
-      }
-    }
+    if (!stores[table][id]) readItem({ id });
   }
   
   componentWillReceiveProps({ stores }) {
@@ -25,75 +21,51 @@ class DataItem extends React.Component {
   }
   
   updateValue(col, val) {
-    const { dispatch, stores } = this.props;
-    const { table, id } = stores.router.params;
-    for (let def in definitions) {
-      if (definitions[def].pluralName === table) dispatch(ac['update' + capitalize(def)]({ id, [col]: val }));
-    }
+    const { updateItem, stores: { router : { params : { id } } } } = this.props;
+    updateItem({ id, [col]: val });
   };
   
   render() {
-    const { dispatch, stores } = this.props;
+    const { dispatch, stores, collumns } = this.props;
     const { table, id } = stores.router.params;
     const data = stores[table][id];
     let x = [];
     
     if (!data) return <div>Loading...</div>;
     
-    for (let def in definitions) {
+    for (let col in collumns) {
       
-      const { pluralName, collumns } = definitions[def];
+      const { type, ref } = collumns[col];
+      const value = data[col];
       
-      if (pluralName === table) {
-        for (let col in collumns) {
+      switch(type) {
+        
+        case 'string':
+        case 'string/email':
+          x.push(<TextInput key={col} 
+            col={col} 
+            value={value} 
+            updateValue={this.updateValue.bind(this, col)} 
+          />);
+          break;
+        
+        case 'string/id':
+          const refTable = definitions[ref].pluralName;
+          const readAllRef = () => dispatch(ac.readAll({ table: refTable }));
+          x.push(<IdInput key={col} 
+            col={col} 
+            value={value} 
+            refStore={stores[refTable]}
+            readAllRef={readAllRef}
+            linkPath={`/data/explore/${refTable}/${value}`}
+            updateValue={this.updateValue.bind(this, col)} 
+          />);
+          break;
           
-          const value = data[col];
-          
-          switch(collumns[col].type) {
-            
-            case 'string':
-            case 'string/email':
-              x.push(<TextInput key={col} 
-                col={col} 
-                value={value} 
-                updateValue={this.updateValue.bind(this, col)} 
-              />);
-              break;
-            
-            case 'string/id':
-              const refTable = definitions[collumns[col].ref].pluralName;
-              const readAllRef = () => dispatch(ac.readAll({ table: refTable }));
-              x.push(<IdInput key={col} 
-                col={col} 
-                value={value} 
-                refStore={stores[refTable]}
-                readAllRef={readAllRef}
-                linkPath={`/data/explore/${refTable}/${value}`}
-                updateValue={this.updateValue.bind(this, col)} 
-              />);
-              break;
-              
-            // case 'array/id':
-            //   const refTable2 = definitions[collumns[col].ref].pluralName;
-            //   x.push(<tr style={{height: 30}}>
-            //     <td width='25%'><strong>{ col + ': ' }</strong></td>
-                
-            //     <td width='50%'> { !value ? '-' :
-            //       value.map(id => <span key={id}><Link to={`/data/explore/${refTable2}/${id}`}>{ value }</Link>{ '-' }</span>)
-            //     } </td>
-            //   </tr>);
-            //   break;
-            
-            default:
-              break;
-          }
-        }
+        default:
+          break;
       }
     }
-    
-    const tableStyle = {
-      width: '100%',
-    };
     
     return <div>
       <h3>{ table + ' - ' + id }</h3>
@@ -101,7 +73,7 @@ class DataItem extends React.Component {
       
       <br />
       <br />
-      <table style={tableStyle}>
+      <table width='100%'>
         <tbody>{ x }</tbody>
       </table>
       
@@ -109,7 +81,28 @@ class DataItem extends React.Component {
   }
 }
 
-export default connect(s => ({ stores: s }))(DataItem);
+function mergeProps (sProps, dProps) {
+  
+  const { dispatch } = dProps;
+  const { table } = sProps.stores.router.params;
+  let collumns, readItem, updateItem;
+  
+  for (let model in definitions) {
+    const definition = definitions[model];
+    
+    if (definition.pluralName === table) { 
+      collumns = definition.collumns;
+      readItem = params => dispatch(ac['read' + capitalize(model)](params));
+      updateItem = params => dispatch(ac['update' + capitalize(model)](params));
+    }
+  }
+  
+  return Object.assign({}, sProps, dProps, { collumns, readItem, updateItem });
+}
+
+export default connect(s => ({ stores: s }), null, mergeProps)(DataItem);
+
+
 
 class TextInput extends React.Component {
   
@@ -129,7 +122,6 @@ class TextInput extends React.Component {
   }
   
   render() {
-    
     const { value, toogled } = this.state;
     const s0 = { height: 30 };
     const s1 = { display: toogled ? 'none' : 'table-cell' };
@@ -153,6 +145,8 @@ class TextInput extends React.Component {
     </tr>;
   }
 }
+
+
 
 class IdInput extends React.Component {
   
@@ -205,4 +199,3 @@ class IdInput extends React.Component {
     </tr>;
   }
 }
-

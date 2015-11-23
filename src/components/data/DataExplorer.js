@@ -6,16 +6,13 @@ export default class DataExplorer extends React.Component {
   
   render() {
     
-    const models = Object.keys(definitions);
-    
-    const links = [];
-    
-    for (let model in definitions) {
+    const links = Object.keys(definitions).map(model => {
       const x = definitions[model].pluralName;
-      links.push(<li key={x}>
+      
+      return <li key={x}>
         <Link to={'/data/explore/' + x}>{ x }</Link>
-      </li>);
-    }
+      </li>;
+    });
     
     return <div>
       <h2>Data Explorer</h2>

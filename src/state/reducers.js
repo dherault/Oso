@@ -1,5 +1,7 @@
-import log from '../utils/log';
 import { routerStateReducer } from 'redux-router';
+
+import log from '../utils/log';
+import definitions from '../models/';
 
 export default {
   
@@ -9,11 +11,8 @@ export default {
     
     switch (type) {
       
-    // case 'SUCCESS_READ_USER':
-    //   return Object.assign({}, state, {[payload.id]: payload});
-      
     default:
-      return enhanceREST(state, {type, payload, params}, 'user', 'users');
+      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'user');
     }
   },
   
@@ -22,7 +21,7 @@ export default {
     switch (type) {
       
     default:
-      return enhanceREST(state, {type, payload, params}, 'city', 'cities');
+      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'city');
     }
   },
   
@@ -31,7 +30,7 @@ export default {
     switch (type) {
       
     default:
-      return enhanceREST(state, {type, payload, params}, 'agent', 'agents');
+      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'agent');
     }
   },
   
@@ -40,7 +39,7 @@ export default {
     switch (type) {
       
     default:
-      return enhanceREST(state, {type, payload, params}, 'job', 'jobs');
+      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'job');
     }
   },
   
@@ -49,7 +48,7 @@ export default {
     switch (type) {
     
     default:
-      return enhanceREST(state, {type, payload, params}, 'skill', 'skills');
+      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'skill');
     }
   },
   
@@ -58,7 +57,7 @@ export default {
     switch (type) {
     
     default:
-      return enhanceREST(state, {type, payload, params}, 'item', 'items');
+      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'item');
     }
   },
   
@@ -67,15 +66,16 @@ export default {
 };
 
 
-function enhanceREST (state, { type, payload, params }, ns, np) {
+function reduceDefaultCRUDTypes(state, { type, payload, params }, model) {
   
-  const bingo = ['READ', 'CREATE', 'UPDATE', 'DELETE'].map(x => `SUCCESS_${x}_${ns.toUpperCase()}`);
+  const ns = definitions[model].name.toUpperCase();
+  const np = definitions[model].pluralName;
+  
+  const bingo = ['READ', 'CREATE', 'UPDATE', 'DELETE'].map(x => `SUCCESS_${x}_${ns}`);
   
   if (type === 'SUCCESS_READ_ALL' && params.table === np) return Object.assign({}, payload[np]);
   
-  const i = bingo.indexOf(type);
-  
-  switch (i) {
+  switch (bingo.indexOf(type)) {
     
     case -1:
       return state;

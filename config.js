@@ -11,9 +11,6 @@ export default {
     db: 'Oso_dev',
     timeout: 5,
   },
-  database: {
-    tables: ['users', 'cities', 'jobs', 'heroes', 'branches', 'skills', 'cards', 'checkins'],
-  }
   // "appPublicDomain": "http://dev.osoapp.com",
   // "apiPublicDomain": "http://api.dev.osoapp.com",
   // "wdsPublicDomain": "http://wds.dev.osoapp.com"

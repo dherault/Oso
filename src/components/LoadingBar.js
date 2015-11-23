@@ -26,10 +26,10 @@ export default class LoadingBar extends React.Component {
       width: 'auto',
       height: 'auto',
       position: 'fixed',
-      left: '4rem',
       top: '0',
+      left: '0',
       zIndex: '1000',
-      fontSize: '1.7rem',
+      fontSize: '1.2rem',
       fontWeight: '700',
       color: '#FF6600'
     };

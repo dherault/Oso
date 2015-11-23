@@ -5,11 +5,6 @@ import definitions from '../models/';
 
 const isServer = !isClient();
 
-
-// Si une transition peut avoir lieu dans les sides effects alors preferer cette methode
-// Cet AC est provisoire et devra être remplacé par <Link/> partout (SEO friendly)
-const transitionTo = (pathname, query, state) => ({ type: 'TRANSITION_TO', payload: {pathname, query, state} });
-
 const logout = () => ({ type: 'LOGOUT' });
 
 const login = createActionCreator({
@@ -26,11 +21,11 @@ const readAll = createActionCreator({
   auth: false,
 });
 
-export default Object.assign({}, createCRUDActions(), {
-  transitionTo, login, logout, readAll,
+export default Object.assign({}, createDefaultCRUDActions(), {
+  login, logout, readAll,
 });
 
-// (string)            intention   The queryDb hook, also used to create actionTypes
+// (string)            intention   The queryDatabase handle, also used to create actionTypes
 // (string)            method      HTTP method
 // (string)            pathx       API path. If (method && path) an corresponding API route gets created
 // (string or false)   auth        Authentication strategy
@@ -74,7 +69,7 @@ function createActionCreator(shape) {
           }
         };
         
-        if (isPost) { // Stringifies objects before a POST request
+        if (isPost) {
           xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
           xhr.send(JSON.stringify(params));
         }
@@ -106,15 +101,14 @@ function appendQuery(path, params) {
   
   for (let key in params) {
     const val = params[key];
-    if (addand) p += '&';
-    else addand = true;
+    addand ? p += '&' : addand = true;
     if (val) p += `${encodeURIComponent(key)}=${encodeURIComponent(val)}`;
   }
   
   return p;
 }
 
-function createCRUDActions() {
+function createDefaultCRUDActions() {
   const ac = {};
   
   for (let model in definitions) {

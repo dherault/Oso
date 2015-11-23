@@ -37,8 +37,6 @@ export default function queryDatabase(intention, params) {
       log('+++', result);
     });
     
-    // log ('+++ ', intention, params)
-    
     return query;
   }
   else return Promise.reject(`No query builder found for your intention: ${intention}`);
