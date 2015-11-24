@@ -39,6 +39,10 @@ app.use(router.get('/images/:x', (ctx, x) => {
       ctx.set('content-type', 'image/jpeg');
       ctx.body = fs.readFileSync(__dirname + '/images/' + x);
       break;
+    case 'png':
+      ctx.set('content-type', 'image/png');
+      ctx.body = fs.readFileSync(__dirname + '/images/' + x);
+      break;
       
     default:
       return;
