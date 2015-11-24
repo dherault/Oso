@@ -35,7 +35,8 @@ RUN git clone https://github.com/c9/core.git ./cloud9 \
 RUN apt-get clean  \
 &&  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 &&  echo "alias n='npm start'" >> ~/.bashrc \
-&&  echo "alias deploy='npm run deploy'" >> ~/.bashrc
+&&  echo "alias deploy='npm run deploy'" >> ~/.bashrc \
+&&  echo "alias commit='sh /root/oso/scripts/quick_commit.sh'" >> ~/.bashrc
 
 ADD ./config/* /etc/supervisor/conf.d/
 

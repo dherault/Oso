@@ -15,8 +15,10 @@ class App extends React.Component {
       - <Link to='/data/explore'>Explore</Link> -
       - <Link to='/data/create'>Create</Link> -
       - <a href='https://github.com/dherault/Oso' target='_blank'>GitHub</a> -
+      - <a href='https://hub.docker.com/r/dherault/oso/builds/' target='_blank'>DockerHub</a> -
       - <a href='https://github.com/AquestTechnologies/Aquest' target='_blank'>Aquest</a> -
       - <a href='http://rethinkdb.com/api/javascript/' target='_blank'>RethinkDb</a> -
+      - <a href='http://threejs.org/docs/#Reference' target='_blank'>Three.js</a> -
       - <a href='https://github.com/rackt/react-redux/blob/master/docs/api.md' target='_blank'>react-redux</a> -
       </div>
       
