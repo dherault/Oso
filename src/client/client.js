@@ -12,11 +12,6 @@ import registerSideEffects from './registerSideEffects';
 const store = configureStore(window.STATE_FROM_SERVER || {});
 const oso = new Oso(store);
 
-const handleResize = () => oso.renderer.setSize(window.innerWidth, window.innerHeight - 30);
-window.onresize = handleResize;
-handleResize();
-
-
 export default () => document.getElementById('oso_mount_node').appendChild(oso.renderer.domElement);
 
 const app = render(

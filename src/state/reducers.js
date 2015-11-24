@@ -3,92 +3,118 @@ import { routerStateReducer } from 'redux-router';
 import log from '../utils/log';
 import definitions from '../models/';
 
+const crud = reduceDefaultCRUDTypes;
+
 export default {
   
-  users: (state={}, {type, payload, params}) => {
+  users: crud('user', (state={}, {type, payload, params}) => {
     
     log('.R. ' + type); // keep this line in the first reducer
     
     switch (type) {
       
     default:
-      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'user');
+      return state;
     }
-  },
+  }),
   
-  cities: (state={}, {type, payload, params}) => {
+  cities: crud('city', (state={}, {type, payload, params}) => {
     
     switch (type) {
       
     default:
-      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'city');
+      return state;
     }
-  },
+  }),
   
-  agents: (state={}, {type, payload, params}) => {
+  agents: crud('agent', (state={}, {type, payload, params}) => {
     
     switch (type) {
       
     default:
-      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'agent');
+      return state;
     }
-  },
+  }),
   
-  jobs: (state={}, {type, payload, params}) => {
+  jobs: crud('job', (state={}, {type, payload, params}) => {
     
     switch (type) {
       
     default:
-      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'job');
+      return state;
     }
-  },
+  }),
   
-  skills: (state={}, {type, payload, params}) => {
+  skills: crud('skill', (state={}, {type, payload, params}) => {
     
     switch (type) {
     
     default:
-      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'skill');
+      return state;
     }
-  },
+  }),
   
-  items: (state={}, {type, payload, params}) => {
+  items: crud('item', (state={}, {type, payload, params}) => {
     
     switch (type) {
     
     default:
-      return reduceDefaultCRUDTypes(state, {type, payload, params}, 'item');
+      return state;
     }
-  },
+  }),
+  
+  // 3dObjects: (state=[], {type, payload, params}) => {
+    
+  //   switch (type) {
+  //     case 'CREATE_3DOBJECT':
+  //       return [...state, payload];
+        
+  //     case 'UPDATE_3DOBJECT':
+  //       if (params.index) {
+  //         return state.slice(0, index - 1).concat([Object.assign({}, state, )])
+  //       }
+  //       return [...state, payload];
+      
+  //     default:
+  //       return state;
+  //   }
+  // }
   
   router: routerStateReducer,
   records: (state=[], action) => [...state, Object.assign({date: new Date().getTime()}, action)]
 };
 
 
-function reduceDefaultCRUDTypes(state, { type, payload, params }, model) {
+function reduceDefaultCRUDTypes(model, reduce) {
   
-  const ns = definitions[model].name.toUpperCase();
-  const np = definitions[model].pluralName;
-  
-  const bingo = ['READ', 'CREATE', 'UPDATE', 'DELETE'].map(x => `SUCCESS_${x}_${ns}`);
-  
-  if (type === 'SUCCESS_READ_ALL' && params.table === np) return Object.assign({}, payload[np]);
-  
-  switch (bingo.indexOf(type)) {
+  return (state={}, {type, payload, params}) => {
+    const newState = reduce(state, {type, payload, params});
     
-    case -1:
-      return state;
+    const ns = definitions[model].name.toUpperCase();
+    const np = definitions[model].pluralName;
+    
+    const bingo = ['READ', 'CREATE', 'UPDATE', 'DELETE']
+      .map(x => `SUCCESS_${x}_${ns}`)
+      .concat(['SUCCESS_READ_ALL']);
+    
+    switch (bingo.indexOf(type)) {
       
-    case 0:
-    case 1:
-      return Object.assign({}, state, payload[np]);
+      case -1:
+        return state;
+        
+      case 0:
+      case 1:
+        return Object.assign({}, state, payload[np], newState);
+        
+      case 2:
+        const { id } = params;
+        return Object.assign({}, state, { [id]: Object.assign({}, state[id], params) }, newState);
       
-    case 2:
-      const { id } = params;
-      return Object.assign({}, state, { [id]: Object.assign({}, state[id], params) });
+      case 4:
+        return params.table !== np ? newState : Object.assign({}, payload[np]);
       
-    default:
-      return state;
-  }
+      default:
+        return newState;
+    }
+  };
 }

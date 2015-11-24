@@ -1,59 +1,84 @@
 import _ from "three";
+import loadTexture from './utils/loadTexture';
 
 export default class Oso {
   
   constructor(store) {
     this.store = store;
     this.previousState = {};
-    this.currentState = this.store.getState();
+    this.state = this.store.getState();
+    
+    const d = new Date().getTime();
+    this.previousTime = d;
+    this.time = d;
+    
+    this.height = window.innerHeight - 25;
+    this.width = window.innerWidth;
+    window.onresize = this.handleResize.bind(this);
+    
     this.clock = new _.Clock();
     this.scene = new _.Scene();
-    this.camera = new _.PerspectiveCamera(75, 500 / 500, 0.1, 1000);
+    this.camera = new _.PerspectiveCamera(45, this.width / this.height, 0.01, 1000 );
+    this.camera.position.z = 1.5;
     this.renderer = new _.WebGLRenderer();
-    this.gridWidth = 40;
-    this.gridHeight = 40;
-    this.initialize();
+    this.renderListener = [
+      // () => console.log('tick'),
+      () => this.renderer.render(this.scene, this.camera),
+    ];
     
-    this.store.subscribe(() => this.updateState(this.store.getState()));
-  }
-
-  initialize() {
-    this.camera.position.x = this.gridWidth / 2;
-    this.camera.position.y = this.gridHeight / 2;
-    this.camera.position.z = 30;
+    // Light
+    const light1	= new _.AmbientLight( 0x888888 );
+  	const light2	= new _.DirectionalLight( 0xcccccc, 1 );
+  	light2.position.set(5,3,5);
+  	
+  	
+  	// Earth
+    Promise.all([
+      loadTexture('images/earthmap1k.jpg'),
+      loadTexture('images/earthbump1k.jpg'),
+      loadTexture('images/earthspec1k.jpg'),
+    ]).then(data => {
+      
+    	const geometry = new _.SphereGeometry(0.5, 32, 32);
+    	const material = new _.MeshPhongMaterial({
+    		map: data[0],
+    		bumpMap: data[1],
+    		bumpScale: 0.05,
+    		specularMap: data[2],
+    		specular: new _.Color('grey'),
+    	});
+    	const earthMesh	= new _.Mesh(geometry, material);
+    	this.renderListener.push((s, t, pt) => earthMesh.rotateY( 1/32000 * (t - pt) ));
+    	this.scene.add(earthMesh);
+    });
     
-    // background
-    var plane = new _.Mesh(
-        new _.PlaneGeometry(this.gridWidth + 2, this.gridHeight + 2, 0),
-        new _.MeshBasicMaterial({color: 0x343434, side: _.DoubleSide})
-    );
-    plane.position.set(this.gridWidth / 2, this.gridHeight / 2, 0);
-    this.scene.add(plane);
+	  this.scene.add(light1);
+  	this.scene.add(light2);
     
-    this.pointLight = new _.PointLight(0xffffff, 1);
-    this.pointLight.position.z = 30;
-    this.scene.add(this.pointLight);
+    this.handleResize();
+    
+    this.store.subscribe(() => {
+      this.previousState = this.state;
+      this.state = this.store.getState();
+    });
     
     this.loop();
   }
 
   loop() {
     window.requestAnimationFrame(this.loop.bind(this));
-    this.update();
-    this.render();
+    
+    this.previousTime = this.time;
+    this.time = new Date().getTime();
+    
+    this.renderListener.slice().forEach(fn => fn(this.state, this.time, this.previousTime));
   }
 
-  update() {
-    this.pointLight.position.x = Math.sin(this.clock.getElapsedTime()) * 4 + 20;
-    this.pointLight.position.y = Math.cos(this.clock.getElapsedTime()) * 4 + 20;
-  }
-
-  render() {
-    this.renderer.render(this.scene, this.camera);
-  }
-
-  updateState(state) {
-    this.previousState = this.currentState;
-    this.currentState = state;
+  handleResize() {
+    this.height = window.innerHeight - 25;
+    this.width = window.innerWidth;
+    this.camera.aspect = this.width / this.height;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(this.width, this.height);
   }
 }
