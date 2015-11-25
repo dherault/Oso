@@ -2,17 +2,19 @@ import _ from "three";
 import loadTexture from './utils/loadTexture';
 import createAtmosphereMaterial from './materials/atmosphere';
 import createCloudsMesh from './meshes/clouds';
-import registerOrbitControls from './OrbitControls';
-// import TrackballControls from '../vendor/TrackballControls.js';
+import Controls from './Controls';
 
-registerOrbitControls(_);
+import createMoon from './meshes/moon';
+import createEarth from './meshes/earth';
+import config from './config';
+// import TrackballControls from '../vendor/TrackballControls.js';
 
 const hx = 4;
 
 export default class Oso {
   
   constructor(store) {
-    
+
     this.initialize(store);
     
     // this.clock = new _.Clock();
@@ -20,16 +22,16 @@ export default class Oso {
     this.renderer.setSize(this.width, this.height);
     this.renderer.shadowMap.enabled = true;
     
-    this.camera = new _.PerspectiveCamera(45, this.width / this.height, 0.01, 100);
-    this.camera.position.z = 2;
+    this.camera = new _.PerspectiveCamera(45, this.width / this.height, 0.01, config.sunEarthDistance);
+    this.camera.position.z = 2.5 * config.earthRadius;
     
-		this.controls = new _.OrbitControls(this.camera, this.renderer.domElement);
-		this.controls.update();
+		this.controls = new Controls(this.camera, this.renderer.domElement);
     
     this.scene = new _.Scene();
-		this.scene.add(this.controls.getObject());
+		this.scene.add(this.camera);
 		
     this.loopListeners.push(() => this.renderer.render(this.scene, this.camera));
+    this.loopListeners.push(() => this.controls.update());
     
     /*
       match(this.state.router.pathname, gameSets, set => {
@@ -56,19 +58,25 @@ export default class Oso {
       })
     */
     // Light
+    // var geometry = new _.SphereGeometry(config.sunRadius, 32, 32);
+    // var material = new _.MeshPhongMaterial();
+    // var sun = new _.Mesh(geometry, material);
+    // sun.position.set(config.sunEarthDistance * config.sunEarthDistanceScale, 0, 0);
+    // this.scene.add(sun);
     const light1 = new _.AmbientLight( 0x222222 );
     const light2 = new _.DirectionalLight( 0xffffff, 1 );
-    light2.position.set(5,5,5);
+    const x = 2 *config.earthMoonDistance * config.earthMoonDistanceScale;
+    light2.position.set(x, 0, 0);
     
     light2.castShadow = true;
     light2.shadowCameraNear = 0.01;
-    light2.shadowCameraFar = 15;
-    light2.shadowCameraFov = 45;
-    light2.shadowCameraLeft = -1;
-    light2.shadowCameraRight = 1;
-    light2.shadowCameraTop = 1;
-    light2.shadowCameraBottom = -1;
-    light2.shadowBias = 0.001;
+    light2.shadowCameraFar = 2 * x;
+    // light2.shadowCameraFov = 45;
+    light2.shadowCameraLeft = -x / 2;
+    light2.shadowCameraRight = x / 2;
+    light2.shadowCameraTop = x / 2;
+    light2.shadowCameraBottom = -x / 2;
+    // light2.shadowBias = 0.001;
     light2.shadowDarkness = 0.2;
     light2.shadowMapWidth = 1024;
     light2.shadowMapHeight = 1024;
@@ -82,59 +90,26 @@ export default class Oso {
       	map: texture,
       	side: _.BackSide
       });
-      const geometry = new _.SphereGeometry(100, 32, 32);
+      const geometry = new _.SphereGeometry(config.sunEarthDistance, 32, 32);
       const starsMesh = new _.Mesh(geometry, material);
       this.scene.add(starsMesh);
     });
     
     // Container
     const containerEarth	= new _.Object3D();
-    containerEarth.rotateZ(-23.4 * Math.PI/180);
+    // containerEarth.rotateZ(-23.4373 * Math.PI/180);
     containerEarth.position.z	= 0;
     this.scene.add(containerEarth);
     
+    const rTerre = 6378;
+    const rLune = 1737;
+    const dTerreLune =  384467;
+    
     // Earth
-    Promise.all([
-      loadTexture('images/earth_4k.jpg'),
-      loadTexture('images/earth_bump_4k.jpg'),
-      loadTexture('images/earth_water_4k.png'),
-    ]).then(data => {
-      const geometry = new _.SphereGeometry(0.5, 64, 64);
-      const material = new _.MeshPhongMaterial({
-        map: data[0],
-        bumpMap: data[1],
-        bumpScale: 0.005,
-        specularMap: data[2],
-        specular: new _.Color('grey'),
-      });
-      const earthMesh	= new _.Mesh(geometry, material);
-      
-      earthMesh.receiveShadow	= true;
-      earthMesh.castShadow = true;
-      
-      containerEarth.add(earthMesh);
-      this.loopListeners.push((s, t, d) => earthMesh.rotateY( 1/32000 * d ));
-    });
+    createEarth(this).then(x => containerEarth.add(x));
     
     // Moon  	
-    Promise.all([
-      loadTexture('images/moonmap1k.jpg'),
-      loadTexture('images/moonbump1k.jpg'),
-    ]).then(data => {
-      const geometry	= new _.SphereGeometry(0.5, 32, 32);
-      const material	= new _.MeshPhongMaterial({
-        map	: data[0],
-        bumpMap	: data[1],
-        bumpScale: 0.002,
-      });
-      const moonMesh	= new _.Mesh(geometry, material);
-      moonMesh.position.set(0.5,0.5,0.5);
-      moonMesh.scale.multiplyScalar(1/5);
-      moonMesh.receiveShadow	= true;
-      moonMesh.castShadow	= true;
-      
-      containerEarth.add(moonMesh);
-    });
+    createMoon(this).then(x => this.scene.add(x));
     
     // Atmosphere
     // const atmosphereGeometry1 = new _.SphereGeometry(0.5, 64, 64);

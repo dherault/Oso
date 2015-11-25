@@ -4,8 +4,9 @@
   "description": "Oso project",
   "main": "server/server.js",
   "scripts": {
+    "start": "npm run dev",
+    "dev": "clear && nodemon -q -x \"babel-node\" --watch ./src/server -e js ./src/server/server.js",
     "deploy": "./scripts/deploy.sh",
-    "start": "clear && nodemon -q -x \"babel-node\" --watch ./src/server -e js ./src/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,10 +32,6 @@
     "koa": "2.0.0-alpha.3",
     "koa-bodyparser": "^3.0.0",
     "koa-route": "^3.0.0",
-    "koa-serve-static": "^1.0.0",
-    "koa-static-folder": "^0.1.5",
-    "koa-static-server": "^0.1.8",
-    "postcss-js": "^0.1.0",
     "postcss-loader": "^0.8.0",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",

@@ -4,10 +4,11 @@ import log from '../utils/log';
 import definitions from '../models/';
 
 const crud = reduceDefaultCRUDTypes;
+const array = reduceDefaultArrayTypes;
 
 export default {
   
-  users: crud('user', (state={}, {type, payload, params}) => {
+  users: crud('user', (state, {type, payload, params}) => {
     
     log('.R. ' + type); // keep this line in the first reducer
     
@@ -18,7 +19,7 @@ export default {
     }
   }),
   
-  cities: crud('city', (state={}, {type, payload, params}) => {
+  cities: crud('city', (state, {type, payload, params}) => {
     
     switch (type) {
       
@@ -27,7 +28,7 @@ export default {
     }
   }),
   
-  agents: crud('agent', (state={}, {type, payload, params}) => {
+  agents: crud('agent', (state, {type, payload, params}) => {
     
     switch (type) {
       
@@ -36,7 +37,7 @@ export default {
     }
   }),
   
-  jobs: crud('job', (state={}, {type, payload, params}) => {
+  jobs: crud('job', (state, {type, payload, params}) => {
     
     switch (type) {
       
@@ -45,7 +46,7 @@ export default {
     }
   }),
   
-  skills: crud('skill', (state={}, {type, payload, params}) => {
+  skills: crud('skill', (state, {type, payload, params}) => {
     
     switch (type) {
     
@@ -54,7 +55,7 @@ export default {
     }
   }),
   
-  items: crud('item', (state={}, {type, payload, params}) => {
+  items: crud('item', (state, {type, payload, params}) => {
     
     switch (type) {
     
@@ -63,22 +64,9 @@ export default {
     }
   }),
   
-  // 3dObjects: (state=[], {type, payload, params}) => {
-    
-  //   switch (type) {
-  //     case 'CREATE_3DOBJECT':
-  //       return [...state, payload];
-        
-  //     case 'UPDATE_3DOBJECT':
-  //       if (params.index) {
-  //         return state.slice(0, index - 1).concat([Object.assign({}, state, )])
-  //       }
-  //       return [...state, payload];
-      
-  //     default:
-  //       return state;
-  //   }
-  // }
+  // loadedSets: array('loadedSet', state => state),
+  // xObjects: array('3dObject', state => state),
+  // lights: array('light', state => state),
   
   router: routerStateReducer,
   records: (state=[], action) => [...state, Object.assign({date: new Date().getTime()}, action)]
@@ -100,7 +88,7 @@ function reduceDefaultCRUDTypes(model, reduce) {
     switch (bingo.indexOf(type)) {
       
       case -1:
-        return state;
+        return newState;
         
       case 0:
       case 1:
@@ -116,5 +104,40 @@ function reduceDefaultCRUDTypes(model, reduce) {
       default:
         return newState;
     }
+  };
+}
+
+function reduceDefaultArrayTypes(model, reduce) {
+  
+  return (state=[], {type, payload, params}) => {
+    const newState = reduce(state, {type, payload, params}).slice();
+    
+    const n = definitions[model].name.toUpperCase();
+    
+    const bingo = ['ADD', 'UPDATE', 'REMOVE', 'REMOVE_BY_INDEX'].map(x => `${x}_${n}`);
+    
+    switch (bingo.indexOf(type)) {
+      
+      case 0:
+        newState.push(params);
+        break;
+        
+      case 1:
+        newState[params] = Object.assign({}, newState[params], payload);
+        break;
+        
+      case 2:
+        const i = newState.indexOf(params);
+        if (i !== -1) newState.splice(i, 1);
+        break;
+        
+      case 3:
+        newState.splice(params, 1);
+      
+      default:
+        break;
+    }
+    
+    return newState;
   };
 }
