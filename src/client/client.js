@@ -12,7 +12,11 @@ import registerSideEffects from './registerSideEffects';
 const store = configureStore(window.STATE_FROM_SERVER || {});
 const oso = new Oso(store);
 
-export default () => document.getElementById('oso_mount_node').appendChild(oso.renderer.domElement);
+export const stop = () => oso.stop();
+export const start = () => {
+  document.getElementById('oso_mount_node').appendChild(oso.renderer.domElement);
+  oso.start();
+};
 
 const app = render(
   <Provider store={store}>

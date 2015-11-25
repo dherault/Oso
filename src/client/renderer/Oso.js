@@ -2,42 +2,62 @@ import _ from "three";
 import loadTexture from './utils/loadTexture';
 import createAtmosphereMaterial from './materials/atmosphere';
 import createCloudsMesh from './meshes/clouds';
+import registerOrbitControls from './OrbitControls';
 // import TrackballControls from '../vendor/TrackballControls.js';
+
+registerOrbitControls(_);
+
+const hx = 4;
 
 export default class Oso {
   
   constructor(store) {
-    this.store = store;
-    this.previousState = {};
-    this.state = this.store.getState();
     
-    const d = new Date().getTime();
-    this.previousTime = d;
-    this.time = d;
+    this.initialize(store);
     
-    this.height = window.innerHeight - 25;
-    this.width = window.innerWidth;
-    window.onresize = this.handleResize.bind(this);
-    
-    this.clock = new _.Clock();
-    this.scene = new _.Scene();
-    this.camera = new _.PerspectiveCamera(45, this.width / this.height, 0.01, 100);
-    this.camera.position.z = 1;
-    
-    // this.controls = new TrackballControls(this.camera);
-    
-    this.renderer = new _.WebGLRenderer({
-    	antialias	: true
-    });
+    // this.clock = new _.Clock();
+    this.renderer = new _.WebGLRenderer({ antialias	: true });
+    this.renderer.setSize(this.width, this.height);
     this.renderer.shadowMap.enabled = true;
-    this.renderListener = [
-      // () => console.log('tick'),
-      () => this.renderer.render(this.scene, this.camera),
-    ];
     
+    this.camera = new _.PerspectiveCamera(45, this.width / this.height, 0.01, 100);
+    this.camera.position.z = 2;
+    
+		this.controls = new _.OrbitControls(this.camera, this.renderer.domElement);
+		this.controls.update();
+    
+    this.scene = new _.Scene();
+		this.scene.add(this.controls.getObject());
+		
+    this.loopListeners.push(() => this.renderer.render(this.scene, this.camera));
+    
+    /*
+      match(this.state.router.pathname, gameSets, set => {
+        const { camera, controls, lights, objects } = set;
+        
+        this.scene = new _.Scene();
+        
+        this.camera = camera;
+        this.controls = controls;
+        this.controls.update();
+        this.scene.add(this.controls.getObject());
+        
+        this.loopListeners.push(() => this.renderer.render(this.scene, this.camera));
+        
+        lights.forEach(light => ac.createLight(light))
+        objects.forEach(object => ac.create3dObject(light))
+        
+        this.state.lights.forEach(light => {
+          if (light.enabled) this.scene.add(lightP(this)) //lightP promiser
+        })
+        
+        // ...
+        
+      })
+    */
     // Light
-    const light1	= new _.AmbientLight( 0x222222 );
-    const light2	= new _.DirectionalLight( 0xffffff, 1 );
+    const light1 = new _.AmbientLight( 0x222222 );
+    const light2 = new _.DirectionalLight( 0xffffff, 1 );
     light2.position.set(5,5,5);
     
     light2.castShadow = true;
@@ -93,7 +113,7 @@ export default class Oso {
       earthMesh.castShadow = true;
       
       containerEarth.add(earthMesh);
-      this.renderListener.push((s, t, pt) => earthMesh.rotateY( 1/32000 * (t - pt) ));
+      this.loopListeners.push((s, t, d) => earthMesh.rotateY( 1/32000 * d ));
     });
     
     // Moon  	
@@ -142,33 +162,56 @@ export default class Oso {
     //   cloudsMesh.castShadow	= true;
     //   containerEarth.add(cloudsMesh);
     //   console.log('yolofinal')
-    //   this.renderListener.push((s, t, pt) => cloudsMesh.rotation.y += 1/8000 * (t - pt));
+    //   this.loopListeners.push((s, t, pt) => cloudsMesh.rotation.y += 1/8000 * (t - pt));
     // });
     
-    this.handleResize();
     
-    this.store.subscribe(() => {
+    
+  }
+  
+  initialize(store) {
+    const updateState = () => {
       this.previousState = this.state;
       this.state = this.store.getState();
-    });
+    };
     
-    this.loop();
+    this.store = store;
+    this.store.subscribe(updateState);
+    updateState();
+    
+    const d = new Date().getTime();
+    
+    this.loopListeners = [];
+    this.previousTime = d;
+    this.time = d;
+    
+    const handleResize = () => {
+      this.height = window.innerHeight - hx;
+      this.width = window.innerWidth;
+      this.camera.aspect = this.width / this.height;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(this.width, this.height);
+    };
+    
+    this.height = window.innerHeight - hx;
+    this.width = window.innerWidth;
+    window.onresize = handleResize;
   }
 
   loop() {
-    window.requestAnimationFrame(this.loop.bind(this));
+    this.animationFrameId = window.requestAnimationFrame(this.loop.bind(this));
     
     this.previousTime = this.time;
     this.time = new Date().getTime();
-    
-    this.renderListener.slice().forEach(fn => fn(this.state, this.time, this.previousTime));
+    this.loopListeners.slice().forEach(fn => fn(this.state, this.time, this.time - this.previousTime));
   }
-
-  handleResize() {
-    this.height = window.innerHeight - 25;
-    this.width = window.innerWidth;
-    this.camera.aspect = this.width / this.height;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(this.width, this.height);
+  
+  start() {
+    console.log('Oso start');
+    this.loop();
+  }
+  stop() {
+    console.log('Oso stop');
+    window.cancelAnimationFrame(this.animationFrameId);
   }
 }

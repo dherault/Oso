@@ -1,11 +1,15 @@
 import React from 'react';
 import ac from '../state/actionCreators';
-import loadGame from '../client/client.js';
+import { start, stop } from '../client/client.js';
 
 export default class Game extends React.Component {
   
   componentDidMount() {
-    loadGame();
+    start();
+  }
+  
+  componentWillUnmount() {
+    stop();
   }
 
   render() {
