@@ -104,11 +104,11 @@ function reduceDefaultCRUDTypes(model, reduce) {
         
       case 0:
       case 1:
-        return Object.assign({}, state, payload[np], newState);
+        return Object.assign({}, newState, payload[np]);
         
       case 2:
         const { id } = params;
-        return Object.assign({}, state, { [id]: Object.assign({}, state[id], params) }, newState);
+        return Object.assign({}, newState, { [id]: Object.assign({}, newState[id], params) });
       
       case 4:
         return params.table !== np ? newState : Object.assign({}, payload[np]);

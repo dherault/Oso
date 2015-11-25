@@ -10,7 +10,10 @@ class App extends React.Component {
     
     const s0 = {
       position: 'fixed',
-      color: 'black'
+      top: 0,
+      left: 0,
+      color: 'black',
+      background: 'black',
     };
     const s1 = {
       color: 'white',
