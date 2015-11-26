@@ -4,9 +4,14 @@ import createAtmosphereMaterial from './materials/atmosphere';
 import createCloudsMesh from './meshes/clouds';
 import Controls from './Controls';
 
+import log from '../../utils/log';
+import ac from '../../state/actionCreators';
 import createMoon from './meshes/moon';
 import createEarth from './meshes/earth';
+import createGalaxy from './meshes/galaxy';
 import config from './config';
+
+
 // import TrackballControls from '../vendor/TrackballControls.js';
 
 const hx = 4;
@@ -84,63 +89,7 @@ export default class Oso {
     this.scene.add(light1);
     this.scene.add(light2);
     
-    // Background: stars
-    loadTexture('images/galaxy_starfield.png').then(texture => {
-      const material = new _.MeshBasicMaterial({
-      	map: texture,
-      	side: _.BackSide
-      });
-      const geometry = new _.SphereGeometry(config.sunEarthDistance, 32, 32);
-      const starsMesh = new _.Mesh(geometry, material);
-      this.scene.add(starsMesh);
-    });
-    
-    // Container
-    const containerEarth	= new _.Object3D();
-    // containerEarth.rotateZ(-23.4373 * Math.PI/180);
-    containerEarth.position.z	= 0;
-    this.scene.add(containerEarth);
-    
-    const rTerre = 6378;
-    const rLune = 1737;
-    const dTerreLune =  384467;
-    
-    // Earth
-    createEarth(this).then(x => containerEarth.add(x));
-    
-    // Moon  	
-    createMoon(this).then(x => this.scene.add(x));
-    
-    // Atmosphere
-    // const atmosphereGeometry1 = new _.SphereGeometry(0.5, 64, 64);
-    // const atmosphereMaterial1 = createAtmosphereMaterial();
-    // atmosphereMaterial1.uniforms.glowColor.value.set(0xffffff);
-    // atmosphereMaterial1.uniforms.coeficient.value	= 0.8;
-    // atmosphereMaterial1.uniforms.power.value		= 2.0;
-    // const atmosphereMesh1 = new _.Mesh(atmosphereGeometry1, atmosphereMaterial1);
-    // atmosphereMesh1.scale.multiplyScalar(1.01);
-    // containerEarth.add(atmosphereMesh1);
-    
-    // const atmosphereGeometry2 = new _.SphereGeometry(0.5, 64, 64);
-    // const atmosphereMaterial2 = createAtmosphereMaterial();
-    // atmosphereMaterial2.side = _.BackSide;
-    // atmosphereMaterial2.uniforms.glowColor.value.set(0xffffff);
-    // atmosphereMaterial2.uniforms.coeficient.value	= 0.5;
-    // atmosphereMaterial2.uniforms.power.value = 4.0;
-    // const atmosphereMesh2 = new _.Mesh(atmosphereGeometry2, atmosphereMaterial2);
-    // atmosphereMesh2.scale.multiplyScalar(1.15);
-    // containerEarth.add(atmosphereMesh2);
-    
-    // Clouds
-    // createCloudsMesh(this).then(cloudsMesh => {
-    //   cloudsMesh.receiveShadow = true;
-    //   cloudsMesh.castShadow	= true;
-    //   containerEarth.add(cloudsMesh);
-    //   console.log('yolofinal')
-    //   this.loopListeners.push((s, t, pt) => cloudsMesh.rotation.y += 1/8000 * (t - pt));
-    // });
-    
-    
+    [createGalaxy(this), createEarth(this), createMoon(this)].map(promise => this.dispatch(ac.createObject3D(promise)));
     
   }
   
@@ -148,9 +97,18 @@ export default class Oso {
     const updateState = () => {
       this.previousState = this.state;
       this.state = this.store.getState();
+      
+      log('updateState');
+      const { object3Ds } = this.state;
+      
+      for (let id in object3Ds) {
+        if (!this.scene.getObjectById(id)) this.scene.add(object3Ds[id]);
+        console.log(id);
+      }
     };
     
     this.store = store;
+    this.dispatch = this.store.dispatch;
     this.store.subscribe(updateState);
     updateState();
     

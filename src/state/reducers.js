@@ -67,6 +67,16 @@ export default {
   // loadedSets: array('loadedSet', state => state),
   // xObjects: array('3dObject', state => state),
   // lights: array('light', state => state),
+  object3Ds: (state={}, { type, payload, params }) => {
+    
+    switch (type) {
+      case 'SUCCESS_CREATE_OBJECT3D':
+        return Object.assign({}, state, { [payload.id]: payload });
+      
+      default:
+        return state;
+    }
+  },
   
   router: routerStateReducer,
   records: (state=[], action) => [...state, Object.assign({date: new Date().getTime()}, action)]

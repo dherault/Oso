@@ -6,6 +6,10 @@ import definitions from '../models/';
 const isServer = !isClient();
 
 const logout = () => ({ type: 'LOGOUT' });
+const createObject3D = promise => ({ 
+  promise, 
+  types: ['START_CREATE_OBJECT3D', 'SUCCESS_CREATE_OBJECT3D', 'FAILURE_CREATE_OBJECT3D'] 
+});
 
 const login = createActionCreator({
   intention:  'login',
@@ -21,8 +25,9 @@ const readAll = createActionCreator({
   auth: false,
 });
 
+
 export default Object.assign({}, createDefaultCRUDActions(), {
-  login, logout, readAll,
+  login, logout, readAll, createObject3D,
 });
 
 // (string)            intention   The queryDatabase handle, also used to create actionTypes

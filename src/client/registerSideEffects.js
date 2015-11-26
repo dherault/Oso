@@ -20,7 +20,10 @@ export default function registerSideEffects(store) {
     
     // Temp ?
     if (/^SUCCESS_CREATE_/.test(type)) {
-      const whatIsNew = definitions[type.slice(15).toLowerCase()].pluralName;
+      const definition = definitions[type.slice(15).toLowerCase()];
+      
+      if (!definition) return;
+      const whatIsNew = definition.pluralName;
       navigate('/data/explore/' + whatIsNew + '/' + Object.keys(payload[whatIsNew])[0]);
     }
     

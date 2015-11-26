@@ -21,7 +21,7 @@ export default that => Promise.all([
   mesh.receiveShadow = true;
   mesh.castShadow = true;
   
-  that.loopListeners.push((s, t, d) => mesh.rotateY( 1/32000 * d ));
+  // that.loopListeners.push((s, t, d) => mesh.rotateY( 1/32000 * d ));
   
   return mesh;
 });

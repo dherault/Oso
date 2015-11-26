@@ -8,6 +8,7 @@ import routes from '../routes';
 import configureStore from '../state/configureStore';
 import registerShortcuts from './registerShortcuts';
 import registerSideEffects from './registerSideEffects';
+import Stats from './vendor/stats'; 
 
 const store = configureStore(window.STATE_FROM_SERVER || {});
 const oso = new Oso(store);
@@ -30,3 +31,19 @@ registerSideEffects(store);
 registerShortcuts(store.getState);
 
 require('./styles/app.css');
+
+const stats = new Stats();
+stats.setMode(0);
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.right = '0px';
+stats.domElement.style.top = '0px';
+
+document.body.appendChild( stats.domElement );
+const update = () => {
+  stats.begin();
+  // monitored code goes here
+  stats.end();
+  window.requestAnimationFrame( update );
+};
+
+window.requestAnimationFrame( update );
