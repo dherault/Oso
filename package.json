@@ -32,6 +32,7 @@
     "koa": "2.0.0-alpha.3",
     "koa-bodyparser": "^3.0.0",
     "koa-route": "^3.0.0",
+    "osm-pbf-parser": "^2.2.0",
     "postcss-loader": "^0.8.0",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
