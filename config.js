@@ -1,5 +1,5 @@
 export default {
-  publicIp: '52.25.236.126',
+  publicIp: '52.11.165.87',
   webServerPort: 80,
   APIport: 8181,
   WDSPort: 9090,

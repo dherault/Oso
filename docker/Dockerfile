@@ -39,6 +39,7 @@ RUN apt-get clean  \
 &&  echo "alias commit='sh /root/oso/scripts/quick_commit.sh'" >> ~/.bashrc
 
 ADD ./config/* /etc/supervisor/conf.d/
+ADD ./*.osm.pbf /root/
 
 EXPOSE 80 81 3000 8080 9090
 

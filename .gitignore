@@ -2,6 +2,7 @@ gitignore
 .c9/metadata
 .c9/.nakignore
 .c9/state.settings
+docker/*.osm.*
 
 # Logs
 logs

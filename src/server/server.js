@@ -13,6 +13,7 @@ import populateDatabase from './database/utils/populateDatabase';
 import initializeDatabase from './database/utils/initializeDatabase';
 import { openConnection, closeConnection } from './database/utils/connect';
 
+console.log('Node', process.version, process.cwd());
 
 const WDSURI = `http://${config.publicIp}:${config.WDSPort}/`;
 const html = fs.readFileSync('src/server/index.html', 'utf8').replace('</body>',
@@ -21,7 +22,6 @@ const html = fs.readFileSync('src/server/index.html', 'utf8').replace('</body>',
 );
 
 const app = new koa();
-log(__dirname);
 app.use(bodyParser());
 registerAPI(app, router);
 
@@ -66,7 +66,16 @@ chainPromises([
     app.listen(config.webServerPort);
     log(`Web server listening on port ${config.webServerPort}`);
   },
-  err => console.error(err)
+  console.error
 );
 
 webpackDevServer();
+
+const unhandledRejections = new Map();
+process.on('unhandledRejection', (reason, p) => {
+  unhandledRejections.set(p, reason);
+  log('!!! unhandledRejection', p, reason);
+});
+process.on('rejectionHandled', p => {
+  unhandledRejections.delete(p);
+});
