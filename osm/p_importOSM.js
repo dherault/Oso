@@ -40,7 +40,7 @@ function createWorker(proc) {
   
   stream
     .pipe(new parseOSM.BlobEncoder())
-    .pipe(proc.stdin);
+    // .pipe(proc.stdin);
 
   worker = {
     write: blob => blob ? stream.write(blob) : stream.end(),
@@ -49,8 +49,8 @@ function createWorker(proc) {
   workers.push(worker);
 
   proc.on('message', ({ osmData }) => {
+    console.log('msg');
     if (osmData) {
-      
       osmData.nodes.forEach((val, key) => {
         nodes.set(key, val);
       });
@@ -79,7 +79,8 @@ function createWorker(proc) {
 
 // Fork workers.
 for (let i = 0; i < numCPUs; i++) {
-  createWorker(fork('./p_importOSM_worker', { silent: true }));
+  console.log('Creating worker', i);
+  createWorker(fork('./p_importOSM_worker.js', { silent: false }));
 }
 
 

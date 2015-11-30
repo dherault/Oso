@@ -8,12 +8,14 @@ const tagsWhiteList = {
   highway: ['motorway', 'trunk', 'primary', 'secondary'],
 };
 const tagsWhiteListKeys = Object.keys(tagsWhiteList);
-
+console.log('worker');
 process.stdin
   .pipe(through.obj(function(buf, enc, next) {
+    console.log('yo1');
     this.push(buf);
     next();
   }, function(next) {
+    console.log('yo2');
     this.push(null);
     next();
   }))
@@ -26,6 +28,7 @@ process.stdin
   }));
 
 function processData() {
+    console.log('yo3');
   const osmData = {
     nodes: new Map(),
     ways: new Map(),
@@ -34,6 +37,7 @@ function processData() {
   
   return through.obj((items, enc, next) => {
     items.forEach(item => {
+      console.log(item.id);
       if (item.type === 'node') {
         osmData.nodes.set(item.id, item);
         return;
