@@ -6,7 +6,6 @@ import bodyParser from 'koa-bodyparser';
 import log from '../utils/log';
 import registerAPI from './API';
 import config from '../../config';
-import chainPromises from '../utils/chainPromises';
 import webpackDevServer from './webpack/webpackDevServer';
 import deleteDatabase from './database/utils/deleteDatabase';
 import populateDatabase from './database/utils/populateDatabase';
@@ -55,13 +54,13 @@ app.use(router.get('*', (ctx, next) => {
   ctx.body = html;
 }));
 
-chainPromises([
-  // openConnection,
-  // deleteDatabase,
-  // initializeDatabase,
-  // populateDatabase,
-  // closeConnection
-], config.rethinkdb).then(
+Promise.resolve()
+.then(openConnection.bind(0, config.rethinkdb))
+.then(deleteDatabase)
+.then(initializeDatabase)
+.then(populateDatabase)
+.then(closeConnection)
+.then(
   () => {
     app.listen(config.webServerPort);
     log(`Web server listening on port ${config.webServerPort}`);

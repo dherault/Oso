@@ -18,7 +18,7 @@ export default class Controls extends _.EventDispatcher {
 		this.enableZoom = true;
 		this.enableKeys = true;
 		
-		this.zoomSpeed = 1;
+		this.zoomSpeed = 0.1;
 		
 		this.keys = { 
 			// LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40, 
@@ -51,7 +51,7 @@ export default class Controls extends _.EventDispatcher {
 		window.addEventListener( 'keyup', this.onKeyUp.bind(this), false );
 		
 		// getters
-		this.getAutoRotationAngle = () => 2 * Math.PI / 60 / 60 * this.autoRotateSpeed;
+		// this.getAutoRotationAngle = () => 2 * Math.PI / 60 / 60 * this.autoRotateSpeed;
 		this.getZoomScale = () => Math.pow(0.95, this.zoomSpeed);
 		
 		// force an update at start

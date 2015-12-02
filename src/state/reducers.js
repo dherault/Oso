@@ -64,14 +64,27 @@ export default {
     }
   }),
   
-  // loadedSets: array('loadedSet', state => state),
-  // xObjects: array('3dObject', state => state),
-  // lights: array('light', state => state),
   object3Ds: (state={}, { type, payload, params }) => {
+    let newState;
     
     switch (type) {
       case 'SUCCESS_CREATE_OBJECT3D':
         return Object.assign({}, state, { [payload.id]: payload });
+        
+      case 'SHOW_OBJECT3D':
+        newState = Object.assign({}, state);
+        if (newState[params.id]) newState[params.id].visible = true; // This is an oldState mutation :'(
+        return newState;
+        
+      case 'HIDE_OBJECT3D':
+        newState = Object.assign({}, state);
+        if (newState[params.id]) newState[params.id].visible = false;
+        return newState;
+        
+      case 'TOOGLE_OBJECT3D':
+        newState = Object.assign({}, state);
+        if (newState[params.id]) newState[params.id].visible = !newState[params.id].visible;
+        return newState;
       
       default:
         return state;

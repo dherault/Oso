@@ -1,6 +1,6 @@
 import React from 'react';
-import ac from '../state/actionCreators';
-import { start, stop } from '../client/client.js';
+import { start, stop } from '../client/client';
+import Object3DList from './Object3DList';
 
 export default class Game extends React.Component {
   
@@ -13,6 +13,9 @@ export default class Game extends React.Component {
   }
 
   render() {
-    return (<div id='oso_mount_node'></div>);
+    return <div>
+      <div id='oso_mount_node'></div>
+      <Object3DList />
+    </div>;
   }
 }

@@ -11,8 +11,8 @@ export default class ControlsConstraint {
 		this.target = new _.Vector3();
 		
 		// Limits to how far you can dolly in and out (PerspectiveCamera only)
-		this.minDistance = config.earthRadius;
-		this.maxDistance = config.sunEarthDistance;
+		this.minDistance = config.earthRadius + 10;
+		this.maxDistance = 6 * config.earthRadius;
 		
 		// Limits to how far you can zoom in and out (OrthographicCamera only)
 		this.minZoom = 0;

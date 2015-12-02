@@ -20,6 +20,7 @@ export default that => Promise.all([
   
   mesh.receiveShadow = true;
   mesh.castShadow = true;
+  mesh.name = 'Earth';
   
   // that.loopListeners.push((s, t, d) => mesh.rotateY( 1/32000 * d ));
   

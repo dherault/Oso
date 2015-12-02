@@ -1,12 +1,12 @@
 import _ from "three";
-import loadTexture from './utils/loadTexture';
-import createAtmosphereMaterial from './materials/atmosphere';
-import createCloudsMesh from './meshes/clouds';
+// import loadTexture from './utils/loadTexture';
+// import createAtmosphereMaterial from './materials/atmosphere';
+// import createCloudsMesh from './meshes/clouds';
 import Controls from './Controls';
 
 import log from '../../utils/log';
 import ac from '../../state/actionCreators';
-import createMoon from './meshes/moon';
+// import createMoon from './meshes/moon';
 import createEarth from './meshes/earth';
 import createGalaxy from './meshes/galaxy';
 import config from './config';
@@ -19,7 +19,7 @@ const hx = 4;
 export default class Oso {
   
   constructor(store) {
-
+    
     this.initialize(store);
     
     // this.clock = new _.Clock();
@@ -28,7 +28,7 @@ export default class Oso {
     this.renderer.shadowMap.enabled = true;
     
     this.camera = new _.PerspectiveCamera(45, this.width / this.height, 0.01, config.sunEarthDistance);
-    this.camera.position.z = 2.5 * config.earthRadius;
+    this.camera.position.z = 4 * config.earthRadius;
     
 		this.controls = new Controls(this.camera, this.renderer.domElement);
     
@@ -89,28 +89,15 @@ export default class Oso {
     this.scene.add(light1);
     this.scene.add(light2);
     
-    [createGalaxy(this), createEarth(this), createMoon(this)].map(promise => this.dispatch(ac.createObject3D(promise)));
+    [createGalaxy(this), createEarth(this)].map(promise => this.dispatch(ac.createObject3D(promise)));
     
   }
   
   initialize(store) {
-    const updateState = () => {
-      this.previousState = this.state;
-      this.state = this.store.getState();
-      
-      log('updateState');
-      const { object3Ds } = this.state;
-      
-      for (let id in object3Ds) {
-        if (!this.scene.getObjectById(id)) this.scene.add(object3Ds[id]);
-        console.log(id);
-      }
-    };
-    
     this.store = store;
     this.dispatch = this.store.dispatch;
-    this.store.subscribe(updateState);
-    updateState();
+    this.store.subscribe(this.updateState.bind(this));
+    this.updateState();
     
     const d = new Date().getTime();
     
@@ -118,17 +105,22 @@ export default class Oso {
     this.previousTime = d;
     this.time = d;
     
-    const handleResize = () => {
-      this.height = window.innerHeight - hx;
-      this.width = window.innerWidth;
-      this.camera.aspect = this.width / this.height;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize(this.width, this.height);
-    };
-    
     this.height = window.innerHeight - hx;
     this.width = window.innerWidth;
-    window.onresize = handleResize;
+    window.onresize = this.handleResize.bind(this);
+  }
+  
+  updateState() {
+    this.previousState = this.state;
+    this.state = this.store.getState();
+    
+    // log('updateState');
+    const { object3Ds } = this.state;
+    
+    for (let id in object3Ds) {
+      if (!this.scene.getObjectById(id)) this.scene.add(object3Ds[id]);
+      // console.log(id);
+    }
   }
 
   loop() {
@@ -143,8 +135,17 @@ export default class Oso {
     console.log('Oso start');
     this.loop();
   }
+  
   stop() {
     console.log('Oso stop');
     window.cancelAnimationFrame(this.animationFrameId);
+  }
+  
+  handleResize() {
+    this.height = window.innerHeight - hx;
+    this.width = window.innerWidth;
+    this.camera.aspect = this.width / this.height;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(this.width, this.height);
   }
 }

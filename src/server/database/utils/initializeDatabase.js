@@ -16,20 +16,20 @@ export default function initializeDatabase(connection) {
       const { rethinkdb: { db } } = config;
       const tables = Object.keys(definitions).map(model => definitions[model].pluralName);
       
-      if (result.indexOf(db) === -1) chainPromises([
-        () => r.dbCreate(db).run(connection),
-        () => Promise.all(tables.map(table => {
+      if (result.indexOf(db) === -1) {
+        r.dbCreate(db).run(connection)
+        .then(() => Promise.all(tables.map(table => {
           log(`... Creating table ${table}`);
           
           return r.tableCreate(table).run(connection);
-        })),
-      ]).then(
-        () => {
+        })))
+        .then(() => {
           log(`... Database ${db} initialized`);
           resolve(connection);
         }, 
         reject
-      );
+        );
+      }
       
       else reject('Database already initialized.');
     });
