@@ -8,11 +8,11 @@ const initialCameraState = {
   position: {
     x: 0,
     y: 0,
-    z: 6371000 * 2,
+    z: 600,
   },
   fov: 45,
   near: 0.01,
-  far: 6371000 * 10,
+  far: 600 * 15,
 };
 
 export default {
@@ -76,7 +76,7 @@ export default {
   camera: (state=initialCameraState, { type, payload, params }) => {
     switch (type) {
     
-    case 'UPDATE_POSITION_CAMERA':
+    case 'UPDATE_CAMERA_POSITION':
       const newState = Object.assign({}, state);
       newState.position = params;
       return newState;

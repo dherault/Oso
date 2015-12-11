@@ -32,6 +32,7 @@ class App extends React.Component {
       - <a style={s1} href='https://github.com/AquestTechnologies/Aquest' target='_blank'>Aquest</a> -
       - <a style={s1} href='http://rethinkdb.com/api/javascript/' target='_blank'>RethinkDb</a> -
       - <a style={s1} href='http://threejs.org/docs/#Reference' target='_blank'>Three.js</a> -
+      - <a style={s1} href='http://threejs.org/examples/' target='_blank'>Three.js examples</a> -
       - <a style={s1} href='https://github.com/rackt/react-redux/blob/master/docs/api.md' target='_blank'>react-redux</a> -
       </div>
       

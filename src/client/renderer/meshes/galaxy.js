@@ -7,7 +7,7 @@ export default that => loadTexture('images/galaxy_starfield.png').then(texture =
   	map: texture,
   	side: _.BackSide
   });
-  const geometry = new _.SphereGeometry(12 * config.sunEarthDistance, 32, 32);
+  const geometry = new _.SphereGeometry(12 * config.earthRadius, 32, 32);
   const mesh = new _.Mesh(geometry, material);
   mesh.name = 'Galaxy_background';
   

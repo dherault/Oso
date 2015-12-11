@@ -15,7 +15,7 @@ const toogleObject3D = id => ({ type: 'TOOGLE_OBJECT3D', params: { id }});
 const showObject3D = id => ({ type: 'SHOW_OBJECT3D', params: { id }});
 const hideObject3D = id => ({ type: 'HIDE_OBJECT3D', params: { id }});
 
-const updateCameraPosition = (x, y, z) => ({ type: 'UPDATE_POSITION_CAMERA', params: { x, y, z }});
+const updateCameraPosition = (x, y, z) => ({ type: 'UPDATE_CAMERA_POSITION', params: { x, y, z }});
 
 const login = createActionCreator({
   intention:  'login',
