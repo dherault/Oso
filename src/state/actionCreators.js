@@ -11,6 +11,12 @@ const createObject3D = promise => ({
   types: ['START_CREATE_OBJECT3D', 'SUCCESS_CREATE_OBJECT3D', 'FAILURE_CREATE_OBJECT3D'] 
 });
 
+const toogleObject3D = id => ({ type: 'TOOGLE_OBJECT3D', params: { id }});
+const showObject3D = id => ({ type: 'SHOW_OBJECT3D', params: { id }});
+const hideObject3D = id => ({ type: 'HIDE_OBJECT3D', params: { id }});
+
+const updateCameraPosition = (x, y, z) => ({ type: 'UPDATE_POSITION_CAMERA', params: { x, y, z }});
+
 const login = createActionCreator({
   intention:  'login',
   method:     'post',
@@ -27,7 +33,9 @@ const readAll = createActionCreator({
 
 
 export default Object.assign({}, createDefaultCRUDActions(), {
-  login, logout, readAll, createObject3D,
+  login, logout, readAll, 
+  createObject3D, toogleObject3D, showObject3D, hideObject3D,
+  updateCameraPosition,
 });
 
 // (string)            intention   The queryDatabase handle, also used to create actionTypes

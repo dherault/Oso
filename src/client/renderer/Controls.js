@@ -1,148 +1,147 @@
 import _ from 'three';
 import config from './config';
-import ControlsConstraint from './ControlsConstraint';
+import ac from '../../state/actionCreators';
 
-export default class Controls extends _.EventDispatcher {
+export default class Controls /*extends _.EventDispatcher*/ {
 	
-	constructor(camera, domElement) {
-		super();
+	constructor(camera, domElement, store) {
+		// super();
 		
+		if (!camera || !domElement || !store) throw new Error('Missing arg');
+		
+		this.store = store;
 		this.camera = camera;
-		this.domElement = domElement || document;
-		this.constraint = new ControlsConstraint(this.camera);
+		this.domElement = domElement;
 		
-		this.target = this.constraint.target;
+		this.target = new _.Vector3();
+		this.zoomSpeed = 1;
 		
-		// Set to false to disable this control
 		this.enabled = true;
-		this.enableZoom = true;
-		this.enableKeys = true;
+		this.cameraState = null;
+		this.shouldUpdateCamera = false;
 		
-		this.zoomSpeed = 0.1;
+		// Current position in spherical coordinate system.
+		this.phi;
+		this.theta;
+		this.radius;
 		
-		this.keys = { 
-			// LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40, 
-			// A: 65, E: 69,
-			Z: 90, Q: 81, S: 83, D: 68,
-		};
+		// Pending changes
+		this.dPhi = 0;
+		this.dTheta = 0;
+		this.scale = 1;
 		
-		// this.mouseButtons = { ORBIT: _.MOUSE.LEFT, ZOOM: _.MOUSE.MIDDLE, PAN: _.MOUSE.RIGHT };
+		// so camera.up is the orbit axis
+		this.quat = new _.Quaternion().setFromUnitVectors(this.camera.up, new _.Vector3(0, 1, 0));
+		this.quatInverse = this.quat.clone().inverse();
+		this.lastPosition = new _.Vector3();
+		this.lastQuaternion = new _.Quaternion();
 		
-		this.STATE = { NONE : - 1, ROTATE : 0, DOLLY : 1, PAN : 2, TOUCH_ROTATE : 3, TOUCH_DOLLY : 4, TOUCH_PAN : 5 };
 		
-		this.state = this.STATE.NONE;
+		/* CONFIG */
 		
-		// for reset
-		this.target0 = this.target.clone();
-		this.position0 = this.camera.position.clone();
-		this.zoom0 = this.camera.zoom;
+		this.minDistance = config.earthRadius + 10;
+		this.maxDistance = 6 * config.earthRadius;
 		
-		// events
-		this.events = {
-			changeEvent: { type: 'change' },
-			startEvent: { type: 'start' },
-			endEvent: { type: 'end' },
-		};
+		// How far you can orbit vertically, upper and lower limits.
+		this.minPolarAngle = 0; // radians
+		this.maxPolarAngle = Math.PI; // radians
 		
-		this.domElement.addEventListener( 'contextmenu', this.contextmenu.bind(this), false );
-		this.domElement.addEventListener( 'mousewheel', this.onMouseWheel.bind(this), false );
-		this.domElement.addEventListener( 'MozMousePixelScroll', this.onMouseWheel.bind(this), false ); // firefox
-		window.addEventListener( 'keydown', this.onKeyDown.bind(this), false );
-		window.addEventListener( 'keyup', this.onKeyUp.bind(this), false );
+		// How far you can orbit horizontally, upper and lower limits.
+		// If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
+		this.minAzimuthAngle = -Infinity; // radians
+		this.maxAzimuthAngle = Infinity; // radians
 		
-		// getters
-		// this.getAutoRotationAngle = () => 2 * Math.PI / 60 / 60 * this.autoRotateSpeed;
-		this.getZoomScale = () => Math.pow(0.95, this.zoomSpeed);
 		
-		// force an update at start
-		this.update();
+		/* INITIALIZATION */
+		
+		// Event Listeners
+		this.domElement.addEventListener('contextmenu', this.contextmenu.bind(this), false);
+		this.domElement.addEventListener('mousewheel', this.onMouseWheel.bind(this), false);
+		this.domElement.addEventListener('MozMousePixelScroll', this.onMouseWheel.bind(this), false); // firefox
+		
+		// forces an update at start
+		this.update(true);
+		// this.computeAndDispatchCameraParams();
+		this.store.subscribe(this.update.bind(this));
+		
 	}
 	
-	update() {
-		if ( this.constraint.update() === true ) {
-			this.dispatchEvent(this.events.changeEvent);
-		}
-	};
-	
-	onKeyDown( event ) {
+	// Suscribed to store updates
+	update(force) {
+		const state = this.store.getState();
 		
-		const { enabled, enableKeys, keys, constraint } = this;
-		
-		if ( !enabled || !enableKeys) return;
-		
-		switch ( event.keyCode ) {
+		if (state.lastAction.type.endsWith('CAMERA') || force) {
+			const { position: { x, y, z }, near, far } = state.camera;
 			
-			case keys.Z:
-				constraint.startRotation('up');
-				break;
-			case keys.S:
-				constraint.startRotation('down');
-				break;
-			case keys.Q:
-				constraint.startRotation('left');
-				break;
-			case keys.D:
-				constraint.startRotation('right');
-				break;
+			this.camera.position.x = x;
+			this.camera.position.y = y;
+			this.camera.position.z = z;
+			this.camera.near = near;
+			this.camera.far = far;
+			this.camera.lookAt(this.target);
+			
+			this.camera.updateProjectionMatrix();
 		}
-
 	}
 	
-	onKeyUp( event ) {
+	// Handles spherical to cartesian conversion and dispatches the new camera position
+	computeAndDispatchCameraParams() {
+		const { sqrt, max, min, sin, cos, atan2, PI } = Math;
+		const { target, quat, quatInverse, minDistance, maxDistance, scale } = this;
 		
-		const { enabled, enableKeys, keys, constraint } = this;
+		const offset = this.camera.position.clone().sub(target);
 		
-		if ( !enabled || !enableKeys) return;
+		// Rotate offset to "y-axis-is-up" space
+		offset.applyQuaternion(quat);
 		
-		switch ( event.keyCode ) {
-			
-			case keys.Z:
-				constraint.stopRotation('up');
-				break;
-			case keys.S:
-				constraint.stopRotation('down');
-				break;
-			case keys.Q:
-				constraint.stopRotation('left');
-				break;
-			case keys.D:
-				constraint.stopRotation('right');
-				break;
-		}
-
+		// Angle from z-axis around y-axis
+		this.theta = atan2(offset.x, offset.z);
+		
+		// Angle from y-axis
+		this.phi = atan2(sqrt(offset.x * offset.x + offset.z * offset.z), offset.y);
+		
+		// restrict this.phi to be betwee this.EPS and PI-this.EPS
+		// this.phi = max(EPS, min(PI - EPS, this.phi));
+		
+		// restrict radius to be between desired limits
+		const radius = max(minDistance, min(maxDistance, offset.length() * scale));
+		
+		offset.x = radius * sin(this.phi) * sin(this.theta);
+		offset.y = radius * cos(this.phi);
+		offset.z = radius * sin(this.phi) * cos(this.theta);
+		
+		// rotate offset back to "camera-up-vector-is-up" space
+		offset.applyQuaternion(quatInverse);
+		
+		// New position
+		const { x, y, z } = this.target.clone().add(offset);
+		// console.log(x, y, z, this.scale)
+		this.store.dispatch(ac.updateCameraPosition(x, y, z));
+		
+		this.scale = 1;
 	}
+
 	
 	onMouseWheel(event) {
+		const { enabled, cameraState } = this;
 		
-		const { enabled, enableZoom, state, STATE, constraint, getZoomScale, dispatchEvent, events } = this;
-		
-		if (!enabled || !enableZoom || state !== STATE.NONE) return;
+		if (!enabled || cameraState) return;
 		
 		event.preventDefault();
 		event.stopPropagation();
 		
-		// WebKit / Opera / Explorer 9
-		// Firefox
+		// Cross-plateform event
 		const delta = event.wheelDelta ? event.wheelDelta : event.detail ? -event.detail : 0;
 		
-		if (delta > 0) constraint.dollyOut(getZoomScale());
-		else if (delta < 0) constraint.dollyIn(getZoomScale());
+		if (delta === 0) return;
+		else if (delta > 0) this.scale *= Math.pow(0.95, this.zoomSpeed);
+		else if (delta < 0) this.scale /= Math.pow(0.95, this.zoomSpeed);
 		
-		this.update();
-		dispatchEvent(events.startEvent);
-		dispatchEvent(events.endEvent);
-		
+		this.computeAndDispatchCameraParams();
 	}
 	
-	contextmenu( event ) {
+	contextmenu(event) {
 		event.preventDefault();
 	}
 	
-	dispose() {
-		this.domElement.removeEventListener( 'contextmenu', this.contextmenu, false );
-		this.domElement.removeEventListener( 'mousewheel', this.onMouseWheel, false );
-		this.domElement.removeEventListener( 'MozMousePixelScroll', this.onMouseWheel, false ); // firefox
-		window.removeEventListener( 'keydown', this.onKeyDown, false );
-		window.removeEventListener( 'keyup', this.onKeyUp, false );
-	}
 }

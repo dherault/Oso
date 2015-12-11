@@ -4,7 +4,16 @@ import log from '../utils/log';
 import definitions from '../models/';
 
 const crud = reduceDefaultCRUDTypes;
-const array = reduceDefaultArrayTypes;
+const initialCameraState = {
+  position: {
+    x: 0,
+    y: 0,
+    z: 6371000 * 2,
+  },
+  fov: 45,
+  near: 0.01,
+  far: 6371000 * 10,
+};
 
 export default {
   
@@ -64,6 +73,19 @@ export default {
     }
   }),
   
+  camera: (state=initialCameraState, { type, payload, params }) => {
+    switch (type) {
+    
+    case 'UPDATE_POSITION_CAMERA':
+      const newState = Object.assign({}, state);
+      newState.position = params;
+      return newState;
+      
+    default:
+      return state;
+    }
+  },
+  
   object3Ds: (state={}, { type, payload, params }) => {
     let newState;
     
@@ -92,7 +114,8 @@ export default {
   },
   
   router: routerStateReducer,
-  records: (state=[], action) => [...state, Object.assign({date: new Date().getTime()}, action)]
+  lastAction: (state={}, action) => action,
+  // records: (state=[], action) => [...state, Object.assign({date: new Date().getTime()}, action)],
 };
 
 
@@ -130,37 +153,37 @@ function reduceDefaultCRUDTypes(model, reduce) {
   };
 }
 
-function reduceDefaultArrayTypes(model, reduce) {
+// function reduceDefaultArrayTypes(model, reduce) {
   
-  return (state=[], {type, payload, params}) => {
-    const newState = reduce(state, {type, payload, params}).slice();
+//   return (state=[], {type, payload, params}) => {
+//     const newState = reduce(state, {type, payload, params}).slice();
     
-    const n = definitions[model].name.toUpperCase();
+//     const n = definitions[model].name.toUpperCase();
     
-    const bingo = ['ADD', 'UPDATE', 'REMOVE', 'REMOVE_BY_INDEX'].map(x => `${x}_${n}`);
+//     const bingo = ['ADD', 'UPDATE', 'REMOVE', 'REMOVE_BY_INDEX'].map(x => `${x}_${n}`);
     
-    switch (bingo.indexOf(type)) {
+//     switch (bingo.indexOf(type)) {
       
-      case 0:
-        newState.push(params);
-        break;
+//       case 0:
+//         newState.push(params);
+//         break;
         
-      case 1:
-        newState[params] = Object.assign({}, newState[params], payload);
-        break;
+//       case 1:
+//         newState[params] = Object.assign({}, newState[params], payload);
+//         break;
         
-      case 2:
-        const i = newState.indexOf(params);
-        if (i !== -1) newState.splice(i, 1);
-        break;
+//       case 2:
+//         const i = newState.indexOf(params);
+//         if (i !== -1) newState.splice(i, 1);
+//         break;
         
-      case 3:
-        newState.splice(params, 1);
+//       case 3:
+//         newState.splice(params, 1);
       
-      default:
-        break;
-    }
+//       default:
+//         break;
+//     }
     
-    return newState;
-  };
-}
+//     return newState;
+//   };
+// }

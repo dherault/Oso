@@ -1,5 +1,6 @@
 import _ from 'three';
 import config from './config';
+import ac from '../../state/actionCreators';
 
 export default class ControlsConstraint {
 		
@@ -105,28 +106,11 @@ export default class ControlsConstraint {
 	
 	
 	dollyIn (dollyScale) {
-		const { camera, minZoom, maxZoom } = this;
-		
-		if (camera instanceof _.PerspectiveCamera) this.scale /= dollyScale;
-		else if (camera instanceof _.OrthographicCamera) {
-			this.camera.zoom = Math.max(minZoom, Math.min(maxZoom, camera.zoom * dollyScale));
-			this.camera.updateProjectionMatrix();
-			this.zoomChanged = true;
-			
-			
-		} else console.warn('WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.');
+		this.scale /= dollyScale;
 	}
 	
 	dollyOut (dollyScale) {
-		const { camera, minZoom, maxZoom } = this;
-		
-		if (camera instanceof _.PerspectiveCamera) this.scale *= dollyScale;
-		else if (camera instanceof _.OrthographicCamera) {
-			this.camera.zoom = Math.max(minZoom, Math.min(maxZoom, camera.zoom / dollyScale));
-			this.camera.updateProjectionMatrix();
-			this.zoomChanged = true;
-		
-		} else 	console.warn('WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.');
+		this.scale *= dollyScale;
 	}
 	
 	handleUpdate () {

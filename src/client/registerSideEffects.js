@@ -14,9 +14,7 @@ export default function registerSideEffects(store) {
   };
   
   subscribe(() => {
-    const { records } = getState();
-    const lastAction = records[records.length - 1];
-    const { type, payload } = lastAction;
+    const { type, payload } = getState().lastAction;
     
     // Temp ?
     if (/^SUCCESS_CREATE_/.test(type)) {

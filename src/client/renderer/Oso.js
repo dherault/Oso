@@ -27,16 +27,15 @@ export default class Oso {
     this.renderer.setSize(this.width, this.height);
     this.renderer.shadowMap.enabled = true;
     
-    this.camera = new _.PerspectiveCamera(45, this.width / this.height, 0.01, config.sunEarthDistance);
-    this.camera.position.z = 4 * config.earthRadius;
+    this.camera = new _.PerspectiveCamera(45, this.width / this.height); // fov and aspect are not controlled by the state
     
-		this.controls = new Controls(this.camera, this.renderer.domElement);
+		this.controls = new Controls(this.camera, this.renderer.domElement, this.store);
     
     this.scene = new _.Scene();
 		this.scene.add(this.camera);
 		
     this.loopListeners.push(() => this.renderer.render(this.scene, this.camera));
-    this.loopListeners.push(() => this.controls.update());
+    // this.loopListeners.push(() => this.controls.update());
     
     /*
       match(this.state.router.pathname, gameSets, set => {
@@ -132,12 +131,12 @@ export default class Oso {
   }
   
   start() {
-    console.log('Oso start');
+    log('... Oso start');
     this.loop();
   }
   
   stop() {
-    console.log('Oso stop');
+    log('... Oso stop');
     window.cancelAnimationFrame(this.animationFrameId);
   }
   

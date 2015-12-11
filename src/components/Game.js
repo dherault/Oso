@@ -1,6 +1,6 @@
 import React from 'react';
 import { start, stop } from '../client/client';
-import Object3DList from './Object3DList';
+import Sidebar from './Sidebar';
 
 export default class Game extends React.Component {
   
@@ -15,7 +15,7 @@ export default class Game extends React.Component {
   render() {
     return <div>
       <div id='oso_mount_node'></div>
-      <Object3DList />
+      <Sidebar />
     </div>;
   }
 }

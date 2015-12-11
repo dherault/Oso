@@ -55,11 +55,11 @@ app.use(router.get('*', (ctx, next) => {
 }));
 
 Promise.resolve()
-.then(openConnection.bind(0, config.rethinkdb))
-.then(deleteDatabase)
-.then(initializeDatabase)
-.then(populateDatabase)
-.then(closeConnection)
+// .then(openConnection.bind(0, config.rethinkdb))
+// .then(deleteDatabase)
+// .then(initializeDatabase)
+// .then(populateDatabase)
+// .then(closeConnection)
 .then(
   () => {
     app.listen(config.webServerPort);
