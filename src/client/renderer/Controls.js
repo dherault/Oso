@@ -61,7 +61,6 @@ export default class Controls {
     this.camera.updateProjectionMatrix();
 		// this.computeAndDispatchCameraParams();
 		this.store.subscribe(this.update.bind(this));
-		
 	}
 	
 	// Suscribed to store updates

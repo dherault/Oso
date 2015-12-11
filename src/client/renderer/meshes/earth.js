@@ -16,7 +16,7 @@ export default that => Promise.all([
     specularMap: data[2],
     specular: new _.Color('grey'),
   });
-  const mesh	= new _.Mesh(geometry, material);
+  const mesh = new _.Mesh(geometry, material);
   
   mesh.receiveShadow = true;
   mesh.castShadow = true;

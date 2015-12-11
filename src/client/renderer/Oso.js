@@ -9,6 +9,7 @@ import ac from '../../state/actionCreators';
 // import createMoon from './meshes/moon';
 import createEarth from './meshes/earth';
 import createGalaxy from './meshes/galaxy';
+import createEarthLines from './meshes/earthLines';
 import config from './config';
 
 
@@ -88,7 +89,7 @@ export default class Oso {
     this.scene.add(light1);
     this.scene.add(light2);
     
-    [createGalaxy(this), createEarth(this)].map(promise => this.dispatch(ac.createObject3D(promise)));
+    [createGalaxy(this), createEarth(this), createEarthLines(this)].map(promise => this.dispatch(ac.createObject3D(promise)));
     
   }
   

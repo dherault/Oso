@@ -8,7 +8,7 @@ const initialCameraState = {
   position: {
     x: 0,
     y: 0,
-    z: 600,
+    z: 300,
   },
   fov: 45,
   near: 0.01,
