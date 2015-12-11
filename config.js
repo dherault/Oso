@@ -1,9 +1,9 @@
 export default {
-  publicIp: '52.32.151.25',
-  webServerPort: 80,
-  APIport: 8181,
-  WDSPort: 9090,
-  websocketsPort: 8282,
+  publicIp: 'localhost',
+  webServerPort: 8181,
+  // APIport: 8181,
+  WDSPort: 8282,
+  // websocketsPort: 8282,
   rethinkdb: {
     host: 'localhost',
     port: 28015,
