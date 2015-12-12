@@ -11,8 +11,8 @@ const initialCameraState = {
     z: 300,
   },
   fov: 45,
-  near: 0.01,
-  far: 600 * 15,
+  near: 0.1,
+  far: 1500,
 };
 
 export default {
@@ -113,6 +113,26 @@ export default {
     }
   },
   
+  // currentSceneSetName: (state='', { type, payload, params }) => {
+  //   return type === 'SET_SCENESET' ? params : state;
+  // },
+  
+  // scenesObjectsIds: (state={}, { type, payload, params }) => {
+  //   switch (type) {
+    
+  //   case 'SUCCESS_CREATE_OBJECT3D':
+  //     const newState = JSON.parse(JSON.stringify(state)); // Yeah I know this sucks
+  //     const { sceneSetName } = params;
+      
+  //     if (!newState[sceneSetName]) newState[sceneSetName] = [payload.id];
+  //     else newState[sceneSetName].push(payload.id);
+  //     return newState;
+      
+  //   default:
+  //     return state;
+  //   }
+  // },
+  
   router: routerStateReducer,
   lastAction: (state={}, action) => action,
   // records: (state=[], action) => [...state, Object.assign({date: new Date().getTime()}, action)],
@@ -187,3 +207,22 @@ function reduceDefaultCRUDTypes(model, reduce) {
 //     return newState;
 //   };
 // }
+
+function deepCopy(a) {
+  if (typeof a === 'object') {
+    if (a === null) return null;
+    else if (a instanceof Date) return new Date(a);
+    else if (a instanceof RegExp) return new RegExp(a);
+    else if (Array.isArray(a)) return a.map(i => deepCopy(i));
+    else {
+      const b = {};
+      for (let k in a) {
+        if (a.hasOwnProperty(k)) {
+          b[k] = deepCopy(a[k]);
+        }
+      }
+      return b;
+    }
+  } 
+  else return a;
+}

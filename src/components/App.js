@@ -1,8 +1,8 @@
 import React from 'react';
-import Game from './Game.js';
+import Home from './Home.js';
 import { Link } from 'react-router';
-import LoadingBar from './LoadingBar';
-import { connect } from 'react-redux';
+// import LoadingBar from './LoadingBar';
+// import { connect } from 'react-redux';
 
 class App extends React.Component {
   
@@ -21,10 +21,11 @@ class App extends React.Component {
     };
     
     return <div>
-      <LoadingBar records={this.props.records} />
+      {/*<LoadingBar records={this.props.records} />*/}
       <div style={s0}>
         <strong style={s1}>Oso</strong> -
       - <Link style={s1} to='/'>Home</Link> -
+      - <Link style={s1} to='/~'>Play</Link> -
       - <Link style={s1} to='/data/explore'>Explore</Link> -
       - <Link style={s1} to='/data/create'>Create</Link> -
       - <a style={s1} href='https://github.com/dherault/Oso' target='_blank'>GitHub</a> -
@@ -37,11 +38,12 @@ class App extends React.Component {
       </div>
       
       {
-        this.props.children || <Game />
+        this.props.children || <Home />
       }
       
     </div>;
   }
 }
 
-export default connect(s => ({ records: s.records }))(App);
+// export default connect(s => ({ records: s.records }))(App);
+export default App;

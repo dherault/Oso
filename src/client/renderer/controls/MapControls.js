@@ -1,8 +1,8 @@
 import _ from 'three';
-import config from './config';
-import ac from '../../state/actionCreators';
+import config from '../config';
+import ac from '../../../state/actionCreators';
 
-export default class Controls {
+export default class MapControls {
 	
 	constructor(camera, domElement, store) {
 		
@@ -38,7 +38,7 @@ export default class Controls {
 		this.zoomSpeed = 1;
 		this.rotationSpeed = 0.7;
 		this.minDistance = config.earthRadius + 10;
-		this.maxDistance = 6 * config.earthRadius;
+		this.maxDistance = 3 * config.earthRadius;
 		
 		/* INITIALIZATION */
 		

@@ -9,9 +9,10 @@ export default that => {
   const yAxis = new _.Vector3(0, 1, 0);
   // const circle = new _.CircleGeometry(earthRadius, earthSegments);
   const PI = Math.PI;
+  const PIby12 = PI / 12;
   
   // Longitude
-  for (let i = 0; i <= 2 * PI; i += PI / 12) {
+  for (let i = 0; i <= 2 * PI; i += PIby12) {
     const circle = new _.Shape();
     circle.absarc(0, 0, radius, 0, Math.PI*2, false);
     const material = new _.LineBasicMaterial({
@@ -24,7 +25,7 @@ export default that => {
   }
   
   // Latitude
-  for (let i = -5 * PI / 12 ; i <= 5 * PI / 12 * PI; i += PI / 12) {
+  for (let i = -5 * PIby12 ; i <= 5 * PIby12 * PI; i += PIby12) {
     const z = earthRadius * Math.sin(i);
     const circle = new _.Shape();
     circle.absarc(0, 0, 1.01 * z / Math.tan(i), 0, Math.PI*2, false);
@@ -39,6 +40,7 @@ export default that => {
   }
   
   earthLines.name = 'EarthLines';
+  earthLines.visible = false;
   
   return Promise.resolve(earthLines);
 };
