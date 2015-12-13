@@ -4,10 +4,12 @@ import ac from '../../state/actionCreators';
 import config from './config';
 import sceneSets from './sceneSets';
 import MapControls from './controls/MapControls';
+import WorldControls from './controls/WorldControls';
 import createEarth from './meshBuilders/earth';
 import createGalaxy from './meshBuilders/galaxy';
 import createTerrain from './meshBuilders/terrain';
 import createEarthLines from './meshBuilders/earthLines';
+import createOrigin from './meshBuilders/origin';
 import createAmbientBlack from './lightBuilders/ambientBlack';
 import createSunny from './lightBuilders/sunny';
 
@@ -35,7 +37,7 @@ export default class Oso {
     this.renderer.shadowMap.enabled = true;
     
     this.camera = new _.PerspectiveCamera(45, this.width / this.height); // fov and aspect are not controlled by the state
-    this.controls = new MapControls(this.camera, this.renderer.domElement, this.store);
+    this.camera.up = new _.Vector3(0, 0, 1);
     
     this.scene = new _.Scene();
 		this.scene.add(this.camera);
@@ -45,8 +47,10 @@ export default class Oso {
     
     // Map
     // const builders = [createGalaxy, createEarth, createEarthLines, createSunny, createAmbientBlack];
+    // this.controls = new MapControls(this.camera, this.renderer.domElement, this.store);
     // World
-    const builders = [createTerrain, createSunny, createAmbientBlack];
+    const builders = [createTerrain, createSunny, createAmbientBlack, createOrigin];
+    this.controls = new WorldControls(this.camera, this.renderer.domElement, this.store);
     
     // 3DObject creation
     builders.forEach(fn => this.store.dispatch(ac.createObject3D(fn(this))));

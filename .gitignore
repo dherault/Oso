@@ -3,6 +3,8 @@ gitignore
 .c9/.nakignore
 .c9/state.settings
 docker/*.osm.*
+src/server/images/temp
+src/server/images/tiles
 
 # Logs
 logs

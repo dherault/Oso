@@ -6,13 +6,13 @@ import definitions from '../models/';
 const crud = reduceDefaultCRUDTypes;
 const initialCameraState = {
   position: {
-    x: 0,
-    y: 0,
-    z: 300,
+    x: 100,
+    y: 100,
+    z: 100,
   },
   fov: 45,
   near: 0.1,
-  far: 1500,
+  far: 300,
 };
 
 export default {

@@ -29,16 +29,17 @@ export default class MapControls {
 		
 		// camera.up is the orbit axis
 		// Hope you like math
-		this.quat = new _.Quaternion().setFromUnitVectors(this.camera.up, new _.Vector3(0, 1, 0));
-		this.quatInverse = this.quat.clone().inverse();
+		// Is this still usefull since camera.up === 0 0 1 ?
+		// this.quat = new _.Quaternion().setFromUnitVectors(this.camera.up, new _.Vector3(0, 0, 1));
+		// this.quatInverse = this.quat.clone().inverse();
 		
 		/* CONFIG */
 		this.enabled = true;
 		this.epsilon = 0.0001;
 		this.zoomSpeed = 1;
 		this.rotationSpeed = 0.7;
-		this.minDistance = config.earthRadius + 10;
-		this.maxDistance = 3 * config.earthRadius;
+		this.minDistance = 10;
+		this.maxDistance = 200;
 		
 		/* INITIALIZATION */
 		
@@ -87,25 +88,25 @@ export default class MapControls {
 		
 		const offset = this.camera.position.clone().sub(target);
 		
-		// Rotate offset to "y-axis-is-up" space
-		offset.applyQuaternion(quat);
+		// Rotate offset to "z-axis-is-up" space
+		// offset.applyQuaternion(quat);
 		
 		// Angle from z-axis around y-axis
-		this.theta = atan2(offset.x, offset.z) + this.dTheta;
+		this.theta = atan2(offset.x, offset.y) + this.dTheta;
 		
-		// Angle from y-axis
-		this.phi = atan2(sqrt(offset.x * offset.x + offset.z * offset.z), offset.y) + this.dPhi;
+		// Angle from z-axis
+		this.phi = atan2(sqrt(offset.x * offset.x + offset.y * offset.y), offset.z) + this.dPhi;
     this.phi = max(epsilon, min(PI - epsilon, this.phi));
     
 		// Restricts radius to be between desired limits
 		const radius = max(minDistance, min(maxDistance, offset.length() * scale));
 		
 		offset.x = radius * sin(this.phi) * sin(this.theta);
-		offset.y = radius * cos(this.phi);
-		offset.z = radius * sin(this.phi) * cos(this.theta);
+		offset.y = radius * sin(this.phi) * cos(this.theta);
+		offset.z = radius * cos(this.phi);
 		
 		// rotate offset back to "camera-up-vector-is-up" space
-		offset.applyQuaternion(quatInverse);
+		// offset.applyQuaternion(quatInverse);
 		
 		// New position
 		const newPosition = this.target.clone().add(offset);
@@ -154,7 +155,7 @@ export default class MapControls {
     this.rotateEnd.set(event.clientX, event.clientY);
     
     // rotating across whole screen goes 360 degrees around
-    this.dTheta -= 2 * Math.PI * (this.rotateEnd.x - this.rotateStart.x) / this.domElement.clientWidth * this.rotationSpeed;
+    this.dTheta += 2 * Math.PI * (this.rotateEnd.x - this.rotateStart.x) / this.domElement.clientWidth * this.rotationSpeed;
     
     // rotating up and down along whole screen attempts to go 360, but limited to 180
     this.dPhi -= 2 * Math.PI * (this.rotateEnd.y - this.rotateStart.y) / this.domElement.clientHeight * this.rotationSpeed;
