@@ -6,7 +6,7 @@ import toBeDownloaded from './files';
 const cleanTempDirOnStart = true;
 const imagesDirPath = process.cwd() + '/src/server/images';
 const tempDirPath = imagesDirPath + '/temp';
-const tilesDirPath = imagesDirPath + '/tiles';
+// const tilesDirPath = imagesDirPath + '/tiles';
 
 
 // Cleans the temp dir

@@ -16,3 +16,11 @@ export default [
     url: 'http://eoimages.gsfc.nasa.gov/images/imagerecords/74000/74167/world.200410.3x21600x21600.C1.png',
   },
 ];
+
+export const quadrants = {
+  C1: {
+    upperLeftLon: 0,
+    upperLeftLat: 90,
+  }
+};
+export const quadrantSize = 90;
