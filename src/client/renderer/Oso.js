@@ -2,7 +2,7 @@ import _ from "three";
 import log from '../../utils/log';
 import ac from '../../state/actionCreators';
 import config from './config';
-import sceneSets from './sceneSets';
+// import sceneSets from './sceneSets';
 import MapControls from './controls/MapControls';
 import WorldControls from './controls/WorldControls';
 import createEarth from './meshBuilders/earth';
@@ -10,7 +10,7 @@ import createGalaxy from './meshBuilders/galaxy';
 import createTerrain from './meshBuilders/terrain';
 import createEarthLines from './meshBuilders/earthLines';
 import createOrigin from './meshBuilders/origin';
-import createAmbientBlack from './lightBuilders/ambientBlack';
+import createAmbientWhite from './lightBuilders/ambientWhite';
 import createSunny from './lightBuilders/sunny';
 
 const hx = 4;
@@ -46,10 +46,10 @@ export default class Oso {
     this.loopListeners.push(() => this.renderer.render(this.scene, this.camera));
     
     // Map
-    // const builders = [createGalaxy, createEarth, createEarthLines, createSunny, createAmbientBlack];
+    // const builders = [createGalaxy, createEarth, createEarthLines, createSunny, createAmbientWhite];
     // this.controls = new MapControls(this.camera, this.renderer.domElement, this.store);
     // World
-    const builders = [createTerrain, createSunny, createAmbientBlack, createOrigin];
+    const builders = [createTerrain, createSunny, createAmbientWhite, createOrigin];
     this.controls = new WorldControls(this.camera, this.renderer.domElement, this.store);
     
     // 3DObject creation

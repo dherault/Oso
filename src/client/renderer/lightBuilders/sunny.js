@@ -1,7 +1,7 @@
 import _ from 'three';
 
 export default that => {
-  const light = new _.DirectionalLight(0xffffff, 0.5);
+  const light = new _.DirectionalLight(0xffffff, 1);
   const z = 100; // Yep, need to change that
   light.position.set(100, 100, z);
   

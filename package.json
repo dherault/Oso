@@ -5,10 +5,13 @@
   "main": "server/server.js",
   "scripts": {
     "start": "npm run dev",
-    "dev": "clear && nodemon -q -x \"babel-node\" --watch ./src/server -e js ./src/server/server.js",
+    "dev": "clear && nodemon -q -x \"babel-node\" --watch ./src/server -i ./src/server/images -e js ./src/server/server.js",
+    "dev2": "babel-node ./src/server/server.js",
     "deploy": "./scripts/deploy.sh",
-    "dti": "clear && babel-node src/server/tiles_processing/downloadImages.js",
-    "cti": "clear && babel-node src/server/tiles_processing/createTiles.js",
+    "tiles_d": "babel-node src/server/tiles_processing/downloadImages.js",
+    "tiles_c": "babel-node src/server/tiles_processing/createTiles.js",
+    "tiles_s": "sh src/server/tiles_processing/split_large_files.sh",
+    "tiles_all": "npm run tiles_d && npm run tiles_s && npm run tiles_c",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "sudo npm i -g nodemon babel-cli"
   },

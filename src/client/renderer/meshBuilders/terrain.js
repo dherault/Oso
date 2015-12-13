@@ -4,15 +4,15 @@ import loadTexture from '../utils/loadTexture';
 const imgSize = 120;
 
 export default that => new Promise((resolve, reject) => {
-  loadTexture('images/grass5_rotate.jpg').then(texture => {
+  loadTexture('images/tiles/texture_3_46.png').then(texture => {
     var img = new Image();
     img.onload = function () {
       console.log('onload');
         //get height data from img
       const data = getHeightData(img);
-      
-      texture.wrapS = texture.wrapT = _.RepeatWrapping; 
-	    texture.repeat.set(5, 5);
+      console.log('heightmap', data);
+    //   texture.wrapS = texture.wrapT = _.RepeatWrapping; 
+	   // texture.repeat.set(10, 10);
       const geometry = new _.PlaneGeometry(imgSize, imgSize, imgSize - 1, imgSize - 1);
       const material = new _.MeshPhongMaterial({
         map: texture,
@@ -36,7 +36,7 @@ export default that => new Promise((resolve, reject) => {
       resolve(terrain);
     };
     // load img source
-    img.src = "images/test120x120.png";
+    img.src = 'images/tiles/topo_3_46.png';
     
   });
     

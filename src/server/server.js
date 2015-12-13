@@ -48,6 +48,15 @@ app.use(router.get('/images/:x', (ctx, x) => {
   }
 }));
 
+app.use(router.get('/images/tiles/:x', (ctx, x) => {
+  n++;
+  log(n, 'tile', x, 'from', ctx.request.ip);
+  
+  if (!x) return;
+  ctx.set('content-type', 'image/png');
+  ctx.body = fs.readFileSync(__dirname + '/images/tiles/' + x);
+}));
+
 app.use(router.get('*', (ctx, next) => {
   n++;
   log(n, ctx.method, ctx.url, 'from', ctx.request.ip);
