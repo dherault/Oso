@@ -7,7 +7,7 @@ import { toBeProcessed } from './files';
 const imagesDirPath = process.cwd() + '/src/server/images/';
 const tempDirPath = imagesDirPath + 'temp/';
 const tilesDirPath = imagesDirPath + 'tiles/';
-const tilesSizeInDeg = 1; // We'll create 1deg * 1deg tiles
+const tilesSizeInDeg = 0.5; // We'll create 1deg * 1deg tiles
 const tilesFormat = 'png';
 
 console.log('Creating tiles from', ...toBeProcessed.map(({ name }) => name));
@@ -37,7 +37,7 @@ fs.readdir(tempDirPath, (err, files) => {
         input.metadata((err, { width, height }) => {
           if (err) throw err;
           
-          const tileSizeInPixel = width / quadrantWidth / tilesSizeInDeg; // Tiles are squares
+          const tileSizeInPixel = tilesSizeInDeg * width / quadrantWidth; // Tiles are squares
           const nDivisionsX = width / tileSizeInPixel;
           const nDivisionsY = height / tileSizeInPixel;
           
@@ -55,7 +55,7 @@ fs.readdir(tempDirPath, (err, files) => {
           for (let x = 0; x < nDivisionsX; x++) {
             for (let y = 0; y < nDivisionsY; y++) {
               
-              const tileFileName = `${tilePrefix}_${upperLeftLon + x}_${upperLeftLat - y}.${tilesFormat}`; 
+              const tileFileName = `${tilePrefix}_${upperLeftLon + x * tilesSizeInDeg}_${upperLeftLat - y * tilesSizeInDeg}.${tilesFormat}`; 
               
               const output = input.extract({ 
                 left: x * tileSizeInPixel, 
