@@ -1,9 +1,6 @@
 import _ from 'three';
 import loadTexture from '../utils/loadTexture';
 
-const imgSize = 60;
-const planeSize = 100;
-const planeSegments = 2 * imgSize - 1;
 
 export default that => new Promise((resolve, reject) => {
   // loadTexture('images/tiles/topo_3_46.png').then(texture => {
@@ -11,84 +8,127 @@ export default that => new Promise((resolve, reject) => {
     
     img.onload = () => {
       
-      const data = getHeightData(img);
-      console.log('heightmap', data);
-      // texture.wrapS = texture.wrapT = _.RepeatWrapping; 
-      // texture.repeat.set(10, 10);
-      const geometry = new _.PlaneGeometry(planeSize, planeSize, planeSegments, planeSegments);
+      // So...
+      // We have a n*n pixels heighmap tile, so n² height points
+      // But, we want a 2n * 2n vertices plane, to make it more realistic
+      // So there are 4n² - n² = 3n² points without data
+      
+      // Example tile where A, B, C, D are our elevation data:
+      // A - B
+      // |   |
+      // C - D
+      
+      // The geometry we want is:
+      //  A --- Mab --- B
+      //  |      |      |
+      // Mac - Mabcd - Mbd
+      //  |      |      |
+      //  C --- Mcd --- D
+      
+      // All the Mxx and Mxxxx points are lacking elevation data. 
+      // Let's use them to smooth our geometry with some maths
+      
+      const imgSize = img.width; // unit: pixels
+      const planeSize = 100; // unit: Three.js distance
+      const nvs = 2 * imgSize - 1; // We'll create a plane of n*n vertices (nvs : number of vertices on a side)
+      
+      // The geometry is initially a plane made of nvs - 1 segments on it's side, so nvs² vertices total
+      const geometry = new _.PlaneGeometry(planeSize, planeSize, nvs - 1, nvs - 1);
+      const elevationData = getElevationData(img); // Array [A, B, C, D]
+      const matrix = []; // Dimension nvs², our final elevation data
+      
+      // First we pour our elevation data into our matrix so we'll have
+      //  A ---  0  --- B
+      //  |      |      |
+      //  0  -   0   -  0
+      //  |      |      |
+      //  C ---  0  --- D
+      // Where '0' is in fact 'undefined'
+      
+      let dataCur = 0;
+      for (let i = 0; i < nvs; i += 2) {
+        matrix[i] = [];
+        for (let j = 0; j < nvs; j += 2) {
+          matrix[i][j] = elevationData[dataCur++];
+        }
+      }
+      
+      /* Intermediate result visualisation: */
+      // console.log(matrix);
+      // let verticesCur = 0;
+      // for (let i = 0; i < nvs; i++) {
+      //   if (!matrix[i]) {
+      //     verticesCur += nvs;
+      //     continue;
+      //   }
+      //   for (let j = 0; j < nvs; j++) {
+      //     geometry.vertices[verticesCur].z = matrix[i][j] || 0;
+      //     verticesCur++;
+      //   }
+      // }
+      
+      // Next we'll want to compute all the Mxx values
+      // All Mxx values are positinned at i, j where i + j is odd
+      // Let's look at Mab. If it's elevation value is the average of its neighbours A and B
+      // Then all of this would be for nothing, the end result will look the same as a n*n geometry,
+      // Except whit 4 times the vertices so it'll be less performant
+      // What we want is to smooth the surface, using an home made algo I can't describe with just text
+      // I call it 'simple mean tangeant extrapolation'
+      
+      for (let i = 0; i < nvs; i++) {
+        if (!matrix[i]) matrix[i] = [];
+        
+        for (let j = 0; j < nvs; j++) {
+          const iIsOdd = i % 2;
+          const jIsOdd = j % 2;
+          
+          if (iIsOdd !== jIsOdd) {
+            // From now on matrix[i][j] is a Mxx point
+            if (iIsOdd) {
+              if (i === 1 || i === nvs - 2) matrix[i][j] = (matrix[i + 1][j] + matrix[i - 1][j]) / 2;
+              else matrix[i][j] = (5 * (matrix[i - 1][j] + matrix[i + 1][j]) - matrix[i - 3][j] - matrix[i + 3][j]) / 8;
+            } else {
+              if (j === 1 || j === nvs - 2) matrix[i][j] = (matrix[i][j + 1] + matrix[i][j - 1]) / 2;
+              else matrix[i][j] = (5 * (matrix[i][j - 1] + matrix[i][j + 1]) - matrix[i][j - 3] - matrix[i][j + 3]) / 8;
+            }
+          }
+        }
+      }
+      
+      // /* Intermediate result visualisation: */
+      // console.log(nvs, matrix.length);
+      // console.log(matrix);
+      // let verticesCur = 0;
+      // for (let i = 0; i < nvs; i++) {
+      //   for (let j = 0; j < nvs; j++) {
+      //     geometry.vertices[verticesCur].z = matrix[i][j] || 0;
+      //     verticesCur++;
+      //   }
+      // }
+      
+      // Now all is left is to fill the remaining Mxxx gaps
+      // We'll simply use the average of it's for neighbours
+      
+      for (let i = 1; i < nvs; i += 2) {
+        for (let j = 1; j < nvs; j += 2) {
+          matrix[i][j] = (matrix[i - 1][j] + matrix[i + 1][j] + matrix[i][j - 1] + matrix[i][j + 1]) / 4;
+        }
+      }
+      
+      // /* final result visualisation: */
+      let verticesCur = 0;
+      for (let i = 0; i < nvs; i++) {
+        for (let j = 0; j < nvs; j++) {
+          geometry.vertices[verticesCur].z = matrix[i][j] || 0;
+          verticesCur++;
+        }
+      }
+      
       const material = new _.MeshPhongMaterial({
         // map: texture,
         wireframe: true,
         side: _.FrontSide
       });
-      
-      const nVertices = geometry.vertices.length;
-      const len = Math.sqrt(nVertices); // The number of vertices on the plane side
-      
-      const matrix = [];
-      // const rowOfZeros = [];
-      // for (let i = 0; i < len; i++) {
-      //   rowOfZeros[i] = 1;
-      // }
-      // for (let i = 0; i < len; i++) {
-      //   matrix[i] = rowOfZeros;
-      // }
-      
-      // Sets height of vertices
-      // let j = 0;
-      // for (let i = 0; i < nVertices; i++) {
-        
-      //   if (i % len === 0) {
-      //     i += len + 1;
-      //     continue;
-      //   }
-      //   if (j % 2) geometry.vertices[i].z = (data[j / 2 + 1] + data[j / 2 - 1]) / 2;
-      //   else geometry.vertices[i].z = data[j / 2];
-      //   j++;
-      // }
-      
-      // So...
-      // We have a n*n pixels tile, so n² height points
-      // But, we want a 2n * 2n vertices plane, to make it more realistic
-      // So there are 4n² - n² = 3n² points without data
-      
-      let dataCur = 0; // Will crawl the n² height data points
-      let verticesCur = 0; // Will crawl the 4n² vertices
-      
-      // matrix will hold our 4n² points, we fill the missing points with the average of their direct neighbourg
-      for (let i = 0; i < len; i++) {
-        matrix[i] = [];
-        
-        // Every row out of two can can't do anything for now, since we need the next row for the average
-        if (i % 2) continue;
-        else {
-          for (let j = 0; j < len; j++) {
-            // From data or average
-            matrix[i][j] = j % 2 ? data[dataCur++] : (data[dataCur - 1] + data[dataCur]) / 2; 
-          }
-        }
-      }
-      
-      // At this point half of our matrix rows are empty.
-      for (let i = 0; i < len; i++) {
-        if (!(i % 2) || !matrix[i + 1]) continue;
-        else {
-          for (let j = 0; j < len; j++) {
-            matrix[i][j] = (matrix[i - 1][j] + matrix[i + 1][j]) / 2;
-          }
-        }
-      }
-      
-      for (let i = 0; i < len; i++) {
-        for (let j = 0; j < len; j++) {
-          geometry.vertices[verticesCur].z = matrix[i][j];
-          verticesCur++;
-        }
-      }
-      
-      // geometry.vertices[verticesCur].z = matrix[i][j];
-      //       verticesCur++;
-      
       const plane = new _.Mesh(geometry, material);
       plane.receiveShadow = true;
       plane.castShadow = true;
@@ -110,7 +150,7 @@ export default that => new Promise((resolve, reject) => {
 });
 
 // http://danni-three.blogspot.fr/2013/09/threejs-heightmaps.html
-function getHeightData(img, scale=1) {
+function getElevationData(img, scale=1) {
   
   const canvas = document.createElement('canvas');
   canvas.width = img.width;
