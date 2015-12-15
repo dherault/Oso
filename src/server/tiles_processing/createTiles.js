@@ -1,6 +1,5 @@
 import fs from 'fs';
 import sharp from 'sharp';
-import { toBeProcessed } from './files';
 
 /* CONFIG */
 // const cleanTempDirOnStart = true;
@@ -9,6 +8,36 @@ const tempDirPath = imagesDirPath + 'temp/';
 const tilesDirPath = imagesDirPath + 'tiles/';
 const tilesSizeInDeg = 0.5; // We'll create 1deg * 1deg tiles
 const tilesFormat = 'png';
+
+const toBeProcessed = [
+  {
+    name: 'topo_C1.tif',
+    tilePrefix: 'topo',
+    quadrant: {
+      upperLeftLon: 0,
+      upperLeftLat: 90,
+      quadrantWidth: 90,
+    },
+  },
+  {
+    name: 'texture_C1_1.png',
+    tilePrefix: 'texture',
+    quadrant: {
+      upperLeftLon: 0,
+      upperLeftLat: 90,
+      quadrantWidth: 45,
+    },
+  },
+  {
+    name: 'texture_C1_2.png',
+    tilePrefix: 'texture',
+    quadrant: {
+      upperLeftLon: 45,
+      upperLeftLat: 90,
+      quadrantWidth: 45,
+    },
+  },
+];
 
 console.log('Creating tiles from', ...toBeProcessed.map(({ name }) => name));
 

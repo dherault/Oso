@@ -2,11 +2,9 @@
 
 cd src/server/images/temp
 
-echo "Cropping images... This might take a while"
+echo "Downloading images... This might take a while"
 
-convert texture_C1.png -crop 10800x21600+0+0 texture_C1_1.png
-convert texture_C1.png -crop 10800x21600+10800+0 texture_C1_2.png
-
-rm texture_C1.png
+wget http://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73934/gebco_08_rev_elev_C1_grey_geo.tif -O topo_C1.tif
+wget http://eoimages.gsfc.nasa.gov/images/imagerecords/74000/74167/world.200410.3x21600x21600.C1.png -O texture_C1.png
 
 echo "All done!"

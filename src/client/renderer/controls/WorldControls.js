@@ -13,7 +13,6 @@ export default class MapControls {
 		this.domElement = domElement;
 		
 		this.target = new _.Vector3();
-		// this.shouldListenForMouseMove = false;
 		
 		// Current position in spherical coordinate system.
 		this.phi;
@@ -26,12 +25,6 @@ export default class MapControls {
 		this.scale = 1;
 		this.rotateStart = new _.Vector2();
 		this.rotateEnd = new _.Vector2();
-		
-		// camera.up is the orbit axis
-		// Hope you like math
-		// Is this still usefull since camera.up === 0 0 1 ?
-		// this.quat = new _.Quaternion().setFromUnitVectors(this.camera.up, new _.Vector3(0, 0, 1));
-		// this.quatInverse = this.quat.clone().inverse();
 		
 		/* CONFIG */
 		this.enabled = true;
@@ -51,7 +44,7 @@ export default class MapControls {
 		this.domElement.addEventListener('mouseup', this.onMouseUp.bind(this), false);
 		this.onMouseMoveFn = this.onMouseMove.bind(this);
 		
-		const { position: { x, y, z }, near, far } = this.store.getState().camera;
+		const { position: { x, y, z }, near, far, target } = this.store.getState().camera;
     this.camera.position.x = x;
     this.camera.position.y = y;
     this.camera.position.z = z;
@@ -59,37 +52,32 @@ export default class MapControls {
     this.camera.far = far;
     this.camera.lookAt(this.target);
 		this.lastPosition = new _.Vector3(x, y, z);
-    
     this.camera.updateProjectionMatrix();
-		// this.computeAndDispatchCameraParams();
+    
 		this.store.subscribe(this.update.bind(this));
 	}
 	
 	// Suscribed to store updates
 	update() {
-		const { lastAction, camera } = this.store.getState();
+		// This should be a controlsController, not a cameraController --> Oso.js ?
+		const state = this.store.getState();
 		
-		if (lastAction.type === 'UPDATE_CAMERA_POSITION') {
-			const { x, y, z } = camera.position;
+		if (state.lastAction.type === 'UPDATE_CAMERA_POSITION') {
 			
-			this.camera.position.x = x;
-			this.camera.position.y = y;
-			this.camera.position.z = z;
-			this.camera.lookAt(this.target);
-			
+			this.camera.position.copy(state.camera.position);
+			this.camera.lookAt(state.avatar.position);
 			this.camera.updateProjectionMatrix();
+			
 		}
 	}
 	
 	// Handles spherical to cartesian conversion and dispatches the new camera position
 	computeAndDispatchCameraParams() {
 		const { sqrt, max, min, sin, cos, atan2, PI } = Math;
-		const { target, quat, quatInverse, scale, minDistance, maxDistance, epsilon } = this;
+		const { target, scale, minDistance, maxDistance, epsilon } = this;
 		
 		const offset = this.camera.position.clone().sub(target);
 		
-		// Rotate offset to "z-axis-is-up" space
-		// offset.applyQuaternion(quat);
 		
 		// Angle from z-axis around y-axis
 		this.theta = atan2(offset.x, offset.y) + this.dTheta;
@@ -105,13 +93,9 @@ export default class MapControls {
 		offset.y = radius * sin(this.phi) * cos(this.theta);
 		offset.z = radius * cos(this.phi);
 		
-		// rotate offset back to "camera-up-vector-is-up" space
-		// offset.applyQuaternion(quatInverse);
-		
 		// New position
 		const newPosition = this.target.clone().add(offset);
-		// console.log(x, y, z, this.scale)
-		if (!this.lastPosition.equals(newPosition)) this.store.dispatch(ac.updateCameraPosition(newPosition.x, newPosition.y, newPosition.z));
+		if (!this.lastPosition.equals(newPosition)) this.store.dispatch(ac.updateCameraPosition(newPosition));
 		
 		this.scale = 1;
 		this.dTheta = 0;

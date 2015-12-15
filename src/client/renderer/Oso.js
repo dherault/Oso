@@ -9,6 +9,7 @@ import createEarth from './meshBuilders/earth';
 import createGalaxy from './meshBuilders/galaxy';
 import createTerrain from './meshBuilders/terrain';
 import createEarthLines from './meshBuilders/earthLines';
+import createSimpleCube from './meshBuilders/simpleCube';
 import createOrigin from './meshBuilders/origin';
 import createAmbientWhite from './lightBuilders/ambientWhite';
 import createSunny from './lightBuilders/sunny';
@@ -49,7 +50,7 @@ export default class Oso {
     // const builders = [createGalaxy, createEarth, createEarthLines, createSunny, createAmbientWhite];
     // this.controls = new MapControls(this.camera, this.renderer.domElement, this.store);
     // World
-    const builders = [createTerrain, createSunny, createAmbientWhite, createOrigin];
+    const builders = [createTerrain, createSimpleCube, createSunny, createAmbientWhite, createOrigin];
     this.controls = new WorldControls(this.camera, this.renderer.domElement, this.store);
     
     // 3DObject creation

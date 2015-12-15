@@ -48,7 +48,7 @@ app.use(router.get('/images/:x', (ctx, x) => {
   }
 }));
 
-app.use(router.get('/images/tiles/:x', (ctx, x) => {
+app.use(router.get('/tiles/:x', (ctx, x) => {
   n++;
   log(n, 'tile', x, 'from', ctx.request.ip);
   

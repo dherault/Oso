@@ -1,18 +1,16 @@
 import { routerStateReducer } from 'redux-router';
-
+import _ from 'three';
 import log from '../utils/log';
 import definitions from '../models/';
 
 const crud = reduceDefaultCRUDTypes;
+
 const initialCameraState = {
-  position: {
-    x: 100,
-    y: 100,
-    z: 100,
-  },
-  fov: 45,
-  near: 0.1,
-  far: 300,
+  position: new _.Vector3(100, 100, 100),
+  fov: 45, near: 0.1, far: 300,
+};
+const initialAvatarState = {
+  position: new _.Vector3(0, 0, 0),
 };
 
 export default {
@@ -73,12 +71,20 @@ export default {
     }
   }),
   
+  avatar: (state=initialAvatarState, { type, payload, params }) => {
+    switch (type) {
+    
+    default:
+      return state;
+    }
+  },
+  
   camera: (state=initialCameraState, { type, payload, params }) => {
     switch (type) {
     
     case 'UPDATE_CAMERA_POSITION':
       const newState = Object.assign({}, state);
-      newState.position = params;
+      newState.position = params.position.clone();
       return newState;
       
     default:
@@ -95,7 +101,9 @@ export default {
         
       case 'SHOW_OBJECT3D':
         newState = Object.assign({}, state);
-        if (newState[params.id]) newState[params.id].visible = true; // This is an oldState mutation :'(
+        // This is an oldState mutation :'(
+        // if troubles maybe use new_.Object3D(oldState.id)
+        if (newState[params.id]) newState[params.id].visible = true;
         return newState;
         
       case 'HIDE_OBJECT3D':
