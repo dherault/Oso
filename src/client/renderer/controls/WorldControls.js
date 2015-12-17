@@ -27,12 +27,11 @@ export default class MapControls {
 		this.rotateEnd = new _.Vector2();
 		
 		/* CONFIG */
-		this.enabled = true;
 		this.epsilon = 0.0001;
 		this.zoomSpeed = 1;
 		this.rotationSpeed = 0.7;
-		this.minDistance = 10;
-		this.maxDistance = 200;
+		this.minDistance = 1;
+		this.maxDistance = 30;
 		
 		/* INITIALIZATION */
 		
@@ -42,9 +41,11 @@ export default class MapControls {
 		this.domElement.addEventListener('MozMousePixelScroll', this.onMouseWheel.bind(this), false); // firefox
 		this.domElement.addEventListener('mousedown', this.onMouseDown.bind(this), false);
 		this.domElement.addEventListener('mouseup', this.onMouseUp.bind(this), false);
+		window.addEventListener('keydown', this.onKeyDown.bind(this), false);
+		window.addEventListener('keyup', this.onKeyUp.bind(this), false);
 		this.onMouseMoveFn = this.onMouseMove.bind(this);
 		
-		const { position: { x, y, z }, near, far, target } = this.store.getState().camera;
+		const { position: { x, y, z }, near, far } = this.store.getState().camera;
     this.camera.position.x = x;
     this.camera.position.y = y;
     this.camera.position.z = z;
@@ -54,28 +55,15 @@ export default class MapControls {
 		this.lastPosition = new _.Vector3(x, y, z);
     this.camera.updateProjectionMatrix();
     
-		this.store.subscribe(this.update.bind(this));
-	}
-	
-	// Suscribed to store updates
-	update() {
-		// This should be a controlsController, not a cameraController --> Oso.js ?
-		const state = this.store.getState();
-		
-		if (state.lastAction.type === 'UPDATE_CAMERA_POSITION') {
-			
-			this.camera.position.copy(state.camera.position);
-			this.camera.lookAt(state.avatar.position);
-			this.camera.updateProjectionMatrix();
-			
-		}
+		// this.store.subscribe(this.update.bind(this));
 	}
 	
 	// Handles spherical to cartesian conversion and dispatches the new camera position
 	computeAndDispatchCameraParams() {
 		const { sqrt, max, min, sin, cos, atan2, PI } = Math;
-		const { target, scale, minDistance, maxDistance, epsilon } = this;
+		const { scale, minDistance, maxDistance, epsilon } = this;
 		
+		const target = this.store.getState().avatar.position;	
 		const offset = this.camera.position.clone().sub(target);
 		
 		
@@ -94,8 +82,8 @@ export default class MapControls {
 		offset.z = radius * cos(this.phi);
 		
 		// New position
-		const newPosition = this.target.clone().add(offset);
-		if (!this.lastPosition.equals(newPosition)) this.store.dispatch(ac.updateCameraPosition(newPosition));
+		const newPosition = target.clone().add(offset);
+		if (!this.lastPosition.equals(newPosition)) this.store.dispatch(ac.setCameraPosition(newPosition));
 		
 		this.scale = 1;
 		this.dTheta = 0;
@@ -105,8 +93,6 @@ export default class MapControls {
 
 	
 	onMouseWheel(event) {
-		if (!this.enabled) return;
-		
 		event.preventDefault();
 		event.stopPropagation();
 		
@@ -121,7 +107,6 @@ export default class MapControls {
 	}
 	
 	onMouseDown(event) {
-		if (!this.enabled) return;
 		if (event.button === 2) {
       this.rotateStart.set(event.clientX, event.clientY);
       this.domElement.addEventListener('mousemove', this.onMouseMoveFn, false);
@@ -129,7 +114,6 @@ export default class MapControls {
 	}
 	
 	onMouseUp(event) {
-		if (!this.enabled) return;
     if (event.button === 2) {
       this.domElement.removeEventListener('mousemove', this.onMouseMoveFn, false);
     }
@@ -147,6 +131,61 @@ export default class MapControls {
     this.rotateStart.copy(this.rotateEnd);
     
     this.computeAndDispatchCameraParams();
+	}
+	
+	onKeyDown(event) {
+		const key = event.key || event.keyCode; // Somehow keyCode is depreciated
+		// console.log(key);
+		
+		// Only azerty layouts supported for now
+		switch (key) {
+			
+		case 90: // Z
+			this.store.dispatch(ac.startMovement('forward'));
+			return;
+		
+		case 83: // S
+			this.store.dispatch(ac.startMovement('backward'));
+			return;
+		
+		case 81: // Q
+			this.store.dispatch(ac.startMovement('left'));
+			return;
+		
+		case 68: // D
+			this.store.dispatch(ac.startMovement('right'));
+			return;
+			
+		default:
+			return;
+		}
+	}
+	
+	onKeyUp(event) {
+		const key = event.key || event.keyCode; // Somehow keyCode is depreciated
+		
+		// Only azerty layouts supported for now
+		switch (key) {
+			
+		case 90: // Z
+			this.store.dispatch(ac.stopMovement('forward'));
+			return;
+		
+		case 83: // S
+			this.store.dispatch(ac.stopMovement('backward'));
+			return;
+		
+		case 81: // Q
+			this.store.dispatch(ac.stopMovement('left'));
+			return;
+		
+		case 68: // D
+			this.store.dispatch(ac.stopMovement('right'));
+			return;
+			
+		default:
+			return;
+		}
 	}
 	
 	contextmenu(event) {

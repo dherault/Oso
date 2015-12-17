@@ -63,17 +63,33 @@ class Sidebar extends React.Component {
   }
   
   renderCameraInfo() {
-    const { camera: { position: { x, y, z }, near, far } } = this.props;
+    const { position: { x, y, z }, near, far } = this.props.camera;
     const sCamera = {
       marginBottom: 5
     };
     
     return <div style={sCamera}>
       <div><strong>{ 'Camera' }</strong></div>
-      <div>{ `X: ${x}` }</div>
-      <div>{ `Y: ${y}` }</div>
-      <div>{ `Z: ${z}` }</div>
+      <div>{ `Pos: ${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}` }</div>
       <div>{ `Near: ${near}, Far: ${far}` }</div>
+    </div>;
+  }
+  
+  renderAvatarInfo() {
+    const { position: { x, y, z }, movement: { forward, backward, left, right }, objectId } = this.props.avatar;
+    const sAvatar = {
+      marginBottom: 5
+    };
+    let movement = '';
+    if (forward) movement += '↑ ';
+    if (backward) movement += '↓ ';
+    if (left) movement += '← ';
+    if (right) movement += '→ ';
+    
+    return <div style={sAvatar}>
+      <div><strong>{ 'Avatar' }</strong>{ objectId ? ` (${objectId})` : '' }</div>
+      <div>{ `Pos: ${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}` }</div>
+      <div>{ `Movement: ${movement}` }</div>
     </div>;
   }
   
@@ -95,6 +111,7 @@ class Sidebar extends React.Component {
     return <div style={s0}>
       <div ref='statsNode' />
       { this.renderCameraInfo() }
+      { this.renderAvatarInfo() }
       { this.renderObjectsInfo() }
     </div>;
   }
@@ -103,6 +120,7 @@ class Sidebar extends React.Component {
 const mapState = s => ({ 
   object3Ds: s.object3Ds,
   camera: s.camera,
+  avatar: s.avatar,
 });
 
 export default connect(mapState)(Sidebar);

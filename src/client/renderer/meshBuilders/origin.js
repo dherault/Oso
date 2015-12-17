@@ -2,6 +2,7 @@ import _ from 'three';
 // import config from '../config';
 
 export default that => {
+  const axesSize = 100;
   const origin = new _.Vector3();
   
   const materialR = new _.LineBasicMaterial({ color: 0xff0000 });
@@ -11,9 +12,9 @@ export default that => {
   const geometryX = new _.Geometry();
   const geometryY = new _.Geometry();
   const geometryZ = new _.Geometry();
-  geometryX.vertices.push(origin, new _.Vector3(100, 0, 0));
-  geometryY.vertices.push(origin, new _.Vector3(0, 100, 0));
-  geometryZ.vertices.push(origin, new _.Vector3(0, 0, 100));
+  geometryX.vertices.push(origin, new _.Vector3(axesSize, 0, 0));
+  geometryY.vertices.push(origin, new _.Vector3(0, axesSize, 0));
+  geometryZ.vertices.push(origin, new _.Vector3(0, 0, axesSize));
   
   const lineX = new _.Line(geometryX, materialR);
   const lineY = new _.Line(geometryY, materialG);

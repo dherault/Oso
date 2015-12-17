@@ -10,6 +10,7 @@ export default that => {
   return Promise.all([
     loadImage(`tiles/topo_${toBeLoaded}.png`),
     loadTexture(`tiles/texture_${toBeLoaded}.png`),
+    // loadTexture(`images/grass_texture.png`),
   ]).then(([topoTile, texture]) => {
     
     const canvas = document.createElement('canvas');
@@ -148,11 +149,15 @@ export default that => {
     
     // Who's up for refactoring ?
     
+  //   texture.wrapS = texture.wrapT = _.RepeatWrapping; 
+	 // texture.repeat.set(20, 20);
     const material = new _.MeshPhongMaterial({
       map: texture,
       side: _.FrontSide,
       // wireframe: true,
     });
+    
+    
     
     const plane = new _.Mesh(geometry, material);
     plane.receiveShadow = true;
@@ -160,6 +165,7 @@ export default that => {
     
     const terrain = new _.Object3D();
     terrain.name = 'Terrain';
+    terrain.userData.collidable = true;
     // terrain.receiveShadow = true;
     // terrain.castShadow = true;
     terrain.add(plane);

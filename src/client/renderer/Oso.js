@@ -3,13 +3,15 @@ import log from '../../utils/log';
 import ac from '../../state/actionCreators';
 import config from './config';
 // import sceneSets from './sceneSets';
-import MapControls from './controls/MapControls';
+// import MapControls from './controls/MapControls';
 import WorldControls from './controls/WorldControls';
-import createEarth from './meshBuilders/earth';
-import createGalaxy from './meshBuilders/galaxy';
+// import createEarth from './meshBuilders/earth';
+// import createGalaxy from './meshBuilders/galaxy';
 import createTerrain from './meshBuilders/terrain';
-import createEarthLines from './meshBuilders/earthLines';
-import createSimpleCube from './meshBuilders/simpleCube';
+import createGriddedPlane from './meshBuilders/griddedPlane';
+// import createEarthLines from './meshBuilders/earthLines';
+// import createSimpleCube from './meshBuilders/simpleCube';
+import createAvatarCube from './meshBuilders/avatarCube';
 import createOrigin from './meshBuilders/origin';
 import createAmbientWhite from './lightBuilders/ambientWhite';
 import createSunny from './lightBuilders/sunny';
@@ -50,12 +52,13 @@ export default class Oso {
     // const builders = [createGalaxy, createEarth, createEarthLines, createSunny, createAmbientWhite];
     // this.controls = new MapControls(this.camera, this.renderer.domElement, this.store);
     // World
-    const builders = [createTerrain, createSimpleCube, createSunny, createAmbientWhite, createOrigin];
+    const builders = [createAvatarCube, /*createTerrain*/, createGriddedPlane, createSunny, createAmbientWhite, createOrigin];
     this.controls = new WorldControls(this.camera, this.renderer.domElement, this.store);
     
     // 3DObject creation
     builders.forEach(fn => this.store.dispatch(ac.createObject3D(fn(this))));
     
+    this.loopListeners.push(this.updateAvatarPosition.bind(this));
   }
   
   updateState() {
@@ -72,39 +75,59 @@ export default class Oso {
     
     case 'SUCCESS_CREATE_OBJECT3D':
       this.scene.add(lastAction.payload);
+      // if (lastAction.payload.name === 'AvatarCube') {
+        
+      // }
       break;
       
     // case 'ADD_OBJECT3D':
     //   this.scene.add(lastAction.payload);
     //   break;
     
+    case 'SET_CAMERA_POSITION':
+			this.camera.position.copy(this.state.camera.position);
+			this.camera.lookAt(this.state.avatar.position);
+			this.camera.updateProjectionMatrix();
+			break;
+    
+    case 'UPDATE_AVATAR_POSITION':
+			this.camera.position.copy(this.state.camera.position);
+			this.camera.lookAt(this.state.avatar.position);
+			this.camera.updateProjectionMatrix();
+			this.scene.getObjectByName('Avatar').position.copy(this.state.avatar.position);
+			break;
     }
   }
   
-  // updateScene() {
-  //   const { dispatch } = this.store;
-  //   const { scenesObjectsIds, currentSceneSetName, object3Ds } = this.state;
-  //   const currentSceneObjects = this.scene.children;
-  //   const nextSceneSet = sceneSets[currentSceneSetName];
-  //   const nextSceneObjectsIds = scenesObjectsIds[currentSceneSetName];
-  //   this.controls = new nextSceneSet.Controls(this.camera, this.renderer.domElement, this.store);
+  updateAvatarPosition() {
+    const { forward, backward, left, right } = this.state.avatar.movement;
     
-  //   // If state.scenesObjectsIds[currentSceneSetName] is undefined we build the associated objects
-  //   // This wont work eventually...
-  //   if (!nextSceneObjectsIds) nextSceneSet.builders.forEach(builder => dispatch(ac.createObject3D({
-  //     promise: builder(this),
-  //     sceneSetName: currentSceneSetName,
-  //   })));
+    if (!(forward || backward || left || right)) return;
     
-  //   else {
-  //     currentSceneObjects.forEach(obj => {
-  //       if (nextSceneObjectsIds.indexOf(obj.id) === -1) this.scene.remove(obj);
-  //     });
-  //     nextSceneObjectsIds.forEach(id => this.scene.add(object3Ds[id]));
-  //   }
-  // }
+    const f = forward && forward > backward;
+    const b = backward && forward < backward;
+    const l = left && left > right;
+    const r = right && left < right;
+    
+    const angle = f && l ? Math.PI / 4 :
+      f && r ? -Math.PI / 4 :
+      b && l ? 3 * Math.PI / 4 :
+      b && r ? -3 * Math.PI / 4 :
+      f ? 0 :
+      b ? -Math.PI :
+      l ? Math.PI / 2 : -Math.PI / 2;
+    
+    const avatarPosition = this.state.avatar.position.clone();
+    const cameraPosition = this.state.camera.position.clone();
+    const delta = new _.Vector3()
+      .subVectors(avatarPosition, cameraPosition)
+      .setZ(0)
+      .applyAxisAngle(new _.Vector3(0, 0, 1), angle)
+      .setLength(0.1);
+      
+    this.store.dispatch(ac.updateAvatarPosition(delta));
+  }
   
-
   loop() {
     this.animationFrameId = window.requestAnimationFrame(this.loop.bind(this));
     

@@ -5,12 +5,15 @@ import definitions from '../models/';
 
 const crud = reduceDefaultCRUDTypes;
 
-const initialCameraState = {
-  position: new _.Vector3(100, 100, 100),
-  fov: 45, near: 0.1, far: 300,
-};
 const initialAvatarState = {
   position: new _.Vector3(0, 0, 0),
+  movement: {
+    forward: 0, backward: 0, left: 0, right: 0
+  }
+};
+const initialCameraState = {
+  position: new _.Vector3(-10, 0, 10),
+  fov: 45, near: 0.01, far: 300,
 };
 
 export default {
@@ -72,19 +75,47 @@ export default {
   }),
   
   avatar: (state=initialAvatarState, { type, payload, params }) => {
-    switch (type) {
+    let newState;
     
+    switch (type) {
+      
+    case 'START_AVATAR_MOVEMENT':
+      newState = Object.assign({}, state);
+      // We use a timestamp to resolve conflicts such as left and right, forward and backward
+      // The latest movement wins
+      newState.movement[params.direction] = new Date().getTime();
+      return newState;
+      
+    case 'STOP_AVATAR_MOVEMENT':
+      newState = Object.assign({}, state);
+      newState.movement[params.direction] = 0;
+      return newState;
+      
+    case 'SET_AVATAR_OBJECT_ID':
+      newState = Object.assign({}, state);
+      newState.objectId = params.id;
+      return newState;
+    
+    case 'UPDATE_AVATAR_POSITION':
+      newState = Object.assign({}, state, { position: state.position.clone().add(params.delta) });
+      return newState;
+      
     default:
       return state;
     }
   },
   
   camera: (state=initialCameraState, { type, payload, params }) => {
+    let newState;
+    
     switch (type) {
     
-    case 'UPDATE_CAMERA_POSITION':
-      const newState = Object.assign({}, state);
-      newState.position = params.position.clone();
+    case 'SET_CAMERA_POSITION':
+      newState = Object.assign({}, state, { position: params.position });
+      return newState;
+      
+    case 'UPDATE_AVATAR_POSITION':
+      newState = Object.assign({}, state, { position: state.position.clone().add(params.delta) });
       return newState;
       
     default:

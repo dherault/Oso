@@ -15,7 +15,12 @@ const toogleObject3D = id => ({ type: 'TOOGLE_OBJECT3D', params: { id }});
 const showObject3D = id => ({ type: 'SHOW_OBJECT3D', params: { id }});
 const hideObject3D = id => ({ type: 'HIDE_OBJECT3D', params: { id }});
 
-const updateCameraPosition = position => ({ type: 'UPDATE_CAMERA_POSITION', params: { position } });
+const setCameraPosition = position => ({ type: 'SET_CAMERA_POSITION', params: { position } });
+
+const startMovement = direction => ({ type: 'START_AVATAR_MOVEMENT', params: { direction } });
+const stopMovement = direction => ({ type: 'STOP_AVATAR_MOVEMENT', params: { direction } });
+const setAvatarObjectId = id => ({ type: 'SET_AVATAR_OBJECT_ID', params: { id } });
+const updateAvatarPosition = delta => ({ type: 'UPDATE_AVATAR_POSITION', params: { delta } });
 
 const login = createActionCreator({
   intention:  'login',
@@ -35,7 +40,8 @@ const readAll = createActionCreator({
 export default Object.assign({}, createDefaultCRUDActions(), {
   login, logout, readAll, 
   createObject3D, toogleObject3D, showObject3D, hideObject3D,
-  updateCameraPosition,
+  setCameraPosition,
+  startMovement, stopMovement, setAvatarObjectId, updateAvatarPosition
 });
 
 // (string)            intention   The queryDatabase handle, also used to create actionTypes
